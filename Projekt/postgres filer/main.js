@@ -68,6 +68,8 @@ app.post("/api/helloQuery", async (req, res) => {
     // Lav query
     const query = `SELECT 'Hello, World' as message`;
     queryData = await client.query(query);
+
+    
     // Giv svar tilbage til JavaScript
     res.json({
       "ok": true,
