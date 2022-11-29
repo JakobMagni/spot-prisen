@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="scripts/d3.js"></script>
+  <title>Postgres node.js template med d3.js</title>
+</head>
+
+<body>
+
+  <div class="myDiv">
+    <h2 style="padding-left: 1.2cm">Kan det betale sig at jagte den billigste pris?</h2>
+    <p style="padding-left: 2.5cm";>Den gennemsnitlige timepris for 2021</p>
+  </div>
+
+  <script>
+  // Denne query kører op imod API'en som findes i 'main.js'.
+  // Denne HTML skal derfor åbnes igennem serveren for at virke.
+  d3.json("/api/diagram1", {
+    method: "POST", 
+  }).then(function(response) {
+    const data = response.data; // Hent data ud af response
+    console.log("data", data);
+
+    // Width og height
+    const w = 500;
+      const h = 150;
+      const barPadding = 2; // Mellemrum imellem bars
+      const bottomPadding = 20; // Plads til akse i bunden
+      const sidePadding = 10; // Lidt luft i siderne også
+
+
+      // Scale-funktioner
+      const yScale = d3.scaleLinear() // Linæer skalering
+        .domain([0, 1000])
+        .range([0, h - bottomPadding])
+
+      const xScale = d3.scaleLinear() // Linæer skalering
+        .domain([0, data.length])
+        .range([sidePadding, w - sidePadding])
+
+      // Lav SVG element
+      const svg = d3.select("body")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+        
+
+      // Lav bars
+      svg.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("x", function (d, i) {
+          return xScale(i);
+        })
+        .attr("y", function (d) {
+          return h - yScale(d.avg) - bottomPadding;
+        })
+        .attr("width", w / data.length - barPadding)
+        .attr("height", function (d) {
+          return yScale(d.avg);
+        })
+        .attr("fill", "teal")
+        .style("stroke", "pink")
+        .style("stroke-width", 2)
+        .style("stroke-linecap", "round")
+        
+
+      // Lave x-akse med tal
+      const xAxis = d3.axisBottom().scale(xScale).ticks(data.length);
+      svg.append("g") // "g" er en SVG Group
+        // Aksen flyttes på plads med 'transform'
+        .attr("transform", "translate(0," + (h - bottomPadding) + ")")
+        // d3.js laver sin magi
+        .call(xAxis);
+
+
+      console.log("Loading complete")
+      // Lav din egen visualsering med data her!
+    });
+
+  </script>
+</body>
+</html>

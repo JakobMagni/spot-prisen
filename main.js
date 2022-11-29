@@ -63,10 +63,10 @@ app.use(morgan("combined"));
  * Man laver lige så mange endpoints man har lyst til. Jeg har lavet et enkelt til
  * querien `SELECT 'Hello, World' as message`.
  */
-app.post("/api/helloQuery", async (req, res) => {
+app.post("/api/diagram1", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT 'Hello, World' as message`;
+    const query = `SELECT AVG ("spotpris_dkk_mwh"), EXTRACT(HOUR FROM tidspunkt_dk) AS HOUR FROM spotpris GROUP BY hour ORDER BY hour`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
