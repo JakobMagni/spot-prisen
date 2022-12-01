@@ -1,0 +1,32 @@
+.myDiv{
+    text-align: center;
+}
+
+#diagram1 {
+    border:2px;
+    display: flex;
+    justify-content:center;
+    padding-top: 5cm;
+}
+
+#diagram11 {
+    border:5px;
+    display: flex;
+    justify-content:center;
+    padding-top: 10cm;
+    padding: 20px;
+    margin-top: 20px
+}
+
+div.tooltip-donut {
+    position: absolute;
+    text-align:justify;
+    padding: .5rem;
+    background: #FFFFFF;
+    color: #313639;
+    border: 1px solid #313639;
+    border-radius: 5px;
+    pointer-events: none;
+    font-size: 1.2rem;
+    fill-opacity: 0.5;
+}  
