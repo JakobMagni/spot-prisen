@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +19,7 @@
   <div id="diagram1"></div>
 
   <script>
+    /*
     // Denne query kører op imod API'en som findes i 'main.js'.
 
     d3.json("/api/elafgift", {
@@ -36,13 +38,22 @@
     })
 
 
+    // Gennemsnits timepris (2021)
+    d3.json("/api/avg_timepris", {
+      method: "POST",
+    }).then(function (response) {
+      const data_avg_hour = response.data; // Hent data ud af response
+      console.log("Gennemsnits time pris", data_avg_hour)
+    })
+
+
     // Query for tarif-data
     d3.json("/api/tarif_sum", {
       method: "POST",
     }).then(function (response) {
       const data_tarif = response.data; // Hent data ud af response
-      console.log("tarif", data_tarif)
-    })
+      console.log("tarif", data_tarif);})
+
 
        // Gennemsnits timepris (2021)
     d3.json("/api/avg_timepris", {
@@ -51,25 +62,22 @@
       const data_avg_hour = response.data; // Hent data ud af response
       console.log("Gennemsnits time pris", data_avg_hour)
   
-            
+
 
       
 
             //Definere højde, bredde og svg elements attributter 
             var width = 1000;
-            var height = 500;
+            var height = 400;
             var bottomPadding = 20;
-            var barPadding = 10; // Padding imellem bars
             var svg = d3.select("#diagram1").append("svg").attr("width", width).attr("height", height);
 
 
             // Skalering 
-            var xScale = d3.scaleBand().domain(d3.range(data_avg_hour.length + 1)).range([24, width]).paddingInner(0.01).padding(.05)
-            var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour, (d) => d.avg)]).range([height - bottomPadding, 125]);
+            var xScale = d3.scaleBand().domain(d3.range(data_avg_hour.length + 1)).range([0, width]).paddingInner(0.1);
+            var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour, (d) => d.avg)]).range([height - 20, 0]);
 
-            var color = d3.scaleLinear() //farve skalering
-           .domain([0, d3.max(data_avg_hour)])
-           .range([ '#9ad97f', '#d97642' ]);
+
 
             // Lave og placere akser (Y aksen)
 
@@ -78,7 +86,7 @@
             // Farver 
             var color = d3.scaleLinear()
                 .domain([0, d3.max(data_avg_hour, (d) => d.avg)])
-                .range(["#9ad97f", "#d97642"]);
+                .range(["#2bd6b4", "#5742f5"]);
 
 
 
@@ -92,10 +100,7 @@
                 })
                 .attr("fill", function (d) { return color(d.avg) })
                 .transition()
-                .delay(function(d, i){
-                  return i/ data_avg_hour.length * 8000
-                })
-                .duration(1000)
+                .duration(2000)
                 .attr("d", function (d, i) {
                     return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(data_avg_hour[i].avg), 10)
                 })
@@ -118,50 +123,48 @@
 
                 var parts = ["M", x, y, l, x, y0, a, r, r, 0, 0, f, x0, y - h, l, x1, y - h, a, r, r, 0, 0, f, x + w, y0, l, x + w, y, "Z"];
                 return parts.join(" ");
-                 }
-
-                 
-                //Create labels
-                svg.selectAll("text") // Alt tekst med class 'label'
-                      .data(data_avg_hour)
-                      .enter()
-                      .append("text")
-                      .text(function(d) {
-                        return +(Math.round(d.avg + "e+2") + "e-2");
-                      })
-                      .attr("x", function(d, i) {
-                        return i * (width / data_avg_hour.length - 2.8) + 44;
-                      })
-                      .attr("y", function(d) {
-                        return height - (d.avg * 420) - 43;
-                      })
-                      .attr("class", "label") // Husk class på nye labels
-                      .attr("font-family", "sans-serif")
-                      .attr("font-weight", 800)
-                      .attr("text-anchor", "middle")
-                      .attr("font-size", "11px")
-                      .attr("fill", data_avg_hour => color(data_avg_hour.avg));
+            }
 
 
-                const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour.length]).range([2, width-65])).ticks(24)
-                svg.append("g") 
-                .attr("transform", "translate(23," + (height - 20) + ")")
+
+            const xAxis = d3.axisBottom().scale(xScale).ticks(data_avg_hour.length)
+            svg.append("g") // "g" er en SVG Group
+                // Aksen flyttes på plads med 'transform'
+                .attr("transform", "translate(0," + (height - 20) + ")")
                 // d3.js laver sin magi
                 .call(xAxis);
-                
-                const yAxis = d3.axisLeft()
-                .scale(yScale).ticks();
-                svg.append("g")
-                .attr("transform", "translate(25)")
-                .attr("y", function(d) { console.log(data_avg_hour, yScale(data_avg_hour));
-                return yScale(data_avg_hour);})
-                .call(d3.axisLeft(yScale));
-           
+
+/*
+
+            // Still transitionable:
+            /*  bars.data(data.reverse())
+                .transition()
+                .attr("d", function (d, i) {
+                    return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(d.avg), 30);
+                })
+                .duration(2000)
+                .transition()
+                .attr("d", function (d, i) {
+                    return bar(xScale(i), yScale(0), xScale.bandwidth(), y(0) - yScale(d.avg), 0);
+                })
+                .duration(2000)
+                .transition()
+                .attr("d", function (d, i) {
+                    return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(d.avg), 15);
+                })
+                .duration(2000); */
+
+
+
+
+
 
 
       console.log("Loading complete")
       // Lav din egen visualsering med data her!
-    })
+    
+
+   
   </script>
 </body>
 

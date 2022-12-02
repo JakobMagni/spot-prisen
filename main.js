@@ -140,7 +140,7 @@ app.post("/api/tarif_sum", async (req, res) => {
 app.post("/api/avg_weekly", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT AVG(maximum) AS max_avg, AVG(minimum) AS min_avg, week_nr FROM max_min_pris GROUP BY week_nr ORDER BY week_nr`;
+    const query = `SELECT AVG(maximum/1000) AS max_avg, AVG(minimum/1000) AS min_avg, week_nr FROM max_min_pris GROUP BY week_nr ORDER BY week_nr`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
@@ -161,7 +161,7 @@ app.post("/api/avg_weekly", async (req, res) => {
 app.post("/api/avg_timepris", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT AVG ("spotpris_dkk_mwh"), EXTRACT(HOUR FROM tidspunkt_dk) AS HOUR FROM spotpris GROUP BY hour ORDER BY hour`;
+    const query = `SELECT AVG ("spotpris_dkk_mwh" / 1000), EXTRACT(HOUR FROM tidspunkt_dk) AS HOUR FROM spotpris GROUP BY hour ORDER BY hour`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
