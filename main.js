@@ -161,7 +161,7 @@ app.post("/api/avg_weekly", async (req, res) => {
 app.post("/api/avg_timepris", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT AVG ("spotpris_dkk_mwh" / 1000), EXTRACT(HOUR FROM tidspunkt_dk) AS HOUR FROM spotpris GROUP BY hour ORDER BY hour`;
+    const query = `SELECT AVG (dk_sum_samlet_gennemsnit.dk_sum_samlet_gennemsnit), EXTRACT(HOUR FROM tidspunkt) AS HOUR FROM dk_sum_samlet_gennemsnit GROUP BY hour ORDER BY hour`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
