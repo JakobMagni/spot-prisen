@@ -6,16 +6,27 @@
     border:2px;
     display: flex;
     justify-content:center;
-    padding-top: 5cm;
+    padding-top: 2cm;
 }
 
-#diagram11 {
-    border:5px;
+#diagram2 {
+    border:2px;
     display: flex;
     justify-content:center;
-    padding-top: 10cm;
-    padding: 20px;
-    margin-top: 20px
+    padding-top: 2cm;
+}
+
+#diagram3 {
+    border:10px;
+    display: flex;
+    justify-content:center;
+    padding-top: 2cm;
+    stroke: #646464;
+    stroke-width: 1px;
+    /*
+    stroke-linejoin: round;
+    background-color: lightblue;
+    */
 }
 
 div.tooltip-donut {

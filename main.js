@@ -62,6 +62,8 @@ app.use(morgan("combined"));
  * Her defineres API'en.
  * API: Gennemsnitspris per time (2021) til landing-page
  */
+
+
 app.post("/api/diagram1", async (req, res) => {
   try {
     // Lav query
@@ -129,6 +131,8 @@ app.post("/api/tarif_sum", async (req, res) => {
       "message": error.message,
     })
   }
+
+
 });
 
 
@@ -136,11 +140,14 @@ app.post("/api/tarif_sum", async (req, res) => {
 
 
 
+
+
 // Ugentlige gennemsnints max- og minpris 
-app.post("/api/avg_weekly", async (req, res) => {
+app.post("/api/diagram2", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT AVG(maximum/1000) AS max_avg, AVG(minimum/1000) AS min_avg, week_nr FROM max_min_pris GROUP BY week_nr ORDER BY week_nr`;
+    const query = `SELECT AVG(avg_max_endelig_pris) AS max_avg_weekly, AVG(avg_min_endelig_pris) AS min_avg_weekly, week_nr FROM total_max_min_weekly GROUP BY week_nr ORDER BY week_nr;
+    `;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({

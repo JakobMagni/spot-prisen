@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="scripts/d3.js"></script>
+    <title>Postgres node.js template med d3.js</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="myDiv2">
+        <h2>Summen af årlig forbrug af hvidevarer ved hhv. lavest og højest gennemsnitspris</h2>
+        <p>.....................................</p>
+    </div>
+
+    <div class='visualisation'></div>
+    <script>
+        // Denne query kører op imod API'en som findes i 'main.js'.
+        // Denne HTML skal derfor åbnes igennem serveren for at virke.
+        d3.json("/api/diagram2", {
+            method: "POST",
+        }).then(function (response) {
+            let data_linjediagram = response.data; // Hent data ud af response
+            console.log("data", data_linjediagram);
+
+
+            // Variabler blot for brug senere 
+            var width = 1000
+            var height = 500
+            var margins = { top: 50, bottom: 50, left: 50, right: 50 };
+
+
+
+            // Definere svg størrelse og margin 
+            var svg = d3.select(".visualisation")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+
+
+
+            // defining scales with their domain and range
+            var xScale = d3.scaleLinear().domain([1, d3.max(data_linjediagram, (d) => d.week_nr)])
+                .range([10, width-20]);
+            var yScale = d3.scaleLinear().domain([0, d3.max(data_linjediagram, (d) => d.max_avg_weekly )]).range([height-20,20]);
+
+
+
+
+                // laver akser 
+            const xAxis = d3.axisBottom().scale(xScale).ticks(52)
+            const yAxis = d3.axisLeft().scale(yScale)
+            svg.append("g")
+                .attr("transform", "translate(0," + (height-20) + ")")
+                .call(xAxis)
+
+            svg.append("g")
+            .attr("transform", "translate(0," + (height-20) + ")") // denne virker bare ikkee 
+                .call(yAxis);
+
+
+
+
+
+            // Appende prikker/cirkler for max weekly
+            svg.append('g')
+                .selectAll("dot")
+                .data(data_linjediagram)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d) { return xScale(d.week_nr); })
+                .attr("cy", function (d) { return yScale(d.max_avg_weekly); })
+                .attr("r", 2)
+                .attr("transform", "translate(" + 0 + "," + 0 + ")")
+                .style("fill", "#CC0000");
+
+
+
+
+            // Appender prikker/cirkler for min weekly 
+            svg.append('g')
+                .selectAll("dot")
+                .data(data_linjediagram)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d) { return xScale(d.week_nr); })
+                .attr("cy", function (d) { return yScale(d.min_avg_weekly); })
+                .attr("r", 2)
+                .attr("transform", "translate(" + 0 + "," + 0 + ")")
+                .style("fill", "#74cc60");
+               
+
+
+
+            // Path for max_avg_weekly
+            svg.append("path")
+                .datum(data_linjediagram)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 1.5)
+                .attr("d", d3.line().curve(d3.curveCatmullRom.alpha(0.5))
+                    .x(function (d) {
+                        return xScale(d.week_nr) 
+                    })
+                    .y(function (d) { return yScale(d.max_avg_weekly) })
+                )
+
+
+
+            // Path for min avg weekly 
+            svg.append("path")
+                .datum(data_linjediagram)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 1.5)
+                .attr("d", d3.line().curve(d3.curveCatmullRom.alpha(0.5))
+                    .x(function (d) {
+                        return xScale(d.week_nr)
+                    })
+                    .y(function (d) { return yScale(d.min_avg_weekly) })
+                ) 
+
+
+
+
+
+
+            // Text til akser 
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', 20)
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica')
+                .style('font-size', 20)
+                .text('My very first line chart');
+
+            // X label
+            svg.append('text')
+                .attr('x', width / 2 )
+                .attr('y', height -2)
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Calibri')
+                .style('font-size', 12)
+                .text('Uge');
+
+            // Y label
+            svg.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('transform', 'translate(10,' + height/2 + ')rotate(-90)')
+                .style('font-family', 'Helvetica')
+                .style('font-size', 12)
+                .text('Gennemsnits elpris/ugentlig');
+
+                
+
+               
+
+        })
+
+    </script>
+</body>
+
+</html>
