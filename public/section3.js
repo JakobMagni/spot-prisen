@@ -10,15 +10,19 @@
             data.records.forEach(record => console.log(record));
             console.groupEnd()
 
-            const data_avg_hour3 = data.records
             
+            const data_avg_hour3 = data.records
 
         console.log("Timepris 24 timer", data_avg_hour3)
         console.log("Cons log 1", data_avg_hour3)
-      
-            
-          
 
+        // Tilføjer ID i array til animationsbrug
+        data.records.forEach((item, i) => {
+          item.id = i;
+        });
+
+console.log(data.records);
+      
         //Definere højde, bredde og svg elements attributter 
         var width = 1000;
         var height = 500;
@@ -52,7 +56,7 @@
           .enter()
           .append("path")
           .attr("d", function (d) {
-            return bar(xScale(d.HourDK/* DET HER VIRKER IKKE, FORDI HourDK ER EN DATO OG IKKE EN TIME SOM I DEN ANDEN. DET ER DET SOM FUCKER ANIMATIONEN OP*/ ), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
+            return bar(xScale(d.id ), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
           })
           .attr("fill", function (d) { return color(d.SpotPriceDKK) })
           .transition()
