@@ -1,6 +1,6 @@
 
 
-
+function chart3(){
         //Get specified amount of data from specified dataset
         fetch('https://api.energidataservice.dk/dataset/Elspotprices?columns=SpotPriceDKK,HourDK,PriceArea&filter={%22PriceArea%22:[%22DK1%22]}&limit=48')
           .then(response => response.json())
@@ -22,7 +22,7 @@
         });
 
 console.log(data.records);
-      
+
         //Definere højde, bredde og svg elements attributter 
         var width = 1000;
         var height = 500;
@@ -87,31 +87,6 @@ console.log(data.records);
           return parts.join(" ");
         }
 
-
-        // Vi skal nok ikke bruge labels til denne hvis vi inkludere 48 timer, det skal dukke op ved mouseover (Joy arbejder på det)
-        /*
-        //Create labels
-        svg.selectAll("text.label") // Alt tekst med class 'label'
-          .data(data_avg_hour3)
-          .enter()
-          .append("text")
-          .text(function (d) {
-            return +(Math.round(d.SpotPriceDKK * 1.25 + "e+2") + "e-2");
-          })
-          .attr("x", function (d, i) {
-            return i * (width / data_avg_hour3.length - 3.7) + 85;
-          })
-          .attr("y", function (d) {
-            return height - (d.SpotPriceDKK / 9) - 60;
-          })
-          .attr("class", "label") // Husk class på nye labels
-          .attr("font-family", "sans-serif")
-          .attr("font-weight", 800)
-          .attr("text-anchor", "middle")
-          .attr("font-size", "11px")
-          .attr("fill", data_avg_hour3 => color(data_avg_hour3.SpotPriceDKK * 1.25))
-*/
-
         const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour3.length]).range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length)
         svg.append("g")
           .attr("transform", "translate(51, " + (height - 20) + ")")
@@ -131,5 +106,4 @@ console.log(data.records);
         console.log("Loading complete")
      
       })
-
-  
+    }
