@@ -70,7 +70,7 @@
           <form id="formtest" onsubmit="return false">
             <label for="tør">Tørretumbler</label>
             <select id="tør_alder">
-              <option value="ny">0-5 år gammel</option>
+              <option value="ny">0-4 år gammel</option>
               <option value="gammel">5+ år gammel</option>
             </select>
             <select id="tør_gange">
@@ -89,7 +89,7 @@
             <input type="text" id="tør_brug" value="0" />
             <label for="last">Vaskemaskine</label>
             <select id="vask_alder">
-              <option value="ny">0-5 år gammel</option>
+              <option value="ny">0-4 år gammel</option>
               <option value="gammel">5+ år gammel</option>
             </select>
             <select id="vask_gange">
@@ -108,7 +108,7 @@
             <input type="text" id="vask_brug" size="20" maxlength="50" value="0" />
             <label for="last">Opvaskemaskine</label>
             <select id="opvask_alder">
-              <option value="ny">0-5 år gammel</option>
+              <option value="ny">0-4 år gammel</option>
               <option value="gammel">5+ år gammel</option>
             </select>
             <select id="opvask_gange">
@@ -315,10 +315,10 @@
 
             function tør_brug() {
               if (tør_alder_value == "ny") {
-                document.getElementById('tør_brug').value = 2.35 * tør_gange_value
+                document.getElementById('tør_brug').value = (2.35 * tør_gange_value) * 1.25
               }
               else {
-                document.getElementById('tør_brug').value = 2.65 * tør_gange_value
+                document.getElementById('tør_brug').value = (2.65 * tør_gange_value) * 1.25
               }
             }
 
@@ -344,10 +344,10 @@
 
             function vask_brug() {
               if (vask_alder_value == "ny") {
-                document.getElementById('vask_brug').value = 0.68 * vask_gange_value
+                document.getElementById('vask_brug').value = (0.68 * vask_gange_value)*1.25
               }
               else {
-                document.getElementById('vask_brug').value = 0.89 * vask_gange_value
+                document.getElementById('vask_brug').value = (0.89 * vask_gange_value) *1.25
               }
             }
 
@@ -373,10 +373,10 @@
 
             function opvask_brug() {
               if (opvask_alder_value == "ny") {
-                document.getElementById('opvask_brug').value = 0.85 * opvask_gange_value
+                document.getElementById('opvask_brug').value = (0.85 * opvask_gange_value) * 1.25
               }
               else {
-                document.getElementById('opvask_brug').value = 1.04 * opvask_gange_value
+                document.getElementById('opvask_brug').value = (1.04 * opvask_gange_value) * 1.25
               }
 
             }
