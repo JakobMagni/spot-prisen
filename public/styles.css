@@ -1,0 +1,233 @@
+/* Removing default margin and padding added by browser */
+body,html {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Should disable snapping on mobile devices, haven't tested it yet */
+  @media (min-height: 30em) {
+    main {
+      scroll-snap-type: y mandatory; /* Sets scroll to snap to full page. */
+      height: 100vh; /* vh = viewport height. Scales height to fit device screen */
+      overflow-y: scroll; /* Needed to make snap-type work */
+      scroll-behavior: smooth;
+    }
+  }
+  
+  /* Same as above, but for the individual sections. Still not tested */
+  @media (min-height: 30em) {
+    .section {
+      height: 100vh;
+    }
+  }
+
+  .axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+}
+  
+  /* Styling the individual sections */
+  .section {
+    color: white;
+    position: relative;
+    scroll-snap-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    padding: 1em;
+  }
+  
+    .section-1 {
+      background-color: gray;
+    }
+  
+    .section-2 {
+      background-color: darkgray;
+    }
+  
+    .section-3 {
+      background-color: lightgray;
+    }
+  
+    .col {
+      height: 85vh;
+      vertical-align: center;
+      justify-content: center;
+      text-align: center;
+    }
+  
+    .col > p {
+      font-size: 20px;
+    }
+  
+    .col > h2 {
+      font-size: 25px;
+    }
+  
+    .col1 {
+      width: 68%;
+      position: inline-block;
+      text-align: center;
+    }
+  
+    .col2 {
+      width: 30%;
+      position: inline-block;
+      text-align: center;
+      vertical-align: center;
+      padding-top: 0%;
+    }
+  
+    .container {
+      padding-top: 0rem;
+      width: 100%;
+      color: #e5e5e5;
+      font-size: 2.26rem;
+      text-transform: uppercase;
+      display: flex;
+      align-items: top;
+      justify-content: center;
+      height: 5vh;
+      overflow-y: hidden;
+    }
+  
+    .container > p {
+      margin:0;
+    }
+  
+    .animation > div > div {
+      padding: 0rem 0.75rem;
+      height:2.70rem;
+      margin-bottom: 3rem;
+      display:inline-block;
+      text-align: center;
+    }
+    
+    .animation {
+      height:50px;
+      overflow:hidden;
+    }
+  
+    .animation div:first-child {
+      animation: text-animation 25s infinite;
+    }
+  
+    .paragraph {
+      color: #e5e5e5;
+      font-size: 2.26rem;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 3rem;
+  }
+  
+    /* Removing scrollbar on Chrome, Edge, Safari and Opera. We can also style it instead if we want */
+  ::-webkit-scrollbar {
+      display: none;
+    }
+  
+    /* Scroll down nudge icon styling */
+    .scroll-down {
+      position: absolute;
+      left: 50%;
+      bottom: 2rem;
+      display: block;
+      text-align: center;
+      font-size: 20px;
+      text-decoration: none;
+      text-shadow: 0;
+      width: 13px;
+      height: 13px;
+      border-bottom: 2px solid #fff;
+      border-right: 2px solid #fff;
+      left: 50%;
+      transform: translate(-50%, 0%) rotate(45deg);
+      animation: fade_move_down 5s ease-in-out infinite;
+    }
+    
+    
+    /*Scroll arrow animation timings*/
+    @keyframes fade_move_down {
+      0%   { transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
+      50%  { opacity: 1;  }
+      100% { transform:translate(0,10px) rotate(45deg); opacity: 0; }
+    }
+  
+      /* Tekst skift animation-steps (re-calculate with 5.55 interval)*/
+      @keyframes text-animation {
+        0% {margin-top: 0;}
+        5.55% {margin-top: 0;}
+        11.10% {margin-top: -5.7rem;}
+        16.65% {margin-top: -5.7rem;}
+        22.20% {margin-top: -11.4rem;}
+        27.75% {margin-top: -11.4rem;}
+        33.30% {margin-top: -17.1rem;}
+        38.85% {margin-top: -17.1rem;}
+        44.40% {margin-top: -22.8rem;}
+        49.95% {margin-top: -22.8rem;}
+        55.50% {margin-top: -17.1rem;}
+        61.05% {margin-top: -17.1rem;}
+        66.60% {margin-top: -11.4rem;}
+        72.15% {margin-top: -11.4rem;}
+        77.70% {margin-top: -5.7rem;}
+        83.25% {margin-top: -5.7rem;}
+        88.80% {margin-top: 0;}
+        94.35% {margin-top: 0;}
+        100% {margin-top: 0;}
+      }
+  
+      /* CHART CSS */
+    
+    #diagram1 {
+        display: flex;
+        justify-content:center;
+        padding-top: 0%;
+    }
+    
+    div.tooltip-donut {
+        position: absolute;
+        text-align:justify;
+        padding: .5rem;
+        background: #FFFFFF;
+        color: #313639;
+        border: 1px solid #313639;
+        border-radius: 5px;
+        pointer-events: none;
+        font-size: 1.2rem;
+        fill-opacity: 0.5;
+    }  
+  
+    svg {
+      width:100%;
+    }
+  
+    /* FORM STYLING */
+  
+    form { width: 100%; margin: 5px; padding: 5px; border: solid #000 1px; }
+    label { width: 6em; float: left; text-align: right; margin: .5em 1em; clear: both; border: dashed #666 1px; }
+    input, textarea { margin: .5em 0; width: 10em; }
+
+
+
+
+  #resultat{
+    font-size: x-large;
+  }
+
+  #besparelse {
+    font-size: xx-large;
+  }

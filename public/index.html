@@ -35,7 +35,7 @@
 
 
       // Skalering 
-      var xScale = d3.scaleBand().domain(d3.range(data_avg_hour.length + 1)).range([24, width]).paddingInner(0.01).padding(.05)
+      var xScale = d3.scaleBand().domain(d3.range(data_avg_hour.length + 1)).range([24, width]).padding(.05)
       var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour, (d) => d.avg * 1.25)]).range([height - bottomPadding, 125]);
 
       var color = d3.scaleLinear() //farve skalering
@@ -98,19 +98,18 @@
         .text(function (d) {
           return +(Math.round(d.avg * 1.25 + "e+2") + "e-2");
         })
+        .transition()
+        .duration(1000)
+        .delay(function (d, i) {
+          return i / data_avg_hour.length * 8000
+        })
         .attr("x", function (d, i) {
           return i * (width / data_avg_hour.length - 2.8) + 44;
         })
         .attr("y", function (d) {
           return height - (d.avg * 185) - 43;
         })
-        /*
-        .transition()
-        .duration(1000)
-        .delay(function (d, i) {
-          return i / data_avg_hour.length * 8000
-        })
-        WORK IN PROGRESS, VED IKKE HVORDAN MAN FÅR LABELS TIL AT FØLGE TABELLERNE */
+    
 
         .attr("class", "label") // Husk class på nye labels
         .attr("font-family", "sans-serif")
@@ -120,15 +119,18 @@
         .attr("fill", data_avg_hour => color(data_avg_hour.avg * 1.25))
 
 
+      const formatHours = d3.timeFormat("%H : %M")
 
-
-      const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour.length]).range([2, width - 65])).ticks(24)
+      const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour.length]).range([2, width - 65])).ticks().tickFormat(formatHours).tickValues([0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24])
       svg.append("g")
         .attr("transform", "translate(23," + (height - 20) + ")")
         .call(xAxis);
+        
 
-      const yAxis = d3.axisLeft()
-        .scale(yScale).ticks();
+        
+        
+
+      const yAxis = d3.axisLeft().scale(yScale).ticks(data_avg_hour).tickValues([0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24])
       svg.append("g")
         .attr("transform", "translate(25)")
         .attr("y", function (d) {
@@ -136,6 +138,7 @@
           return yScale(data_avg_hour);
         })
         .call(d3.axisLeft(yScale));
+        
 
 
 
