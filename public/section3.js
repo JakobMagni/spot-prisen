@@ -14,14 +14,14 @@ function chart3(){
             const data_avg_hour3 = data.records
 
         console.log("Timepris 24 timer", data_avg_hour3)
-        console.log("Cons log 1", data_avg_hour3)
+        
 
         // Tilføjer ID i array til animationsbrug
         data.records.forEach((item, i) => {
           item.id = i;
         });
 
-console.log(data.records);
+
 
         //Definere højde, bredde og svg elements attributter 
         var width = 1000;
@@ -32,7 +32,7 @@ console.log(data.records);
 
 
         // Skalering 
-        var xScale = d3.scaleBand().domain(d3.range(data_avg_hour3.length)).range([51, width]).paddingInner(0.05).padding(.0)
+        var xScale = d3.scaleBand().domain(d3.range(data_avg_hour3.length)).range([51, width]).padding(.05)
         var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => d.SpotPriceDKK * 1.25)]).range([height - bottomPadding, 75]);
 
         var color = d3.scaleLinear() //farve skalering
@@ -48,26 +48,29 @@ console.log(data.records);
           .domain([0, d3.max(data_avg_hour3, (d) => d.SpotPriceDKK)])
           .range(["#9ad97f", "#d97642"]);
           
-  
-
+          var today = new Date()
+          var Time = today.getHours()
+          
+        var i = 0
+        console.log("Slice console", data_avg_hour3.HourDK)
+        
         // Definere svg elementet som en variabel = bars og koble data og function for barer på 
         var bars = svg.selectAll()
           .data(data_avg_hour3)
           .enter()
           .append("path")
           .attr("d", function (d) {
-            return bar(xScale(d.id ), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
+            return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
           })
           .attr("fill", function (d) { return color(d.SpotPriceDKK) })
           .transition()
-          .delay(function (d, i) {
-            return i / data_avg_hour3.length * 8000
-          })
+          .duration(4000)
           
           .attr("d", function (d, i) {
             return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(data_avg_hour3[i].SpotPriceDKK * 1.25), 10)
           })
           
+    
         
 
         // Funktion som lager barer med afrundede kanter 

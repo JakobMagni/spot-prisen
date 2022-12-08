@@ -29,9 +29,47 @@
     
           // Farver 
           var color = d3.scaleLinear()
-            .domain([0, d3.max(data_avg_hour, (d) => d.avg)])
+            .domain([0, d3.max(data_avg_hour, (d) => d.avg - 3.5)])
             .range(["#9ad97f", "#d97642"]);
+
+          
+          //Container for the gradients
+var defs = svg.append("defs");
+
+//Filter for the outside glow
+var filter = defs.append("filter")
+    .attr("id","glow");
+filter.append("feGaussianBlur")
+    .attr("stdDeviation","5")
+    .attr("result","coloredBlur");
+var feMerge = filter.append("feMerge");
+feMerge.append("feMergeNode")
+    .attr("in","coloredBlur");
+feMerge.append("feMergeNode")
+    .attr("in","SourceGraphic");
     
+
+    //Append a defs (for definition) element to your SVG
+var defs = svg.append("defs");
+
+//Append a linearGradient element to the defs and give it a unique id
+var linearGradient = defs.append("linearGradient")
+    .attr("id", "linear-gradient")
+    //Vertical gradient
+linearGradient
+.attr("x1", "0%")
+.attr("y1", "100%")
+.attr("x2", "0%")
+.attr("y2", "0%")
+//Set the color for the start (0%)
+linearGradient.append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "#ffa474"); //light blue
+
+//Set the color for the end (100%)
+linearGradient.append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "#8b0000"); //dark blue
     
     
           // Definere svg elementet som en variabel = bars og koble data og function for barer på 
@@ -43,6 +81,8 @@
               return bar(xScale(d.hour), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
             })
             .attr("fill", function (d) { return color(d.avg) })
+            .style("filter", "url(#glow)")
+            .style("fill", "url(#linear-gradient)")
             .transition()
             .delay(function (d, i) {
               return i / data_avg_hour.length * 4000
@@ -99,26 +139,33 @@
             .attr("font-size", "11px")
             .attr("fill", data_avg_hour => color(data_avg_hour.avg * 1.25))
     
+    // Tilføjer ID i array til animationsbrug
+    data_avg_hour.forEach((item, i) => {
+      item.hourid = `${i}:00`;
+    });
+
+
+          
+          const tickLabels = [`0:00`, `1:00`, `2:00`, `3:00`, `4:00`,`5:00`, `6:00`, `7:00`, `8:00`, `9:00`,`10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`,`18:00`, `19:00`, `20:00`, `21:00`, `22:00`, `23:00`, `24:00` ]
     
-          const formatHours = d3.timeFormat("%H : %M")
-    
-          const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour.length]).range([2, width - 65])).ticks().tickFormat(formatHours).tickValues([0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24])
+          const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour.length]).range([0, width - 65])).ticks(24).tickFormat((d,i) => tickLabels[i]);
           svg.append("g")
             .attr("transform", "translate(23," + (height - 20) + ")")
             .call(xAxis);
             
     
             
-            
-    
-          const yAxis = d3.axisLeft().scale(yScale).ticks(data_avg_hour).tickValues([0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24])
+         
+
+          const yAxis = d3.axisLeft().scale(yScale).ticks()
           svg.append("g")
             .attr("transform", "translate(25)")
             .attr("y", function (d) {
-              console.log(data_avg_hour, yScale(data_avg_hour));
-              return yScale(data_avg_hour);
+
+            return yScale(data_avg_hour);
             })
-            .call(d3.axisLeft(yScale));
+            .call(d3.axisLeft(yScale))
+            
             
     
     
