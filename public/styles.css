@@ -32,13 +32,6 @@ body,html {
   display: none;
 }
 
-.yAxis {
-  fill: none;
-  stroke: #FFFFFF;
-}
-
-
-
 .line {
   fill: none;
   stroke-width: 1.5px;
