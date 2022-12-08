@@ -33,7 +33,7 @@ function chart3(){
 
         // Skalering 
         var xScale = d3.scaleBand().domain(d3.range(data_avg_hour3.length)).range([width, 51]).padding(.05)
-        var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => d.SpotPriceDKK * 1.25)]).range([height - bottomPadding, 75]);
+        var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => d.SpotPriceDKK / 1000)]).range([height - bottomPadding, 75]);
 
         var color = d3.scaleLinear() //farve skalering
           .domain([0, d3.max(data_avg_hour3)])
@@ -83,7 +83,7 @@ function chart3(){
           .duration(4000)
           
           .attr("d", function (d, i) {
-            return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(data_avg_hour3[i].SpotPriceDKK * 1.25), 10)
+            return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(data_avg_hour3[i].SpotPriceDKK / 1000), 10)
           })
           
     
