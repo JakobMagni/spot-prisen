@@ -51,8 +51,7 @@ function chart3(){
           .range(["#9ad97f", "#d97642"]);
           
           var today = new Date()
-        console.log("Slice console", data_avg_hour3.HourDK)
-        var tester = "y";
+        
         // Laver string der passer til nuværende timetal til sammenligning i grafen 
         var today = new Date();
         var lol = new Date().getDate();
@@ -105,11 +104,19 @@ function chart3(){
           var parts = ["M", x, y, l, x, y0, a, r, r, 0, 0, f, x0, y - h, l, x1, y - h, a, r, r, 0, 0, f, x + w, y0, l, x + w, y, "Z"];
           return parts.join(" ");
         }
+       
+        const tickLabels = [`0:00`, `1:00`, `2:00`, `3:00`, `4:00`,`5:00`, `6:00`, `7:00`, `8:00`, `9:00`,`10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`,`18:00`, `19:00`, `20:00`, `21:00`, `22:00`, `23:00`, `0:00`, `1:00`, `2:00`, `3:00`, `4:00`,`5:00`, `6:00`, `7:00`, `8:00`, `9:00`,`10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`,`18:00`, `19:00`, `20:00`, `21:00`, `22:00`, `23:00`]
+        
+        
 
-        const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour3.length]).range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length)
+        const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour3.length]).range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length).tickFormat((d,i) => tickLabels[i]);
         svg.append("g")
           .attr("transform", "translate(51, " + (height - 20) + ")")
-          .call(xAxis);
+          .call(xAxis)
+          .selectAll("text")
+          .attr("transform", "rotate(-65)")
+          .attr("y", "1.5em")
+          .attr("x", "-2em")
 
         const yAxis = d3.axisLeft().scale(yScale).ticks();
         svg.append("g")
