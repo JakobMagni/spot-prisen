@@ -32,7 +32,7 @@ function chart3(){
 
 
         // Skalering 
-        var xScale = d3.scaleBand().domain(d3.range(data_avg_hour3.length)).range([51, width]).padding(.05)
+        var xScale = d3.scaleBand().domain(d3.range(data_avg_hour3.length)).range([width, 51]).padding(.05)
         var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => d.SpotPriceDKK * 1.25)]).range([height - bottomPadding, 75]);
 
         var color = d3.scaleLinear() //farve skalering
@@ -42,6 +42,8 @@ function chart3(){
         // Lave og placere akser (Y aksen)
 
         // UDREGNINGER Elafgift + System tarif + Balance tarif + Transmission = 1.01229. (data_avg_hour3 / 1000 + 1,01229) * 1.25
+      
+
 
         // Farver 
         var color = d3.scaleLinear()
@@ -49,11 +51,18 @@ function chart3(){
           .range(["#9ad97f", "#d97642"]);
           
           var today = new Date()
-          var Time = today.getHours()
-          
-        var i = 0
         console.log("Slice console", data_avg_hour3.HourDK)
-        
+        var tester = "y";
+        // Laver string der passer til nuværende timetal til sammenligning i grafen 
+        var today = new Date();
+        var lol = new Date().getDate();
+        var datedate = String(lol).padStart(2, '0');
+        var date = today.getFullYear()+'-'+(today.getMonth()+1);
+        var time = today.getHours() + ":" + '00' + ":" + '00';
+
+
+        var dateTime = date+'-'+datedate+'T'+time;
+       
         // Definere svg elementet som en variabel = bars og koble data og function for barer på 
         var bars = svg.selectAll()
           .data(data_avg_hour3)
@@ -63,6 +72,13 @@ function chart3(){
             return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
           })
           .attr("fill", function (d) { return color(d.SpotPriceDKK) })
+          .style("fill", function(d) {
+            if(d.HourDK == dateTime){
+              return "green"
+            }
+          })
+
+          
           .transition()
           .duration(4000)
           
