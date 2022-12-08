@@ -81,6 +81,7 @@ body,html {
       width: 68%;
       position: inline-block;
       text-align: center;
+      padding-top: 12%;
     }
   
     .col2 {
@@ -88,7 +89,7 @@ body,html {
       position: inline-block;
       text-align: center;
       vertical-align: center;
-      padding-top: 0%;
+      padding-top: 12%;
     }
   
     .container {
@@ -195,7 +196,6 @@ body,html {
     #diagram1 {
         display: flex;
         justify-content:center;
-        padding-top: 0%;
     }
     
     div.tooltip-donut {
