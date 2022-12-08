@@ -231,6 +231,10 @@ body,html {
   #besparelse {
     font-size: xx-large;
   }
+  
+  #counter {
+    font-size: xx-large;
+  }
 
 /*Tooltip til sidegraf3*/
 
@@ -258,4 +262,9 @@ body,html {
     font-family: sans-serif;
     font-size: 20px;
     line-height: 20px;
+}
+
+.tekstFelt {
+  display: inline-block;
+  font-size: xx-large;
 }
