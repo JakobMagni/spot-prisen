@@ -35,9 +35,7 @@ function chart3(){
         var xScale = d3.scaleBand().domain(d3.range(data_avg_hour3.length)).range([width, 51]).padding(.05)
         var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => d.SpotPriceDKK / 1000)]).range([height - bottomPadding, 75]);
 
-        var color = d3.scaleLinear() //farve skalering
-          .domain([0, d3.max(data_avg_hour3)])
-          .range(['#9ad97f', '#d97642']);
+        
 
         // Lave og placere akser (Y aksen)
 
@@ -47,49 +45,10 @@ function chart3(){
 
         // Farver 
         var color = d3.scaleLinear()
-          .domain([0, d3.max(data_avg_hour3, (d) => d.SpotPriceDKK)])
-          .range(["#9ad97f", "#d97642"]);
+          .domain([2000, 3200])
+          .range(["#FF00DD", "#8B43C0"]);
           
-          //Container for the gradients
-var gradients = svg.append("defs");
-
-//Filter for the outside glow
-var filter = gradients.append("filter")
-    .attr("id","glow");
-filter.append("feGaussianBlur")
-    .attr("stdDeviation","5")
-    .attr("result","coloredBlur");
-var feMerge = filter.append("feMerge");
-feMerge.append("feMergeNode")
-    .attr("in","coloredBlur");
-feMerge.append("feMergeNode")
-    .attr("in","SourceGraphic");
-    
-
-    //Append a defs (for definition) element to your SVG
-var defs = svg.append("defs");
-
-//Append a linearGradient element to the defs and give it a unique id
-var linearGradient = defs.append("linearGradient")
-    .attr("id", "linear-gradient")
-    //Vertical gradient
-linearGradient
-.attr("x1", "0%")
-.attr("y1", "100%")
-.attr("x2", "0%")
-.attr("y2", "0%")
-//Set the color for the start (0%)
-linearGradient.append("stop")
-    .attr("offset", "0%")
-    .attr("stop-color", "#3FF4EB") //light blue
-    .attr("stop-opacity", "0.9");
-
-//Set the color for the end (100%)
-linearGradient.append("stop")
-    .attr("offset", "100%")
-    .attr("stop-color", "#FFF01F") //Pink
-    .attr("stop-opacity", "0.9");
-
+        //.domain([0, d3.max(data_avg_hour, (d) => d.avg - 3.5)])
 
           var today = new Date()
 
@@ -134,13 +93,11 @@ linearGradient.append("stop")
             return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
           })
           .attr("fill", function (d) { return color(d.SpotPriceDKK) })
-          .style("fill", function(d) {
+          .style("stroke", function(d) {
             if(d.HourDK == dateTime){
-              return "green"
+              return "yellow"
             }
           })
-          .style("filter", "url(#glow)")
-          .style("fill", "url(#linear-gradient)")
           .transition()
           .duration(4000)
           .attr("d", function (d, i) {
