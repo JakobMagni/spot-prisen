@@ -178,6 +178,28 @@ function chart3(){
           })
           .call(d3.axisLeft(yScale));
 
+          // X-aksen labels
+          svg.append('text')
+          .attr('x', width / 2)
+          .attr('y', height - 30)
+          .attr('text-anchor', 'middle')
+          .style('font-family', 'Calibri')
+          .style('font-size', 12)
+          .style('fill', 'white')
+          .text('Pr Time');
+          
+             // Y-aksen labels
+          svg.append('text')
+              .attr('id', 'y-label')
+              .attr('text-anchor', 'middle')
+              .attr('transform', 'translate(90,' + ((height / 4.8) - 2) + ')')
+              .style('font-family', 'Helvetica')
+              .style('font-size', 12)
+              .text('Spotpriser')
+              .style('fill', 'white');
+
+
+
 
 
         console.log("Loading complete");
