@@ -41,7 +41,7 @@ var gradients = svg.append("defs");
 var filter = gradients.append("filter")
     .attr("id","glow");
 filter.append("feGaussianBlur")
-    .attr("stdDeviation","4")
+    .attr("stdDeviation","5")
     .attr("result","coloredBlur");
 var feMerge = filter.append("feMerge");
 feMerge.append("feMergeNode")
@@ -66,13 +66,13 @@ linearGradient
 linearGradient.append("stop")
     .attr("offset", "0%")
     .attr("stop-color", "#3FF4EB") //light blue
-    .attr("stop-opacity", "0.3");
+    .attr("stop-opacity", "0.9");
 
 //Set the color for the end (100%)
 linearGradient.append("stop")
     .attr("offset", "100%")
     .attr("stop-color", "#FF00DD") //Pink
-    .attr("stop-opacity", "0.3");
+    .attr("stop-opacity", "0.9");
     
     
           // Definere svg elementet som en variabel = bars og koble data og function for barer på 
@@ -139,7 +139,7 @@ linearGradient.append("stop")
             .attr("text-anchor", "middle")
             .attr("font-size", "11px")
             .attr("fill", data_avg_hour => color(data_avg_hour.avg * 1.25))
-            .attr("opacity", 0.3)
+            .attr("opacity", 0.9)
             
     
     // Tilføjer ID i array til animationsbrug
