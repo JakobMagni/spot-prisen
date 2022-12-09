@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates&family=Red+Hat+Display:wght@300;400;500;700&family=Work+Sans&display=swap" rel="stylesheet">
   <script src="scripts/d3.js"></script>
   <title>TEST ENVIRONMENT - NOT FOR RELEASE</title>'
 </head>
@@ -51,7 +54,6 @@
 
     <section class="section section-2" id="second">
       <div class="section__content"></div>
-      <div id="diagram2" class="col col1"></div>
       <div class="col col2">
         <h2>Strømprisen varierer time for time, hver dag!</h2> <!-- From the original template div -->
         <p>Grafen til venstre viser gennemsnitsprisen per time målt over hele år 2021. Her er der tydelige udsving, og
@@ -78,7 +80,7 @@
               <option value="9">9 gange per uge</option>
               <option value="10">10 gange per uge</option>
             </select>
-            <input type="text" id="tør_brug" value="0" />
+            <input type="text" id="tør_brug" value="0" class="kWh_total"/>
             <label for="last">Vaskemaskine</label>
             <select id="vask_alder">
               <option value="ny">0-4 år gammel</option>
@@ -97,7 +99,7 @@
               <option value="9">9 gange per uge</option>
               <option value="10">10 gange per uge</option>
             </select>
-            <input type="text" id="vask_brug" size="20" maxlength="50" value="0" />
+            <input type="text" id="vask_brug" size="20" maxlength="50" value="0" class="kWh_total"/>
             <label for="last">Opvaskemaskine</label>
             <select id="opvask_alder">
               <option value="ny">0-4 år gammel</option>
@@ -116,7 +118,7 @@
               <option value="9">9 gange per uge</option>
               <option value="10">10 gange per uge</option>
             </select>
-            <input type="text" id="opvask_brug" size="20" maxlength="50" value="0" />
+            <input type="text" id="opvask_brug" size="20" maxlength="50" value="0" class="kWh_total" />
             <input id="update_line" type="submit" onclick="submit1()" value="Beregn">
           </form>
 
@@ -130,6 +132,7 @@
 
         </div>
       </div>
+      <div id="diagram2" class="col col1"></div>
       <a href="#third">
         <div class="scroll-down"></div>
       </a>

@@ -1,8 +1,20 @@
+@font-face {
+  font-family: 'NK57MonospaceScLt-Regular';
+  src:url('fonts-local/NK57MonospaceScLt-Regular.ttf.woff') format('woff'),
+      url('fonts-local/NK57MonospaceScLt-Regular.ttf.svg#NK57MonospaceScLt-Regular') format('svg'),
+      url('fonts-local/NK57MonospaceScLt-Regular.ttf.eot'),
+      url('fonts-local/NK57MonospaceScLt-Regular.ttf.eot?#iefix') format('embedded-opentype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&family=Red+Hat+Display:wght@300;400;500;700&family=Work+Sans&display=swap');
+
 /* Removing default margin and padding added by browser */
-body,html {
+body,html, text {
     margin: 0;
     padding: 0;
-  }
+    font-family: 'Work Sans', sans-serif;
+    }
   
   /* Should disable snapping on mobile devices, haven't tested it yet */
   @media (min-height: 30em) {
@@ -51,15 +63,15 @@ body,html {
   }
   
     .section-1 {
-      background-color: gray;
+      background-color: #212845;
     }
   
     .section-2 {
-      background-color: darkgray;
+      background-color: #212845;
     }
   
     .section-3 {
-      background-color: lightgray;
+      background-color: #212845;
     }
   
     .col {
@@ -209,17 +221,16 @@ body,html {
         pointer-events: none;
         font-size: 1.2rem;
         fill-opacity: 0.5;
-    }  
-  
-    svg {
-      width:100%;
-    }
+    } 
   
     /* FORM STYLING */
   
-    form { width: 100%; margin: 5px; padding: 5px; border: solid #000 1px; }
-    label { width: 6em; float: left; text-align: right; margin: .5em 1em; clear: both; border: dashed #666 1px; }
+    label { width: 6em; float: left; text-align: center; margin: .5em 1em; clear: both;}
     input, textarea { margin: .5em 0; width: 10em; }
+
+    .kWh_total {
+      width: 5em;
+    }
 
 
 

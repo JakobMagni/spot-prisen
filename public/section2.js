@@ -25,12 +25,15 @@ const svg = d3.select("#diagram2")
     .attr("transform", `translate(${margin.left}, 0)`)
 
 svg.append('text')
+    .attr('id', 'x-label')
     .attr('x', width / 2)
     .attr('y', 20)
     .attr('text-anchor', 'middle')
     .style('font-family', 'Helvetica')
     .style('font-size', 20)
-    .text('Estimeret årlig forbrug(DKK) ved lavest og højest gennemsnits el-pris');
+    .text('Gennemsnitlig lavest og højest elpris pr. uge (DKK)')
+    .style('fill', 'white');
+    
 
 // X label
 svg.append('text')
@@ -39,16 +42,18 @@ svg.append('text')
     .attr('text-anchor', 'middle')
     .style('font-family', 'Calibri')
     .style('font-size', 12)
+    .style('fill', 'white')
     .text('Uge nummer');
 
 // Y label
 svg.append('text')
     .attr('id', 'y-label')
     .attr('text-anchor', 'middle')
-    .attr('transform', 'translate(20,' + height / 2 + ')rotate(-90)')
+    .attr('transform', 'translate(130,' + ((height / 6.5) - 10) + ')')
     .style('font-family', 'Helvetica')
     .style('font-size', 12)
-    .text('Gennemsnits elpris/ugentlig');
+    .text('Gennemsnits elpris pr. uge (max /min)')
+    .style('fill', 'white');
 
 
 // Render funktion som indeholder parametere for linjediagrammet - denne kaldes 1) når siden loader 2) og igen senere ved Submit1 funktionen (submitknappen)
@@ -149,7 +154,12 @@ function render() {
         if (total_forbrug) {
             svg.selectAll("#y-label")
                 .transition().duration(1500)
-                .text('Opsummeret gennemsnits elpris (DKK)');
+                .text('Samlede omkostninger v. max /min pris (DKK)');
+        }
+        if (total_forbrug) {
+            svg.selectAll("#x-label")
+                .transition().duration(1500)
+                .text('Estimeret årlig forbrug(DKK) ved lavest og højest gennemsnits el-pris');
         }
 
         // FORSØG på at lave color gradient background 
@@ -367,7 +377,7 @@ function submit1() {
     // Endelig ligger vi værdierne sammen til det samlede forbrug 
     total_forbrug = (tør_strømforbrug + vask_strømforbrug + opvask_strømforbrug)
 
-    document.getElementById('resultat').textContent = "Dit ugentlige forbrug " + total_forbrug.toFixed(2) + " kwh"  // Tilføjer dette til vors resultat-div/p og toFixed begrænser antal decimaler 
+    document.getElementById('resultat').textContent = "Dit ugentlige forbrug " + total_forbrug.toFixed(2) + " kWh"  // Tilføjer dette til vors resultat-div/p og toFixed begrænser antal decimaler 
     render(); // Her kaldes endeligt render-funktionen, hver gang der trykkes submit! 
 }
 
