@@ -1,5 +1,4 @@
-
-        // Denne query kører op imod API'en som findes i 'main.js'.
+ // Denne query kører op imod API'en som findes i 'main.js'.
         // Gennemsnits timepris (2021)
         d3.json("/api/avg_timepris", {
           method: "POST",
@@ -30,15 +29,14 @@
           // Farver 
           var color = d3.scaleLinear()
             .domain([0, d3.max(data_avg_hour, (d) => d.avg - 3.5)])
-            .range(["#9ad97f", "#d97642"])
-            
+            .range(["#9ad97f", "#d97642"]);
 
           
           //Container for the gradients
-var gradients = svg.append("defs");
+var defs = svg.append("defs");
 
 //Filter for the outside glow
-var filter = gradients.append("filter")
+var filter = defs.append("filter")
     .attr("id","glow");
 filter.append("feGaussianBlur")
     .attr("stdDeviation","5")
@@ -65,14 +63,12 @@ linearGradient
 //Set the color for the start (0%)
 linearGradient.append("stop")
     .attr("offset", "0%")
-    .attr("stop-color", "#3FF4EB") //light blue
-    .attr("stop-opacity", "0.9");
+    .attr("stop-color", "#ffa474"); //light blue
 
 //Set the color for the end (100%)
 linearGradient.append("stop")
     .attr("offset", "100%")
-    .attr("stop-color", "#FF00DD") //Pink
-    .attr("stop-opacity", "0.9");
+    .attr("stop-color", "#8b0000"); //dark blue
     
     
           // Definere svg elementet som en variabel = bars og koble data og function for barer på 
@@ -133,14 +129,14 @@ linearGradient.append("stop")
             .attr("y", function (d) {
               return height - (d.avg * 185) - 43;
             })
+        
+    
             .attr("class", "label") // Husk class på nye labels
             .attr("font-family", "sans-serif")
             .attr("font-weight", 800)
             .attr("text-anchor", "middle")
             .attr("font-size", "11px")
             .attr("fill", data_avg_hour => color(data_avg_hour.avg * 1.25))
-            .attr("opacity", 0.9)
-            
     
     // Tilføjer ID i array til animationsbrug
     data_avg_hour.forEach((item, i) => {
@@ -169,26 +165,26 @@ linearGradient.append("stop")
             })
             .call(d3.axisLeft(yScale))
             
-            
+/*             
 // X-aksen labels             
 svg.append('text')
 .attr('x', width / 2)
 .attr('y', height - 30)
 .attr('text-anchor', 'middle')
-.style('font-family', 'Calibri')
+.style('font-family', 'sans-serif')
 .style('font-size', 12)
 .style('fill', 'white')
-.text('Pr Time');
+.text('Pr.Time'); */
 
 
 // Y-aksen labels
 svg.append('text')
     .attr('id', 'y-label')
     .attr('text-anchor', 'middle')
-    .attr('transform', 'translate(110,' - ((height / 4) - 3) + ')')
-    .style('font-family', 'Helvetica')
+    .attr('transform', 'translate(125,' + ((height / 4)+10) + ')')
+    .style('font-family', 'sans-serif')
     .style('font-size', 12)
-    .text('Gennemsnitlige Elpriser')
+    .text('Gennemsnitlig elpris pr.kWh (DKK)')
     .style('fill', 'white');
 
 
