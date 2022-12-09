@@ -151,7 +151,7 @@ linearGradient.append("stop")
           
           const tickLabels = [`0:00`, `1:00`, `2:00`, `3:00`, `4:00`,`5:00`, `6:00`, `7:00`, `8:00`, `9:00`,`10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`,`18:00`, `19:00`, `20:00`, `21:00`, `22:00`, `23:00`, `24:00` ]
     
-          const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour.length]).range([0, width - 65])).ticks(24).tickFormat((d,i) => tickLabels[i]);
+          const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour.length]).range([0, width - 71.3])).ticks(24).tickFormat((d,i) => tickLabels[i]);
           svg.append("g")
             .attr("transform", "translate(23," + (height - 20) + ")")
             .call(xAxis);
@@ -162,7 +162,7 @@ linearGradient.append("stop")
 
           const yAxis = d3.axisLeft().scale(yScale).ticks()
           svg.append("g")
-            .attr("transform", "translate(25)")
+            .attr("transform", "translate(23)")
             .attr("y", function (d) {
 
             return yScale(data_avg_hour);

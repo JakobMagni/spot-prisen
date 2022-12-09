@@ -50,6 +50,47 @@ function chart3(){
           .domain([0, d3.max(data_avg_hour3, (d) => d.SpotPriceDKK)])
           .range(["#9ad97f", "#d97642"]);
           
+          //Container for the gradients
+var gradients = svg.append("defs");
+
+//Filter for the outside glow
+var filter = gradients.append("filter")
+    .attr("id","glow");
+filter.append("feGaussianBlur")
+    .attr("stdDeviation","5")
+    .attr("result","coloredBlur");
+var feMerge = filter.append("feMerge");
+feMerge.append("feMergeNode")
+    .attr("in","coloredBlur");
+feMerge.append("feMergeNode")
+    .attr("in","SourceGraphic");
+    
+
+    //Append a defs (for definition) element to your SVG
+var defs = svg.append("defs");
+
+//Append a linearGradient element to the defs and give it a unique id
+var linearGradient = defs.append("linearGradient")
+    .attr("id", "linear-gradient")
+    //Vertical gradient
+linearGradient
+.attr("x1", "0%")
+.attr("y1", "100%")
+.attr("x2", "0%")
+.attr("y2", "0%")
+//Set the color for the start (0%)
+linearGradient.append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "#3FF4EB") //light blue
+    .attr("stop-opacity", "0.9");
+
+//Set the color for the end (100%)
+linearGradient.append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "#FFF01F") //Pink
+    .attr("stop-opacity", "0.9");
+
+
           var today = new Date()
 
         // Laver string der passer til nuværende timetal til sammenligning i grafen 
@@ -98,6 +139,8 @@ function chart3(){
               return "green"
             }
           })
+          .style("filter", "url(#glow)")
+          .style("fill", "url(#linear-gradient)")
           .transition()
           .duration(4000)
           .attr("d", function (d, i) {

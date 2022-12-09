@@ -99,8 +99,14 @@
 
 
 
-           var Tooltip = d3.select("body") //Tooltip 
-            .append("div")
+           var Tooltip = d3.selectAll("body") //Tooltip 
+            .data(data_avg_hour)
+            .enter()
+            .append("body")
+            .text(function (d) {
+            return +(Math.round([d.SpotPriceDKK]))
+            })
+            .append()
             .style("opacity", 0 )
             .attr("class", "Tooltip")
             .style("position", "absolute")
@@ -109,12 +115,13 @@
             .style("border-width", "2px")
             .style("border-radius", "5px")
             .style("padding", "5px")
-            .text(data_avg_hour)
+            
 
 
 
              // Tre funktioner der ændrer tooltippet når man hover og mover den hen over grafen 
-            var mouseover = function(d) {Tooltip
+           
+             var mouseover = function(d) {Tooltip
             .style("opacity", 1)
           d3.select(this)
             .style("stroke", "black")
@@ -122,10 +129,12 @@
             }
 
         var mousemove = function(d) {Tooltip
-          .html("Spotprisen<br>er: " + d.SpotPriceDKK)
+        .text(function (d) {
+            return +(Math.round(d.SpotPriceDKK))
+          })
         .style("top", (event.pageY) + "px")
         .style("left",(event.pageX)+"px")
-      
+    
           }
           var mouseleave = function(d) {Tooltip
           .style("opacity", 0)
