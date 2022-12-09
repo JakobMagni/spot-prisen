@@ -30,17 +30,18 @@
           // Farver 
           var color = d3.scaleLinear()
             .domain([0, d3.max(data_avg_hour, (d) => d.avg - 3.5)])
-            .range(["#9ad97f", "#d97642"]);
+            .range(["#9ad97f", "#d97642"])
+            
 
           
           //Container for the gradients
-var defs = svg.append("defs");
+var gradients = svg.append("defs");
 
 //Filter for the outside glow
-var filter = defs.append("filter")
+var filter = gradients.append("filter")
     .attr("id","glow");
 filter.append("feGaussianBlur")
-    .attr("stdDeviation","5")
+    .attr("stdDeviation","4")
     .attr("result","coloredBlur");
 var feMerge = filter.append("feMerge");
 feMerge.append("feMergeNode")
@@ -64,12 +65,14 @@ linearGradient
 //Set the color for the start (0%)
 linearGradient.append("stop")
     .attr("offset", "0%")
-    .attr("stop-color", "#ffa474"); //light blue
+    .attr("stop-color", "#3FF4EB") //light blue
+    .attr("stop-opacity", "0.3");
 
 //Set the color for the end (100%)
 linearGradient.append("stop")
     .attr("offset", "100%")
-    .attr("stop-color", "#8b0000"); //dark blue
+    .attr("stop-color", "#FF00DD") //Pink
+    .attr("stop-opacity", "0.3");
     
     
           // Definere svg elementet som en variabel = bars og koble data og function for barer på 
@@ -130,14 +133,14 @@ linearGradient.append("stop")
             .attr("y", function (d) {
               return height - (d.avg * 185) - 43;
             })
-        
-    
             .attr("class", "label") // Husk class på nye labels
             .attr("font-family", "sans-serif")
             .attr("font-weight", 800)
             .attr("text-anchor", "middle")
             .attr("font-size", "11px")
             .attr("fill", data_avg_hour => color(data_avg_hour.avg * 1.25))
+            .attr("opacity", 0.3)
+            
     
     // Tilføjer ID i array til animationsbrug
     data_avg_hour.forEach((item, i) => {
