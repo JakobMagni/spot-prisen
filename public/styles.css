@@ -65,9 +65,18 @@ body,html, text {
     .section-1 {
       background-color: #212845;
     }
+
+    .section-1 > .col1 {
+      padding-top: 6%;
+    }
   
     .section-2 {
       background-color: #212845;
+    }
+
+    .section-2 > .col2 {
+      padding-left: 2em;
+      padding-top: 8%;
     }
   
     .section-3 {
@@ -79,6 +88,7 @@ body,html, text {
       vertical-align: center;
       justify-content: center;
       text-align: center;
+      z-index: 1;
     }
   
     .col > p {
@@ -101,11 +111,11 @@ body,html, text {
       position: inline-block;
       text-align: center;
       vertical-align: center;
-      padding-top: 12%;
+      padding-top: 14%;
     }
   
     .container {
-      padding-top: 0rem;
+      padding-top: 4rem;
       width: 100%;
       color: #e5e5e5;
       font-size: 2.26rem;
@@ -115,6 +125,7 @@ body,html, text {
       justify-content: center;
       height: 5vh;
       overflow-y: hidden;
+      z-index: 3;
     }
   
     .container > p {
@@ -163,8 +174,8 @@ body,html, text {
       font-size: 20px;
       text-decoration: none;
       text-shadow: 0;
-      width: 13px;
-      height: 13px;
+      width: 20px;
+      height: 20px;
       border-bottom: 2px solid #fff;
       border-right: 2px solid #fff;
       left: 50%;
@@ -176,7 +187,9 @@ body,html, text {
     /*Scroll arrow animation timings*/
     @keyframes fade_move_down {
       0%   { transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
+      40%  { opacity: 1;  }
       50%  { opacity: 1;  }
+      60%  { opacity: 1;  }
       100% { transform:translate(0,10px) rotate(45deg); opacity: 0; }
     }
   
@@ -297,6 +310,12 @@ body,html, text {
   transition: 0.5s ease-in-out;
   border-width: 1px;
   border-color: white;
+}
+
+.SPACE {
+  margin-top: 1em;
+  width: 50%;
+  
 }
 
 .page3button:before { /* Defining psuedo-element with gradient colors and animation. Is see-through here*/

@@ -176,12 +176,12 @@ function render() {
             gradient
                 .append('stop')
                 .attr('offset', '0%')
-                .attr('style', 'stop-color:#BBF6CA;stop-opacity:0.05');
+                .attr('style', 'stop-color:#3FF4EB;stop-opacity:0.05');
 
             gradient
                 .append('stop')
                 .attr('offset', '100%')
-                .attr('style', 'stop-color:#BBF6CA;stop-opacity:.5');
+                .attr('style', 'stop-color:#3FF4EB;stop-opacity:.5');
         }
 
         const createGlowFilter = select => {
@@ -205,6 +205,9 @@ function render() {
                 .append('feMergeNode')
                 .attr('in', 'SourceGraphic');
         }
+
+        // FORSØG på at lave gradierende linje 
+        
 
 
         svg.append('defs');
