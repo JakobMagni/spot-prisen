@@ -63,11 +63,32 @@ function chart3(){
 
         var dateTime = date+'-'+datedate+'T'+timeuse;
        
+       
+
+
+
         // Definere svg elementet som en variabel = bars og koble data og function for barer på 
-        var bars = svg.selectAll()
+        var bars = svg.selectAll("body")
           .data(data_avg_hour3)
           .enter()
           .append("path")
+          .on("mouseover", function(d, i) {
+            tooltip.text(function (d) {
+            return (d.SpotPriceDKK)
+            }) 
+            .style("visibility", "visible");
+            d3.select(this)
+              .attr("fill", shadeColor(bar_color, -15));
+          })
+          .on("mousemove", function(){
+            tooltip
+              .style("top", (event.pageY-10)+"px")
+              .style("left",(event.pageX+10)+"px");
+          })
+          .on("mouseout", function() {
+            tooltip.html(``).style("visibility", "hidden");
+            d3.select(this).attr("fill", bar_color);
+          })
           .attr("d", function (d) {
             return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
           })
@@ -77,16 +98,45 @@ function chart3(){
               return "green"
             }
           })
-
-          
           .transition()
           .duration(4000)
-          
           .attr("d", function (d, i) {
             return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(data_avg_hour3[i].SpotPriceDKK / 1000), 10)
           })
-          
+
+          // create tooltip element  
+      const tooltip = d3.select("body")
+      .data(data_avg_hour3)
+      .enter()
+      .text(function (d) {
+        return +(Math.round(d.SpotPriceDKK));
+      })
+      .append("div")
+      .attr("class","d3-tooltip")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .style("padding", "15px")
+      .style("background", "rgba(0,0,0,0.6)")
+      .style("border-radius", "5px")
+      .style("color", "#fff")
+      .text("a simple tooltip")
         
+
+      /*
+      // append text  
+      svg.selectAll("g")
+        .data(data_avg_hour3)
+        .enter()
+        .append("text")
+        .attr("dominant-baseline", "text-before-edge")
+        .attr("text-anchor", "middle")
+        .attr("fill", "#000000")
+        .attr("x", (d, i) => left_offset + bar_width * i + bar_width/2 - spacing/2)
+       // .attr("y", height - bottom_offset + 5)
+        .attr("style", "font-family:Verdana")
+        .text((d, i) => SpotPriceDKK[i]);
+        */
 
 
         // Funktion som lager barer med afrundede kanter 
