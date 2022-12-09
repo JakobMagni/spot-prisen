@@ -51,16 +51,17 @@ function chart3(){
           .range(["#9ad97f", "#d97642"]);
           
           var today = new Date()
-        
+
         // Laver string der passer til nuværende timetal til sammenligning i grafen 
         var today = new Date();
         var lol = new Date().getDate();
         var datedate = String(lol).padStart(2, '0');
         var date = today.getFullYear()+'-'+(today.getMonth()+1);
-        var time = today.getHours() + ":" + '00' + ":" + '00';
+        var time = today.getHours();
+        var timeuse = String(time).padStart(2, '0') + ":" + '00' + ":" + '00';
 
 
-        var dateTime = date+'-'+datedate+'T'+time;
+        var dateTime = date+'-'+datedate+'T'+timeuse;
        
         // Definere svg elementet som en variabel = bars og koble data og function for barer på 
         var bars = svg.selectAll()
@@ -85,8 +86,8 @@ function chart3(){
             return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(data_avg_hour3[i].SpotPriceDKK / 1000), 10)
           })
           
-    
         
+
 
         // Funktion som lager barer med afrundede kanter 
         function bar(x, y, w, h, r, f) {
@@ -104,19 +105,14 @@ function chart3(){
           var parts = ["M", x, y, l, x, y0, a, r, r, 0, 0, f, x0, y - h, l, x1, y - h, a, r, r, 0, 0, f, x + w, y0, l, x + w, y, "Z"];
           return parts.join(" ");
         }
-       
-        const tickLabels = [`0:00`, `1:00`, `2:00`, `3:00`, `4:00`,`5:00`, `6:00`, `7:00`, `8:00`, `9:00`,`10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`,`18:00`, `19:00`, `20:00`, `21:00`, `22:00`, `23:00`, `0:00`, `1:00`, `2:00`, `3:00`, `4:00`,`5:00`, `6:00`, `7:00`, `8:00`, `9:00`,`10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`,`18:00`, `19:00`, `20:00`, `21:00`, `22:00`, `23:00`]
-        
-        
 
-        const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour3.length]).range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length).tickFormat((d,i) => tickLabels[i]);
+          
+
+
+        const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour3.length]).range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length)
         svg.append("g")
           .attr("transform", "translate(51, " + (height - 20) + ")")
-          .call(xAxis)
-          .selectAll("text")
-          .attr("transform", "rotate(-65)")
-          .attr("y", "1.5em")
-          .attr("x", "-2em")
+          .call(xAxis);
 
         const yAxis = d3.axisLeft().scale(yScale).ticks();
         svg.append("g")
@@ -129,7 +125,8 @@ function chart3(){
 
 
 
-        console.log("Loading complete")
+        console.log("Loading complete");
+        console.log(timeuse);
      
       })
     }
