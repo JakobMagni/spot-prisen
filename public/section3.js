@@ -24,7 +24,7 @@ function chart3(){
 
 
         //Definere højde, bredde og svg elements attributter 
-        var width = 1000;
+        var width = (window.innerWidth * .6);
         var height = 500;
         var bottomPadding = 20;
         var sidePadding = 100;

@@ -1,7 +1,7 @@
 //section 2 linjediagram
 // LAVER LINJEDIAGRAM som er tomt ved load af siden 
 /* Graf variabler */
-var width = 1000
+var width = (window.innerWidth * .6);
 var height = 500
 
 const margin = { top: 20, right: 20, bottom: 20, left: 50 };
