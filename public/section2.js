@@ -40,7 +40,7 @@ svg.append('text')
     .attr('x', width / 2)
     .attr('y', height - 30)
     .attr('text-anchor', 'middle')
-    .style('font-family', 'Calibri')
+    .style('font-family', 'sans-serif')
     .style('font-size', 12)
     .style('fill', 'white')
     .text('Uge nummer');
@@ -49,10 +49,10 @@ svg.append('text')
 svg.append('text')
     .attr('id', 'y-label')
     .attr('text-anchor', 'middle')
-    .attr('transform', 'translate(130,' + ((height / 6.5) - 10) + ')')
-    .style('font-family', 'Helvetica')
+    .attr('transform', 'translate(110,' + ((height / 6.5) - 10) + ')')
+    .style('font-family', 'sans-serif')
     .style('font-size', 12)
-    .text('Gennemsnits elpris pr. uge (max /min)')
+    .text('Gennemsnitlig elpris pr. uge (max /min)')
     .style('fill', 'white');
 
 
@@ -154,12 +154,12 @@ function render() {
         if (total_forbrug) {
             svg.selectAll("#y-label")
                 .transition().duration(1500)
-                .text('Samlede omkostninger v. max /min pris (DKK)');
+                .text('Omkostning(DKK)');
         }
         if (total_forbrug) {
             svg.selectAll("#x-label")
                 .transition().duration(1500)
-                .text('Estimeret årlig forbrug(DKK) ved lavest og højest gennemsnits el-pris');
+                .text('Estimeret årlig forbrug(DKK) ved lavest og højest gennemsnitlig el-pris');
         }
 
         // FORSØG på at lave color gradient background 
@@ -380,5 +380,3 @@ function submit1() {
     document.getElementById('resultat').textContent = "Dit ugentlige forbrug " + total_forbrug.toFixed(2) + " kWh"  // Tilføjer dette til vors resultat-div/p og toFixed begrænser antal decimaler 
     render(); // Her kaldes endeligt render-funktionen, hver gang der trykkes submit! 
 }
-
-
