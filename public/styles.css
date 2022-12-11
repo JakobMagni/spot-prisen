@@ -211,6 +211,9 @@ body,html, text {
         100% {margin-top: 0;}
       }
   
+
+
+
       /* CHART CSS */
     
     #diagram1 {
@@ -232,6 +235,7 @@ body,html, text {
     } 
   
     /* FORM STYLING */
+
   
     label { width: 6em; float: left; text-align: center; margin: .5em 1em; clear: both;}
     input, textarea { margin: .5em 0; width: 10em; }
@@ -239,9 +243,6 @@ body,html, text {
     .kWh_total {
       width: 5em;
     }
-
-
-
 
   #resultat{
     font-size: x-large;
@@ -254,8 +255,12 @@ body,html, text {
   #counter {
     font-size: x-large;
   }
+  
 
-/*Tooltip til sidegraf3*/
+
+
+
+/*Tooltip til side 3 */
 
   #tooltip {
     position: absolute;
@@ -294,7 +299,7 @@ body,html, text {
   
 }
 
-/* Page 3 button styling */
+/* Side 3 knap styling */
 
 .page3button {
   width: 300px;
@@ -314,7 +319,7 @@ body,html, text {
 
 .page3button:before { /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
   content: '';
-  background: linear-gradient(45deg, #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000);
+  background: linear-gradient(45deg, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD);  /*  #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000); */
   position: absolute;
   top: -3px;
   left:-3px;
@@ -351,4 +356,14 @@ body,html, text {
     0% { background-position: 0 0; }
     50% { background-position: 400% 0; } /* Runs the larger backreound across the button and back to start again*/
     100% { background-position: 0 0; }
+}
+
+#minLabel {
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+#maxLabel {
+  font-size: 14px;
+  font-family: sans-serif;
 }

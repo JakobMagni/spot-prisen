@@ -1,16 +1,16 @@
 //section 2 linjediagram
-// LAVER LINJEDIAGRAM som er tomt ved load af siden 
+
 /* Graf variabler */
 var width = (window.innerWidth * .6);
 var height = 500
-
-const margin = { top: 20, right: 20, bottom: 20, left: 50 };
+const margin = { top: 20, right: 20, bottom: 50, left: 50 };
+var tooltip = { width: 100, height: 100, x: 10, y: -30 };
 
 
 // Domene og range for akserne 
 var xScale = d3.scaleLinear().domain([1, 53])
     .range([0, width - margin.left - margin.right]);
-var yScale = d3.scaleLinear().domain([0, 100]).range([height - margin.top - margin.bottom, 0]);
+var yScale = d3.scaleLinear().domain([0, 100]).range([height - margin.top - margin.bottom, 10]);
 
 //Definerer parametre for linje-funktion
 const line = d3.line()
@@ -22,7 +22,7 @@ const svg = d3.select("#diagram2")
     .append("svg")
     .attr("width", width)
     .attr("height", height).append("g")
-    .attr("transform", `translate(${margin.left}, 0)`)
+    .attr("transform", `translate(${margin.left},0)`)
 
 svg.append('text')
     .attr('id', 'x-label')
@@ -33,18 +33,7 @@ svg.append('text')
     .style('font-size', 20)
     .text('Gennemsnitlig lavest og højest elpris pr. uge (DKK)')
     .style('fill', 'white');
-    
 
-/* // X label
-svg.append('text')
-    .attr('x', width / 2)
-    .attr('y', height - 30)
-    .attr('text-anchor', 'middle')
-    .style('font-family', 'Calibri')
-    .style('font-size', 12)
-    .style('fill', 'white')
-    .text('Uge nummer');
- */
 // Y label
 svg.append('text')
     .attr('id', 'y-label')
@@ -94,15 +83,6 @@ function render() {
             // FORSØG PÅ AT LAVE numbercounter i besparelsesfeltet (OPDATERING 08.12.22 )
             let moneySaved = (parseFloat(maxAvgWeeklySum) - parseFloat(minAvgWeeklySum)).toFixed(2)
             console.log("Besparelse " + moneySaved)
-
-            // En sleeping function, hvor man kan calle den med eks 1000, så forsinker vi loaden med 1 sekund... Virkede ikke på counteren som ønsket 
-            /*   function sleep(milliseconds) {
-                const date = Date.now();
-                let currentDate = null;
-                do {
-                  currentDate = Date.now();
-                } while (currentDate - date < milliseconds);
-              } */
 
 
             // COUNTER funktion, som tæller op til besparelses-beløbet 
@@ -206,13 +186,11 @@ function render() {
                 .attr('in', 'SourceGraphic');
         }
 
-        // FORSØG på at lave gradierende linje 
-        
-
 
         svg.append('defs');
         svg.call(createGradient);
         svg.call(createGlowFilter);
+
 
 
 
@@ -258,10 +236,12 @@ function render() {
             .transition()
             .attr("d", line)
             .attr('d', d => {
+
+                
                 const lineValues = line(d).slice(1);
                 const splitedValues = lineValues.split(',');
 
-                return `M0,${height},${lineValues},l0,${height - splitedValues[splitedValues.length - 1]}`
+                return `M0,${height},${lineValues},l0,${height - splitedValues[splitedValues.length-1]}`
             })
             .duration(7000)
             .attrTween("stroke-dasharray", tweenDash) // Her bruger vi growing line funktionen som er defineret længere oppe 
@@ -269,15 +249,43 @@ function render() {
                 '#ffffff'
             )
 
+            if (svg.selectAll("#minLabel").empty()) {
+                svg.append("text")
+                .attr("id", "minLabel")
+                .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[0][newDataArray[0].length-1].y)+")")
+                .attr("text-anchor", "start")
+                .style("fill", "white")
+          
+                svg.append("text")
+                .attr("id", "maxLabel")
+                .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[1][newDataArray[0].length-1].y)+")")
+                .attr("text-anchor", "start")
+                .style("fill", "white")
+            } else {
+                    let minToolTip = svg.selectAll("#minLabel")
+                    .transition().duration(7000)
+                    .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[0][newDataArray[0].length-1].y)+")")
+                    .text(newDataArray[0][newDataArray[1].length-1].y.toFixed(2) + ' DKK');
+              
+                    let maxToolTip = svg.selectAll("#maxLabel")
+                    .transition().duration(7000)
+                    .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[1][newDataArray[0].length-1].y)+")")
+                    .text(newDataArray[1][newDataArray[1].length-1].y.toFixed(2) + ' DKK');
+                    
+            }
     })
 
-}
 
-// Her kalder vi render funktionen ved page-load (Bliver også kaldt ved tryk på "beregn" knappen. )
+
+} // Her slutter render-funktionen 
+// Nu kalder vi render funktionen ved page-load (Bliver også kaldt ved tryk på "beregn" knappen. 
+
+
+
 render();
 
 
-// Nedenunder beregninger for det samlede forbrug (total_forbrug) baseret på input-værdierne vi får fra "brugeren" 
+// Nedenunder beregninger for det samlede forbrug (total_forbrug) baseret på input-værdierne vi får fra "brugeren" via formularet 
 
 /*  tørretumbler beregning*/
 let total_forbrug;

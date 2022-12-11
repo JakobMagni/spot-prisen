@@ -33,7 +33,7 @@ function chart3() {
 
       // Skalering 
       var xScale = d3.scaleBand().domain(d3.range(data_avg_hour3.length)).range([width, 51]).padding(.05)
-      var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => (d.SpotPriceDKK / 1000) + 0.5)]).range([height - bottomPadding, 75]);
+      var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => (d.SpotPriceDKK / 1000) + 1.5)]).range([height - bottomPadding, 75]);
 
 
 
@@ -95,7 +95,7 @@ function chart3() {
         .transition()
         .duration(4000)
         .attr("d", function (d, i) {
-          return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(data_avg_hour3[i].SpotPriceDKK / 1000), 10)   /* + 1.01229) * 1.25, 10) */
+          return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale((data_avg_hour3[i].SpotPriceDKK / 1000) + 1.01229) * 1.25,10)  // Tilføjet regnestykket oppefra fra længere oppe 
         })
 
       // create tooltip element  
@@ -184,10 +184,10 @@ function chart3() {
       svg.append('text')
         .attr('id', 'y-label')
         .attr('text-anchor', 'middle')
-        .attr('transform', 'translate(160,' + ((height / 4.8) - 2) + ')')
+        .attr('transform', 'translate(110,' + ((height / 4.8) - 2) + ')')
         .style('font-family', 'Sans-serif')
         .style('font-size', 12)
-        .text('Spotpris (eksl.moms,tarif og el-afgift)')
+        .text('Elpris pr.time')
         .style('fill', 'white')
 
 

@@ -171,7 +171,7 @@ d3.json("/api/avg_timepris", {
     svg.append('text')
     .attr('id', 'y-label')
     .attr('text-anchor', 'middle')
-    .attr('transform', 'translate(130,' + ((height / 4) - 5) + ')')
+    .attr('transform', 'translate(140,' + ((height / 4) - 5) + ')')
     .style('font-family', 'Sans-serif')
     .style('font-size', 12)
     .text('Gennemsnitlig el-pris pr.time (DKK)')
