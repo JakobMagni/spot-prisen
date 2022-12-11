@@ -35,7 +35,7 @@ svg.append('text')
     .style('fill', 'white');
     
 
-// X label
+/* // X label
 svg.append('text')
     .attr('x', width / 2)
     .attr('y', height - 30)
@@ -44,15 +44,15 @@ svg.append('text')
     .style('font-size', 12)
     .style('fill', 'white')
     .text('Uge nummer');
-
+ */
 // Y label
 svg.append('text')
     .attr('id', 'y-label')
     .attr('text-anchor', 'middle')
-    .attr('transform', 'translate(130,' + ((height / 6.5) - 10) + ')')
+    .attr('transform', 'translate(130,' + ((height / 6.5) - 40) + ')')
     .style('font-family', 'Helvetica')
     .style('font-size', 12)
-    .text('Gennemsnits elpris pr. uge (max /min)')
+    .text('Gennemsnitlig elpris pr. uge (max /min)')
     .style('fill', 'white');
 
 
