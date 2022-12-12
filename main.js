@@ -33,7 +33,7 @@ const DB_PORT = process.env.DB_PORT || 5432;
 if (!process.env.DB_NAME || !process.env.DB_PW || !process.env.DB_USER) {
   console.warn("Husk at sætte databasenavn, password og user via env vars.");
   console.warn("Eksempel på at sætte databasenavn i terminalen:");
-  console.warn(`export DB_NAME="kristians-database"`);
+  console.warn(`export DB_NAME="spot-prisen"`);
   console.warn("Lige nu er databasenavn sat til:", DB_NAME);
 } else {
   console.log("Postgres database:", DB_NAME);

@@ -42,7 +42,7 @@ function chart3() {
 
       // Farver 
       var color = d3.scaleLinear()
-        .domain([2500, 3200])
+        .domain([2600, 3200])
         .range(["#8B43C0", "#FF00DD"]);
         
       var today = new Date()
