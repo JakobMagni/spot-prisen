@@ -9,8 +9,8 @@ var tooltip = { width: 100, height: 100, x: 10, y: -30 };
 
 // Domene og range for akserne 
 var xScale = d3.scaleLinear().domain([1, 53])
-    .range([0, width - margin.left - margin.right]);
-var yScale = d3.scaleLinear().domain([0, 100]).range([height - margin.top - margin.bottom, 10]);
+    .range([1, width - margin.left - margin.right - 10]);
+var yScale = d3.scaleLinear().domain([, 100]).range([height - margin.top  - margin.bottom, 10]);
 
 //Definerer parametre for linje-funktion
 const line = d3.line()
@@ -20,28 +20,28 @@ const line = d3.line()
 
 const svg = d3.select("#diagram2")
     .append("svg")
-    .attr("width", width)
-    .attr("height", height).append("g")
-    .attr("transform", `translate(${margin.left},0)`)
+    .attr("width", width + 10)
+    .attr("height", height + margin.top ).append("g")
+    .attr("transform", `translate(${margin.left -5},-15)`)
 
 svg.append('text')
     .attr('id', 'x-label')
     .attr('x', width / 2)
-    .attr('y', 20)
+    .attr('y', 30)
     .attr('text-anchor', 'middle')
-    .style('font-family', 'Helvetica')
+    .style('font-family', 'Sans-serif')
     .style('font-size', 20)
-    .text('Gennemsnitlig lavest og højest elpris pr. uge (DKK)')
+    .text('Gennemsnitlig lavest og højest elpris pr. uge (2021) (DKK)')
     .style('fill', 'white');
 
 // Y label
 svg.append('text')
     .attr('id', 'y-label')
     .attr('text-anchor', 'middle')
-    .attr('transform', 'translate(130,' + ((height / 6.5) - 40) + ')')
-    .style('font-family', 'Helvetica')
-    .style('font-size', 12)
-    .text('Gennemsnitlig elpris pr. uge (max /min)')
+    .attr('transform', 'translate(60,' + ((height / 6.5) - 30) + ')')
+    .style('font-family', 'Sans-serif')
+    .style('font-size', 14)
+    .text('Kroner (DKK)')
     .style('fill', 'white');
 
 
@@ -77,9 +77,6 @@ function render() {
             }
             //Tager et element og tilføjer textContent og pris som vises under form
             /* document.getElementById('besparelse').textContent = "Din årlige besparelse: " + (parseFloat(maxAvgWeeklySum) - parseFloat(minAvgWeeklySum)).toFixed(2) + " DKK" */
-
-
-
             // FORSØG PÅ AT LAVE numbercounter i besparelsesfeltet (OPDATERING 08.12.22 )
             let moneySaved = (parseFloat(maxAvgWeeklySum) - parseFloat(minAvgWeeklySum)).toFixed(2)
             console.log("Besparelse " + moneySaved)
@@ -96,22 +93,24 @@ function render() {
                     count.innerHTML = moneySaved
                 }
             }
-
         }
         // 
 
         //Det nye datasæt, som afhænger af input values og som vi bruger nedenunder når vi tegner linjerne 
         const newDataArray = [minArray, maxArray]
 
-        yScale = d3.scaleLinear().domain([0, d3.max(newDataArray[1], (d) => d.y)]).range([height - 25, 20]);
+        yScale = d3.scaleLinear().domain([0, d3.max(newDataArray[1], (d) => d.y) + 0.5]).range([height, 30]);
+
         // create axis scale
         const xAxis = d3.axisBottom().scale(xScale).ticks(52)
         const yAxis = d3.axisLeft().scale(yScale)
 
-        // if no axis exists, create one, otherwise update it
+
+        // Hvis der ikke findes en y akse så laver vi en, ellers opdaterer vi den allerede eksisterende
         if (svg.selectAll(".y.axis").empty()) {
             svg.append("g")
                 .attr("class", "y axis")
+             /*    .attr("transform", "translate(1," + (-10) + ")") */
                 .call(yAxis);
         } else {
             svg.selectAll(".y.axis")
@@ -120,11 +119,11 @@ function render() {
         
         }
 
-        // if no axis exists, create one, otherwise update it
+        // Hvis der ikke findes en x akse (if empty) så laver vi en, ELLER opdaterer den allerede eksisterende  
         if (svg.selectAll(".x.axis").empty()) {
             svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(2.3," + (height - 20) + ")")
+                .attr("class", "xAxis")
+                .attr("transform", "translate(0," + (height) + ")")
                 .call(xAxis);
         } else {
             svg.selectAll(".x.axis")
@@ -132,18 +131,20 @@ function render() {
                 .call(xAxis);
         }
 
+        // Hvis total_forbrug er i spil tilføj tekst til y label (Skifter ved skift af diagram)
         if (total_forbrug) {
             svg.selectAll("#y-label")
                 .transition().duration(1500)
-                .text('Samlede omkostninger v. max /min pris (DKK)');
+                .text('Kroner (DKK)');
         }
+        // Hvis total_forbrug er i spil tilføj tekst til x label (skifter ved skift af diagram)
         if (total_forbrug) {
             svg.selectAll("#x-label")
                 .transition().duration(1500)
                 .text('Estimeret årlig forbrug(DKK) ved lavest og højest gennemsnits el-pris');
         }
 
-        // FORSØG på at lave color gradient background 
+        // Function der skaber gradierende og glødende  farver 
         const createGradient = select => {
             const gradient = select
                 .select('defs')
@@ -195,17 +196,17 @@ function render() {
 
 
 
-        // HER LAVES GROWING LINES FUNKTIONEN 
+        // Funktion som laver "growing" linjer til diagrammet. Der tegnes en linje i form af en rect (ref. koordinater)
         function tweenDash() {
             var that = this;
             return function (t) {
                 var l = that.getTotalLength();
-                interpolate = d3.interpolateString("0," + l, l + "," + l);
+                interpolate = d3.interpolateString("0," + l , l + "," + l);
                 return interpolate(t);
             }
         }
 
-        // GENERERER LINJE PATHS 
+        // Genererer paths til linjediagrammet 
         const lines = svg.selectAll(".line")
             .data(newDataArray)
             .attr("class", "line")
@@ -219,12 +220,12 @@ function render() {
         lines.enter()
             .append("path")
             .attr("class", "line")
-            .attr("d", line)
+            /* .attr("d", line) */
             .attr('d', d => {
                 const lineValues = line(d).slice(1);
                 const splitedValues = lineValues.split(',');
 
-                return `M0,${height},${lineValues},l0,${height - splitedValues[splitedValues.length - 1]}`
+                return `M0,${height},${lineValues},l1,${height - splitedValues[splitedValues.length-1]}`
             })
             .style("stroke", () =>
                 '#ffffff'
@@ -235,12 +236,14 @@ function render() {
             // Update new data
             .merge(lines)
             .transition()
-            .attr("d", line)
+           /*  .attr("d", line) */
             .attr('d', d => {
 
                 
                 const lineValues = line(d).slice(1);
                 const splitedValues = lineValues.split(',');
+
+                console.log(splitedValues[splitedValues.length-2])
 
                 return `M0,${height},${lineValues},l0,${height - splitedValues[splitedValues.length-1]}`
             })
@@ -248,7 +251,7 @@ function render() {
             .attrTween("stroke-dasharray", tweenDash) // Her bruger vi growing line funktionen som er defineret længere oppe 
             .style("stroke", () =>
                 '#ffffff'
-            )
+            ).attr("stroke-dashoffset", 2)
 
             if (svg.selectAll("#minLabel").empty()) {
                 svg.append("text")
@@ -312,10 +315,10 @@ document.addEventListener("DOMContentLoaded", () => {
 //  Funktion beregner kwh per gang afhængig af alder på apparat 
 function tør_brug() {
     if (tør_alder_value == "ny") {
-        document.getElementById('tør_brug').value = (2.35 * tør_gange_value)
+        document.getElementById('tør_brug').value = (2.35 * tør_gange_value).toFixed(2)
     }
     else {
-        document.getElementById('tør_brug').value = (2.65 * tør_gange_value)
+        document.getElementById('tør_brug').value = (2.65 * tør_gange_value).toFixed(2)
     }
 }
 
@@ -342,14 +345,14 @@ document.addEventListener("DOMContentLoaded", () => {
 //  Funktion beregner kwh per gang afhængig af alder på apparat 
 function vask_brug() {
     if (vask_alder_value == "ny") {
-        document.getElementById('vask_brug').value = (0.68 * vask_gange_value)
+        document.getElementById('vask_brug').value = (0.68 * vask_gange_value).toFixed(2)
     }
     else {
-        document.getElementById('vask_brug').value = (0.89 * vask_gange_value)
+        document.getElementById('vask_brug').value = (0.89 * vask_gange_value).toFixed(2)
     }
 }
 
-/* Opvaskemaskine beregning*/
+/* Opvaskemaskine beregning */
 let opvask_alder_value = "ny"
 let opvask_gange_value = 0
 
@@ -372,10 +375,10 @@ document.addEventListener("DOMContentLoaded", () => {
 //  Funktion beregner kwh per gang afhængig af alder på apparat 
 function opvask_brug() {
     if (opvask_alder_value == "ny") {
-        document.getElementById('opvask_brug').value = (0.85 * opvask_gange_value)
+        document.getElementById('opvask_brug').value = (0.85 * opvask_gange_value).toFixed(2)
     }
     else {
-        document.getElementById('opvask_brug').value = (1.04 * opvask_gange_value)
+        document.getElementById('opvask_brug').value = (1.04 * opvask_gange_value).toFixed(2)
     }
 
 }

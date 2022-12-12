@@ -173,7 +173,7 @@ d3.json("/api/avg_timepris", {
     .attr('text-anchor', 'middle')
     .attr('transform', 'translate(140,' + ((height / 4) - 5) + ')')
     .style('font-family', 'Sans-serif')
-    .style('font-size', 12)
+    .style('font-size', 14)
     .text('Gennemsnitlig el-pris pr.time (DKK)')
     .style('fill', 'white')
 
