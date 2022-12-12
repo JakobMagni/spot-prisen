@@ -178,8 +178,138 @@ body,html, text {
       border-right: 2px solid #fff;
       transform: translate(-50%, 0%) rotate(45deg);
       animation: fade_move_down 5s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    /* Datasource styling and popover (Left) */
+    .popover-wrapper-left {
+      position: absolute;
+      right: 95%;
+      bottom: 2rem;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .popover_title_left {
+      padding-top: 10px;
+      color: #6274bd;
+      font-size: 15px;
+      text-decoration: none;
+      text-shadow: 0;
     }
     
+    .popover-wrapper-left > a {
+      text-decoration: none;
+      color: #6274bd;
+    }
+
+    .popover_content_left {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: -160px;
+      left: 0px;
+      transform: translate(0, 10px);
+      background-color: #ffffff54;
+      padding: 1.5rem;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      width: 20em;
+      border-bottom: 13px;
+      border-style: solid;
+      border-color: transparent;
+    }
+
+    .section-2 .popover_content_left {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: -180px;
+      left: 0px;
+      transform: translate(0, 10px);
+      background-color: #ffffff54;
+      padding: 1.5rem;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      width: 20em;
+      border-bottom: 13px;
+      border-style: solid;
+      border-color: transparent;
+    }
+
+    .popover_content_left:before {
+      position: absolute;
+      z-index: -1;
+      content: "";
+      transition-duration: 0.5s;
+      transition-property: transform;
+      border-bottom: 13px;
+      border-style: solid;
+      border-color: transparent;
+    }
+
+    .popover-wrapper-left:hover .popover_content_left {
+      z-index: 10;
+      opacity: 1;
+      visibility: visible;
+      transform: translate(0, -20px);
+      transition: all 1s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+    }
+
+    /* Datasource styling and popover (Right) */
+    .popover-wrapper-right {
+      position: absolute;
+      left: 90%;
+      bottom: 2rem;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .popover_title_right {
+      padding-top: 10px;
+      color: #6274bd;
+      font-size: 15px;
+      text-decoration: none;
+      text-shadow: 0;
+    }
+    
+    .popover-wrapper-right > a {
+      text-decoration: none;
+      color: #6274bd;
+    }
+
+    .popover_content_right {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      bottom: 25px;
+      right: 2%;
+      transform: translate(0, 10px);
+      background-color: #ffffff54;
+      padding: 1.5rem;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      width: 20em;
+      border-bottom: 13px;
+      border-style: solid;
+      border-color: transparent;
+    }
+
+    .popover_content_right:before {
+      position: absolute;
+      z-index: -1;
+      content: "";
+      transition-duration: 0.5s;
+      transition-property: transform;
+      border-bottom: 13px;
+      border-style: solid;
+      border-color: transparent;
+    }
+
+    .popover-wrapper-right:hover .popover_content_right {
+      z-index: 10;
+      opacity: 1;
+      visibility: visible;
+      transform: translate(0, -20px);
+      transition: all 1s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+    }
     
     /*Scroll arrow animation timings*/
     @keyframes fade_move_down {

@@ -44,9 +44,24 @@
         <p>Men kan det overhovedet betale sig at stå tidligt op for at jagte den billige strøm? - Indtast dine apparater
           på næste side, og døm selv om der er tale om en gevinst der er værd at kæmpe for!</p>
       </div>
-      <a href="#second">
-        <div class="scroll-down"></div>
-      </a>
+        <div class="popover-wrapper-left"><a href="#"><h2 class="popover_title_left">Datakilder</h2></a>
+        <div class="popover_content_left">
+          <p>Elafgift for 2021: <a href="https://www.pwc.dk/da/afgiftsvejledningen/godtgorelse-satser.html#content-free-1-990a-par_tabsnewhome5" target="_blank">pwc.dk</a></p>
+          <p>Eltariffer for 2021: <a href="https://energinet.dk/El/Elmarkedet/Tariffer/Aktuelle-tariffer" target="_blank">energinet.dk</a></p>
+          <p>Spotpriser for 2021: <a href="https://www.energidataservice.dk/tso-electricity/Elspotprices" target="_blank">energidataservice.dk</a></p>
+        </div>
+      </div>
+      
+        <a href="#second">
+          <div class="scroll-down"></div>
+        </a>
+        <div class="popover-wrapper-right"><a href="#"><h2 class="popover_title_right">Hvordan har vi regnet?</h2></a>
+          <div class="popover_content_right">
+            <p>Grafen på denne side viser gennemsnitsprisen per time udregnet over hele år 2021. Beregningen bygger på historiske data om elspotprisen fra energidataservice hvortil tariffer, afgift og moms er tilføjet. </p>
+            <p>Herefter er gennemsnittet udregnet ved at tage alle datapunkter for hvert timetal, lægge dem sammen og dividere dem med antalet af datapunkterne i udvalget.</p>
+          </div>
+        </div>
+      
     </section>
 
     <section class="section section-2" id="second">
@@ -126,18 +141,29 @@
           <p id="resultat"> </p>
           <!-- Nedenunder: Givet paragrapher og div samme classe for at kunne placere dem ved siden af hinanden med display:inline-block i CSS-->
           <p id="besparelse" class="tekstFelt"> Din teoretiske besparelse: </p> <div id="counter" class="tekstFelt"> </div><p class="tekstFelt"> &nbsp;DKK/år</p>
-
-
-          <!-- SIDE 3 -->
-
         </div>
       </div>
       <div id="diagram2" class="col col1"></div>
-      <a href="#third">
-        <div class="scroll-down"></div>
-      </a>
+      <div class="popover-wrapper-left"><a href="#"><h2 class="popover_title_left">Datakilder</h2></a>
+        <div class="popover_content_left">
+          <p>Elafgift for 2021: <a href="https://www.pwc.dk/da/afgiftsvejledningen/godtgorelse-satser.html#content-free-1-990a-par_tabsnewhome5" target="_blank">pwc.dk</a></p>
+          <p>Apparatforbrug: <a href="https://sparenergi.dk/forbruger/vaerktojer/apparatberegner" target="_blank">sparenergi.dk</a></p>
+          <p>Eltariffer for 2021: <a href="https://energinet.dk/El/Elmarkedet/Tariffer/Aktuelle-tariffer" target="_blank">energinet.dk</a></p>
+          <p>Spotpriser for 2021: <a href="https://www.energidataservice.dk/tso-electricity/Elspotprices" target="_blank">energidataservice.dk</a></p>
+        </div>
+      </div>
+      
+        <a href="#third">
+          <div class="scroll-down"></div>
+        </a>
+        <div class="popover-wrapper-right"><a href="#"><h2 class="popover_title_right">Hvordan har vi regnet?</h2></a>
+          <div class="popover_content_right">
+            <p>TEKST HER </p>
+            <p>DEREFTER STYLING SÅ BOKSEN PASSER OVER TEKSTEN</p>
+          </div>
+        </div>
     </section>
-
+        <!-- SIDE 3 -->
     <section class="section section-3" id="third">
 
       <div class="col col1" id="diagram3"></div>
@@ -148,7 +174,19 @@
         <button class="page3button" onclick="chart3();onclick=submit1();">Find den billigste time for Vest Danmark!</button>
         <button class="page3button2" onclick="chart4();onclick=submit1();">Find den billigste time for Øst Danmark!</button>
       </div>
-
+      <div class="popover-wrapper-left"><a href="#"><h2 class="popover_title_left">Datakilder</h2></a>
+        <div class="popover_content_left">
+          <p>Elafgift for 2021: <a href="https://www.pwc.dk/da/afgiftsvejledningen/godtgorelse-satser.html#content-free-1-990a-par_tabsnewhome5" target="_blank">pwc.dk</a></p>
+          <p>Eltariffer for 2021: <a href="https://energinet.dk/El/Elmarkedet/Tariffer/Aktuelle-tariffer" target="_blank">energinet.dk</a></p>
+          <p>Spotpriser for 2021: <a href="https://www.energidataservice.dk/tso-electricity/Elspotprices" target="_blank">energidataservice.dk</a></p>
+        </div>
+      </div>
+      <div class="popover-wrapper-right"><a href="#"><h2 class="popover_title_right">Hvordan har vi regnet?</h2></a>
+        <div class="popover_content_right">
+          <p>Grafen på denne side viser de aktuelle elpriser over en 48 timer lang periode. Dataen hentes direkte fra Energinet og opdateres ca. klokken 13 hver dag. </p>
+          <p>Til elspotprisen fra Energinet er der tilføjet tariffer, elafgift og moms for at give et mere retbisende billede af reel-udgifterne i de pågældende timer.</p>
+        </div>
+      </div>
     </section>
   </main>
 </body>
