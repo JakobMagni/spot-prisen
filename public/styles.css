@@ -256,6 +256,19 @@ body,html, text {
     font-size: x-large;
   }
   
+  /* Farver y-axis hvid*/
+  .y.axis line{
+    stroke: white;
+  }
+  
+  .y.axis path{
+    stroke: white;
+  }
+  
+  .y.axis text{
+    fill: white;
+  }  
+  
 
 
 
