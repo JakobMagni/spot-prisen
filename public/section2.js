@@ -103,7 +103,7 @@ function render() {
         //Det nye datasæt, som afhænger af input values og som vi bruger nedenunder når vi tegner linjerne 
         const newDataArray = [minArray, maxArray]
 
-        yScale = d3.scaleLinear().domain([0, d3.max(newDataArray[1], (d) => d.y)]).range([height - 20, 20]);
+        yScale = d3.scaleLinear().domain([0, d3.max(newDataArray[1], (d) => d.y)]).range([height - 25, 20]);
         // create axis scale
         const xAxis = d3.axisBottom().scale(xScale).ticks(52)
         const yAxis = d3.axisLeft().scale(yScale)
@@ -117,13 +117,14 @@ function render() {
             svg.selectAll(".y.axis")
                 .transition().duration(1500)
                 .call(yAxis);
+        
         }
 
         // if no axis exists, create one, otherwise update it
         if (svg.selectAll(".x.axis").empty()) {
             svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(0," + (height - 20) + ")")
+                .attr("transform", "translate(2.3," + (height - 20) + ")")
                 .call(xAxis);
         } else {
             svg.selectAll(".x.axis")
@@ -265,12 +266,12 @@ function render() {
                     let minToolTip = svg.selectAll("#minLabel")
                     .transition().duration(7000)
                     .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[0][newDataArray[0].length-1].y)+")")
-                    .text(newDataArray[0][newDataArray[1].length-1].y.toFixed(2) + ' DKK');
+                    .text(newDataArray[0][newDataArray[1].length-1].y.toFixed(1) + ' DKK');
               
                     let maxToolTip = svg.selectAll("#maxLabel")
                     .transition().duration(7000)
                     .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[1][newDataArray[0].length-1].y)+")")
-                    .text(newDataArray[1][newDataArray[1].length-1].y.toFixed(2) + ' DKK');
+                    .text(newDataArray[1][newDataArray[1].length-1].y.toFixed(1) + ' DKK');
                     
             }
     })
