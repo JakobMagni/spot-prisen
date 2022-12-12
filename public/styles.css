@@ -315,6 +315,7 @@ body,html, text {
   transition: 0.5s ease-in-out;
   border-width: 1px;
   border-color: white;
+  margin-bottom: 10px;
 }
 
 .page3button:before { /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
@@ -342,6 +343,75 @@ body,html, text {
 }
 
 .page3button:after { /* On hover, make background darkblue so only the edges of the animation is shown to create 'glow' effect*/
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #212845;
+  left: 0;
+  top: 0;
+}
+
+@keyframes glowing { /* Animation to move the gradient */
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; } /* Runs the larger backreound across the button and back to start again*/
+    100% { background-position: 0 0; }
+}
+
+#minLabel {
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+#maxLabel {
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+/* Side 3 knap DK2 styling */
+
+.page3button2 {
+  width: 300px;
+  height: 50px;
+  color: #ffffff;
+  background: #212845;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 4px;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  transition: 0.5s ease-in-out;
+  border-width: 1px;
+  border-color: white;
+}
+
+.page3button2:before { /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
+  content: '';
+  background: linear-gradient(45deg, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD);  /*  #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000); */
+  position: absolute;
+  top: -3px;
+  left:-3px;
+  background-size: 400%; /* Increasing background size to make sure the animation can actually move.*/
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 5px);
+  height: calc(100% + 5px);
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+}
+
+.page3button2:hover { /* On hover, increase button size slightly*/
+    transform: scale(1.05);
+}
+
+.page3button2:hover:before { /* On hover, make above gradient animation visible for full background*/
+  opacity: 1;
+}
+
+.page3button2:after { /* On hover, make background darkblue so only the edges of the animation is shown to create 'glow' effect*/
   z-index: -1;
   content: '';
   position: absolute;
