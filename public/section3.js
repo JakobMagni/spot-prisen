@@ -60,18 +60,14 @@ function chart3() {
         .attr("d", function (d) {
           return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
         })
-        .on("mouseover", function (event, d) {
-          tooltip.text(function (d) {
-            //console.log("event consolelog", event.target)
-            //console.log("tooltip console.log", d.SpotPriceDKK)
-              return (d.SpotPriceDKK)//.forEach(d.id)
-          })
-            .style("visibility", "visible");
-        })
-        .on("mousemove", function () {
-          tooltip
-            .style("top", (event.pageY - 10) + "px")
-            .style("left", (event.pageX + 10) + "px");
+        .on("mouseover", function (event, d) { 
+          /* 
+          * Her havde i lavet en ekstra funktion inde i tooltip.text som returnede d.SpotPriceDKK med parameteret 'd', som overskrev mouseover funktionens 'd' parameter.
+          * Dette gjorde at i stedet for at få det _ene_ datapunkt, som musen hoverede over, så blev tooltip blev kaldt data_avg_hour3.length gange. . 
+          */ 
+          tooltip.text((d.SpotPriceDKK/1000.00).toFixed(2) + " DKK").style("top", (event.y - 10) + "px")
+          .style("left", (event.x + 10) + "px")
+          .style("visibility", "visible");
         })
         .on("mouseout", function () {
           tooltip.html(``).style("visibility", "hidden");
