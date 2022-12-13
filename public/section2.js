@@ -150,20 +150,20 @@ function render() {
                 .select('defs')
                 .append('linearGradient')
                 .attr('id', 'gradient')
-                .attr('x1', '50%')
+                .attr('x1', '60%')
                 .attr('y1', '100%')
-                .attr('x2', '0%')
+                .attr('x2', '50%')
                 .attr('y2', '0%');
 
             gradient
                 .append('stop')
                 .attr('offset', '0%')
-                .attr('style', 'stop-color:#3FF4EB;stop-opacity:0.05');
+                .attr('style', 'stop-color:#3FF4EB;stop-opacity:0.1');
 
             gradient
                 .append('stop')
                 .attr('offset', '100%')
-                .attr('style', 'stop-color:#3FF4EB;stop-opacity:.5');
+                .attr('style', 'stop-color:#FF00DD;stop-opacity:.9');
         }
 
         const createGlowFilter = select => {
@@ -212,11 +212,11 @@ function render() {
             .attr("class", "line")
 
 
-        // EXIT DATA 
+        // Fjerner bare eksisterende datapunkter 
         lines.exit()
             .remove();
 
-        // TILFØRER EVT. NYE DATA 
+        // Tilfører data igen og evt. nye data 
         lines.enter()
             .append("path")
             .attr("class", "line")
@@ -282,9 +282,7 @@ function render() {
 
 
 } // Her slutter render-funktionen 
-// Nu kalder vi render funktionen ved page-load (Bliver også kaldt ved tryk på "beregn" knappen. 
-
-
+// Nu kalder vi render funktionen ved page-load (Bliver også kaldt igen ved tryk på "beregn" knappen. )
 
 render();
 

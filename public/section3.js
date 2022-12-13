@@ -29,15 +29,15 @@ function chart3() {
 
 
       // Skalering 
-      var xScale = d3.scaleBand().domain(d3.range(data_avg_hour3.length)).range([width, 51]).padding(.05)
-      var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => (d.SpotPriceDKK / 1000) + 1.5)]).range([height - bottomPadding, 75]);
+      var xScale = d3.scaleBand().domain(d3.range(data_avg_hour3.length)).range([width, 51]).padding(0.05).paddingInner(0.12)
+      var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => ((d.SpotPriceDKK / 1000) + 1.01229) * 1.25) + 1]).range([height - bottomPadding, 125]);
 
 
       // Farver 
       var color = d3.scaleLinear()
         .domain([1600, 4000])
         .range(["#FF00DD", "#8B43C0"]); //
-        
+
 
       var today = new Date()
       // Laver string der passer til nuværende timetal til sammenligning i grafen 
@@ -50,65 +50,6 @@ function chart3() {
 
 
       var dateTime = date + '-' + datedate + 'T' + timeuse;
-
-
-      // Definere svg elementet som en variabel = bars og koble data og function for barer på 
-      var bars = svg.selectAll("body")
-        .data(data_avg_hour3)
-        .enter()
-        .append("path")
-        .attr("d", function (d) {
-          return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
-        })
-        .on("mouseover", function (event, d) { 
-          /* 
-          * Her havde i lavet en ekstra funktion inde i tooltip.text som returnede d.SpotPriceDKK med parameteret 'd', som overskrev mouseover funktionens 'd' parameter.
-          * Dette gjorde at i stedet for at få det _ene_ datapunkt, som musen hoverede over, så blev tooltip blev kaldt data_avg_hour3.length gange. . 
-          */ 
-          tooltip.text((d.SpotPriceDKK/1000.00).toFixed(2) + " DKK").style("top", (event.y - 10) + "px")
-          .style("left", (event.x + 10) + "px")
-          .style("visibility", "visible");
-        })
-        .on("mouseout", function () {
-          tooltip.html(``).style("visibility", "hidden");
-         // d3.select(this).attr("fill", '#FFFFFF'); //Gør bars hvide når man mouser over dem
-        })
-        .attr("fill", function (d) { return color(d.SpotPriceDKK) })
-        .style("fill", function (d) {                     //Funktion som skifter farven på den bar der repræsentere den nuværende timepris
-          if (d.HourDK == dateTime) {
-            return "#3FF4EB"
-          }
-        })
-        
-        .attr("opacity", function (d) {                   //Sænker oppacity en smule på den nuværende timepris, så den passer bedre ind
-          if (d.HourDK == dateTime) {
-            return "0.8"
-          }
-        })
-        .transition()
-        .duration(4000)
-        .attr("d", function (d, i) {
-          return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale((data_avg_hour3[i].SpotPriceDKK / 1000) + 1.01229) * 1.25, 10)  // Tilføjet regnestykket oppefra fra længere oppe 
-        })
-        
-
-      // create tooltip element  
-      const tooltip = d3.select("body")
-        .data(data_avg_hour3)
-        .enter()
-        .text(function (d) {
-          return +(Math.round(d.SpotPriceDKK));
-        })
-        .append("div")
-        .attr("class", "d3-tooltip")
-        .style("position", "absolute")
-        .style("z-index", "10")
-        .style("visibility", "hidden")
-        .style("padding", "15px")
-        .style("background", "rgba(0,0,0,0.6)")
-        .style("border-radius", "5px")
-        .style("color", "#fff")
-        .text("a simple tooltip");
 
 
       // Funktion som lager barer med afrundede kanter 
@@ -128,6 +69,84 @@ function chart3() {
         return parts.join(" ");
       }
 
+      // create tooltip element  til mouseover funktion 
+      const tooltip = d3.select("body")
+        .data(data_avg_hour3)
+        .enter()
+        .append("div")
+        .attr("class", "d3-tooltip")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .style("padding", "15px")
+        .style("background", "rgba(0,0,0,0.6)")
+        .style("border-radius", "5px")
+        .style("color", "#ffffff")
+        .text("a simple tooltip");
+
+
+      //Container for the gradients
+      var defs = svg.append("defs");
+
+      //Filter for the outside glow
+      var filter = defs.append("filter")
+        .attr("id", "glow");
+      filter.append("feGaussianBlur")
+        .attr("stdDeviation", "1")
+        .attr("result", "coloredBlur");
+      var feMerge = filter.append("feMerge");
+      feMerge.append("feMergeNode")
+        .attr("in", "coloredBlur");
+      feMerge.append("feMergeNode")
+        .attr("in", "SourceGraphic");
+
+      // Definere svg elementet som en variabel = bars og koble data og function for barer på 
+      var bars = svg.selectAll("body")
+        .data(data_avg_hour3)
+        .enter()
+        .append("path")
+        .attr("d", function (d) {
+          return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
+        })
+        .on("mouseover", function (event, d) {
+          /* 
+          * Her havde i lavet en ekstra funktion inde i tooltip.text som returnede d.SpotPriceDKK med parameteret 'd', som overskrev mouseover funktionens 'd' parameter.
+          * Dette gjorde at i stedet for at få det _ene_ datapunkt, som musen hoverede over, så blev tooltip blev kaldt data_avg_hour3.length gange. . 
+          */
+          console.log(d);
+          tooltip.text((((d.SpotPriceDKK / 1000) + 1.01229) * 1.25).toFixed(2) + " DKK kl. " + new Date(d.HourDK).getHours() + ':00').style("top", (event.y - 10) + "px")
+            .style("left", (event.x + 10) + "px")
+            .style("visibility", "visible")
+        })
+        .on("mouseout", function () {
+          tooltip.html(``).style("visibility", "hidden");
+          // d3.select(this).attr("fill", '#FFFFFF'); //Gør bars hvide når man mouser over dem
+        })
+        .attr("fill", function (d) { return color(d.SpotPriceDKK) })
+        .style("fill", function (d) {                     //Funktion som skifter farven på den bar der repræsentere den nuværende timepris
+          if (d.HourDK == dateTime) {
+            return "#3FF4EB"
+          }
+        })
+
+        .attr("opacity", function (d) {                   //Sænker oppacity en smule på den nuværende timepris, så den passer bedre ind
+          if (d.HourDK == dateTime) {
+            return "0.8"
+          }
+        })
+        .attr("filter", "url(#glow)")
+        .transition()
+        .duration(4000)
+        .attr("d", function (d, i) {
+          return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(((d.SpotPriceDKK / 1000) + 1.01229) * 1.25), 10)  // Tilføjet regnestykket oppefra fra længere oppe 
+        })
+
+
+      const xAxis = d3.axisBottom().scale(d3.scaleLinear()
+        .domain([0, data_avg_hour3.length])
+        .range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length).tickFormat((d, i) => tickLabels[i]);
+
+
       //Labels til xAkse (48 tidspunkter)
       const tickLabels = [`0:00`, `1:00`, `2:00`, `3:00`, `4:00`, `5:00`, `6:00`, `7:00`, `8:00`, `9:00`,
         `10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`, `18:00`, `19:00`, `20:00`,
@@ -135,8 +154,6 @@ function chart3() {
         `9:00`, `10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`, `18:00`, `19:00`,
         `20:00`, `21:00`, `22:00`, `23:00`]
 
-
-      const xAxis = d3.axisBottom().scale(d3.scaleLinear().domain([0, data_avg_hour3.length]).range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length).tickFormat((d, i) => tickLabels[i]);
 
       svg.append("g")
         .attr("transform", "translate(51, " + (height - 20) + ")")
@@ -161,42 +178,41 @@ function chart3() {
       svg.append('text')
         .attr('id', 'y-label')
         .attr('text-anchor', 'middle')
-        .attr('transform', 'translate(110,' + ((height / 4.8) - 2) + ')')
+        .attr('transform', 'translate(110,' + ((height / 4.8) + 30) + ')')
         .style('font-family', 'Sans-serif')
         .style('font-size', 14)
-        .text('Elpris pr.time')
+        .text('Pris (DKK)')
         .style('fill', 'white')
 
 
       console.log("Loading complete");
       console.log(timeuse);
 
-    var legend_keys = [""]
 
-    var lineLegend = svg.selectAll(".lineLegend").data(legend_keys)
+      // laver legend til diagrammet (Tekst og cirkel)
+      var legend_keys = [""]
+
+      var lineLegend = svg.selectAll(".lineLegend").data(legend_keys)
         .enter().append("g")
-        .attr("class","lineLegend")
-       
-    
-    lineLegend.append("text").text("Nuværende time")
+        .attr("class", "lineLegend")
+
+      lineLegend.append("text").text("Nuværende time")
         .attr("x", 210)
-        .attr('y', 103)
-        .style("fill","#FFFFFF") // obs skifte farve 
+        .attr('y', 135)
+        .style("fill", "#FFFFFF") // obs skifte farve 
         .style("font-family", "sans-serif")
         .style("font-size", "14px")
-    
-    lineLegend.append("circle")
+
+      lineLegend.append("circle")
         .attr("cx", 200)
-        .attr('cy', 98)
+        .attr('cy', 130)
         .attr("r", 6)
         .style("fill", "#3FF4EB")
+        .style("opacity", "0.8")
         .style("stroke-width", 2)
-        /* .attr("transform", "translate(40, 50)"); //align texts with boxes */
+      /* .attr("transform", "translate(40, 50)"); //align texts with boxes */
 
     })
-
-
-
 }
 
 
@@ -365,7 +381,7 @@ function chart4() {
         .attr('transform', 'translate(110,' + ((height / 4.8) - 2) + ')')
         .style('font-family', 'Sans-serif')
         .style('font-size', 12)
-        .text('Elpris pr.time')
+        .text('Pris (DKK)')
         .style('fill', 'white')
 
         .attr("data-legend", function (d) { return d.name })
