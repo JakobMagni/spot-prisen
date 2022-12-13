@@ -13,15 +13,12 @@ function chart3() {
 
       const data_avg_hour3 = data.records
 
-      console.log("Timepris 24 timer", data_avg_hour3)
 
 
       // Tilføjer ID i array til animationsbrug
       data.records.forEach((item, i) => {
         item.id = i;
       });
-
-
 
       //Definere højde, bredde og svg elements attributter 
       var width = (window.innerWidth * .6);
@@ -36,14 +33,11 @@ function chart3() {
       var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => (d.SpotPriceDKK / 1000) + 1.5)]).range([height - bottomPadding, 75]);
 
 
-
-      // UDREGNINGER Elafgift + System tarif + Balance tarif + Transmission = 1.01229. (data_avg_hour3 / 1000 + 1,01229) * 1.25 
-
-
       // Farver 
       var color = d3.scaleLinear()
-        .domain([2600, 3200])
-        .range(["#8B43C0", "#FF00DD"]);
+        .domain([1600, 4000])
+        .range(["#FF00DD", "#8B43C0"]); //
+        
 
       var today = new Date()
       // Laver string der passer til nuværende timetal til sammenligning i grafen 
@@ -63,13 +57,16 @@ function chart3() {
         .data(data_avg_hour3)
         .enter()
         .append("path")
-        .on("mouseover", function (d, i) {
+        .attr("d", function (d) {
+          return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
+        })
+        .on("mouseover", function (event, d) {
           tooltip.text(function (d) {
-            return (d.SpotPriceDKK)
+            //console.log("event consolelog", event.target)
+            //console.log("tooltip console.log", d.SpotPriceDKK)
+              return (d.SpotPriceDKK)//.forEach(d.id)
           })
             .style("visibility", "visible");
-          d3.select(this)
-            .attr("fill", shadeColor(bar_color, -15));
         })
         .on("mousemove", function () {
           tooltip
@@ -78,15 +75,18 @@ function chart3() {
         })
         .on("mouseout", function () {
           tooltip.html(``).style("visibility", "hidden");
-          d3.select(this).attr("fill", bar_color);
-        })
-        .attr("d", function (d) {
-          return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);   /* ((d.SpotPriceDKK / 1000)+ 1.01229)*1.25) */
+         // d3.select(this).attr("fill", '#FFFFFF'); //Gør bars hvide når man mouser over dem
         })
         .attr("fill", function (d) { return color(d.SpotPriceDKK) })
-        .style("fill", function (d) {
+        .style("fill", function (d) {                     //Funktion som skifter farven på den bar der repræsentere den nuværende timepris
           if (d.HourDK == dateTime) {
             return "#3FF4EB"
+          }
+        })
+        
+        .attr("opacity", function (d) {                   //Sænker oppacity en smule på den nuværende timepris, så den passer bedre ind
+          if (d.HourDK == dateTime) {
+            return "0.8"
           }
         })
         .transition()
@@ -94,6 +94,7 @@ function chart3() {
         .attr("d", function (d, i) {
           return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale((data_avg_hour3[i].SpotPriceDKK / 1000) + 1.01229) * 1.25, 10)  // Tilføjet regnestykket oppefra fra længere oppe 
         })
+        
 
       // create tooltip element  
       const tooltip = d3.select("body")
@@ -222,11 +223,10 @@ function chart4() {
       console.log("Timepris 24 timer", data_avg_hour3)
 
 
-      // Tilføjer ID i array til animationsbrug
+      // Tilføjer ID i array til animationsbrug (måden bars kommer op på)
       data.records.forEach((item, i) => {
         item.id = i;
       });
-
 
 
       //Definere højde, bredde og svg elements attributter 
@@ -362,7 +362,6 @@ function chart4() {
         .call(d3.axisLeft(yScale));
 
 
-
       // Y-aksen labels
       svg.append('text')
         .attr('id', 'y-label')
@@ -380,7 +379,6 @@ function chart4() {
         .attr("transform", "translate(50,30)")
         .style("font-size", "12px")
         .call(d3.legend)
-
 
     })
 }

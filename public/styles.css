@@ -351,19 +351,7 @@ body,html, text {
         justify-content:center;
     }
     
-    div.tooltip-donut {
-        position: absolute;
-        text-align:justify;
-        padding: .5rem;
-        background: #FFFFFF;
-        color: #313639;
-        border: 1px solid #313639;
-        border-radius: 5px;
-        pointer-events: none;
-        font-size: 1.2rem;
-        fill-opacity: 0.5;
-    } 
-  
+
     /* FORM STYLING */
 
   
@@ -399,49 +387,6 @@ body,html, text {
   .y.axis text{
     fill: white;
   }  
-  
-
-
-
-
-/*Tooltip til side 3 */
-
-  #tooltip {
-    position: absolute;
-    width: 70px;
-    height: 20px;
-    padding: 20px;
-    background-color: white;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-    pointer-events: none;
-}
-
-#tooltip.hidden {
-    display: none;
-}
-
-#tooltip p {
-    margin: 0;
-    font-family: sans-serif;
-    font-size: 20px;
-    line-height: 20px;
-}
-
-.tekstFelt {
-  display: inline-block;
-  font-size: x-large;
-}
-
-.SPACE {
-  margin-top: 1em;
-  width: 50%;
-  
-}
 
 /* Side 3 knap styling */
 

@@ -19,35 +19,27 @@ d3.json("/api/avg_timepris", {
   var xScale = d3.scaleBand().domain(d3.range(data_avg_hour.length + 0.8)).range([24, width]).padding(.05)
   var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour, (d) => d.avg * 1.25)]).range([height- bottomPadding, 120]);
 
-  var color = d3.scaleLinear() //farve skalering
-    .domain([0, d3.max(data_avg_hour)])
-    .range(['#9ad97f', '#d97642']);
-
 
   // Farver 
   var color = d3.scaleLinear()
     .domain([0, d3.max(data_avg_hour, (d) => d.avg - 3.5)])
     .range(["#9ad97f", "#d97642"])
 
-
-
-  //Container for the gradients
+  //Container for gradients
   var gradients = svg.append("defs");
 
   //Filter for the outside glow
   var filter = gradients.append("filter")
     .attr("id", "glow");
   filter.append("feGaussianBlur")
-    .attr("stdDeviation", "5")
+    .attr("stdDeviation", "5")    //Styrer hvor tydelig glow der skal være
     .attr("result", "coloredBlur");
-
 
   var feMerge = filter.append("feMerge");
   feMerge.append("feMergeNode")
     .attr("in", "coloredBlur");
   feMerge.append("feMergeNode")
     .attr("in", "SourceGraphic");
-
 
   //Append a defs (for definition) element to your SVG
   var defs = svg.append("defs");
@@ -59,21 +51,21 @@ d3.json("/api/avg_timepris", {
   //Vertical gradient
   linearGradient
     .attr("x1", "0%")
-    .attr("y1", "100%")
+    .attr("y1", "100%") //Bestemmer hvilken del af vores path (bars) som skal farves
     .attr("x2", "0%")
     .attr("y2", "0%")
 
   //Set the color for the start (0%)
   linearGradient.append("stop")
     .attr("offset", "0%")
-    .attr("stop-color", "#3FF4EB") //light blue
-    .attr("stop-opacity", "0.9");
+    .attr("stop-color", "#3FF4EB") // Lyseblå
+    .attr("stop-opacity", "0.9"); // gennemsigtighed
 
   //Set the color for the end (100%)
   linearGradient.append("stop")
     .attr("offset", "100%")
     .attr("stop-color", "#FF00DD") //Pink
-    .attr("stop-opacity", "0.9");
+    .attr("stop-opacity", "0.9"); // gennemsigtighed
 
 
   // Definere svg elementet som en variabel = bars og koble data og function for barer på 
@@ -85,8 +77,8 @@ d3.json("/api/avg_timepris", {
       return bar(xScale(d.hour), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
     })
     .attr("fill", function (d) { return color(d.avg) })
-    .style("filter", "url(#glow)")
-    .style("fill", "url(#linear-gradient)")
+    .style("filter", "url(#glow)")              //her kalder vi på de glows vi definerede over
+    .style("fill", "url(#linear-gradient)")     //her kalder vi på de gradients vi definerede over
     .transition()
     .delay(function (d, i) {
       return i / data_avg_hour.length * 4000
@@ -139,15 +131,11 @@ d3.json("/api/avg_timepris", {
     .attr("font-weight", 800)
     .attr("text-anchor", "middle")
     .attr("font-size", "11px")
-    .attr("fill", "#3FF4EB")  /*  data_avg_hour => color(data_avg_hour.avg * 1.25))  */ // Ændrede denne til at være den samme farve som i bunden af baren - den anden farve var mere grøn i det
-    .attr("opacity", 0.8)
+    .attr("fill", "#3FF4EB") // Ændrede denne til at være den samme farve som i bunden af baren - den anden farve var mere grøn i det
+    .attr("opacity", 0.9)
 
 
-  // Tilføjer ID i array til animationsbrug
-  data_avg_hour.forEach((item, i) => {
-    item.hourid = `${i}:00`;
-  });
-
+    
   // Definerer ticks som timetal 
   const tickLabels = [`0:00`, `1:00`, `2:00`, `3:00`, `4:00`, `5:00`, `6:00`, `7:00`, `8:00`, `9:00`, `10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`, `18:00`, `19:00`, `20:00`, `21:00`, `22:00`, `23:00`, `24:00`]
 
@@ -155,7 +143,6 @@ d3.json("/api/avg_timepris", {
   svg.append("g")
     .attr("transform", "translate(23," + (height - 20) + ")")
     .call(xAxis);
-
 
 
   const yAxis = d3.axisLeft().scale(yScale).ticks()
