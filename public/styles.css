@@ -201,6 +201,16 @@ body,html, text {
       text-decoration: underline;
       text-shadow: 0;
     }
+
+    .contact {
+      position: absolute;
+      display: inline-block;
+      text-align: center;
+      font-size: 15px;
+      text-shadow: 0;
+      bottom: 1.8em;
+      left: 40em;
+    }
     
     .popover-wrapper-left > a {
       text-decoration: none;
