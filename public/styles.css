@@ -15,6 +15,10 @@ body,html, text {
     padding: 0;
     font-family: 'Work Sans', sans-serif;
     }
+
+    a {
+      color: lightblue;
+    }
   
   /* Should disable snapping on mobile devices, haven't tested it yet */
   @media (min-height: 30em) {
@@ -192,9 +196,9 @@ body,html, text {
 
     .popover_title_left {
       padding-top: 10px;
-      color: #6274bd;
+      color: #b062e1a0;
       font-size: 15px;
-      text-decoration: none;
+      text-decoration: underline;
       text-shadow: 0;
     }
     
@@ -210,7 +214,7 @@ body,html, text {
       top: -160px;
       left: 0px;
       transform: translate(0, 10px);
-      background-color: #ffffff54;
+      background-color: #212845ed;
       padding: 1.5rem;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
       width: 20em;
@@ -226,7 +230,7 @@ body,html, text {
       top: -180px;
       left: 0px;
       transform: translate(0, 10px);
-      background-color: #ffffff54;
+      background-color: #212845ed;
       padding: 1.5rem;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
       width: 20em;
@@ -265,9 +269,9 @@ body,html, text {
 
     .popover_title_right {
       padding-top: 10px;
-      color: #6274bd;
+      color: #b062e1a0;
+      text-decoration: underline;
       font-size: 15px;
-      text-decoration: none;
       text-shadow: 0;
     }
     
@@ -283,7 +287,7 @@ body,html, text {
       bottom: 25px;
       right: 2%;
       transform: translate(0, 10px);
-      background-color: #ffffff54;
+      background-color: #212845ed;
       padding: 1.5rem;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
       width: 20em;
