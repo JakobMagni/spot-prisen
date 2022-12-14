@@ -1,6 +1,6 @@
 //section 2 linjediagram
 
-/* Graf variabler */
+// Definere variable
 var width = (window.innerWidth * .6);
 var height = 500
 const margin = { top: 20, right: 20, bottom: 50, left: 50 };
@@ -10,7 +10,7 @@ var tooltip = { width: 100, height: 100, x: 10, y: -30 };
 // Domene og range for akserne 
 var xScale = d3.scaleLinear().domain([1, 53])
     .range([1, width - margin.left - margin.right - 10]);
-var yScale = d3.scaleLinear().domain([, 100]).range([height - margin.top  - margin.bottom, 10]);
+var yScale = d3.scaleLinear().domain([0, 100]).range([height - margin.top  - margin.bottom, 10]);
 
 //Definerer parametre for linje-funktion
 const line = d3.line()
@@ -18,12 +18,14 @@ const line = d3.line()
     .y(d => yScale(d.y))
     .curve(d3.curveMonotoneX);
 
+// Appende SVG 
 const svg = d3.select("#diagram2")
     .append("svg")
     .attr("width", width + 10)
     .attr("height", height + margin.top ).append("g")
     .attr("transform", `translate(${margin.left -5},-15)`)
 
+    // Appender text (overskrift) til linjediagram
 svg.append('text')
     .attr('id', 'x-label')
     .attr('x', width / 2)
@@ -34,7 +36,7 @@ svg.append('text')
     .text('Gennemsnitlig lavest og højest elpris pr. uge (2021) (DKK)')
     .style('fill', 'white');
 
-// Y label
+// Appender text til Y-Aksen 
 svg.append('text')
     .attr('id', 'y-label')
     .attr('text-anchor', 'middle')
@@ -45,44 +47,48 @@ svg.append('text')
     .style('fill', 'white');
 
 
-// Render funktion som indeholder parametere for linjediagrammet - denne kaldes 1) når siden loader 2) og igen senere ved Submit1 funktionen (submitknappen)
-// Funktion der kan tegne grafen og GENTEGNE grafen med en IF SÆTNING som afgør hvordan den skal tegnes på baggrund af data 
+
+// Render funktion som indeholder parametere for linjediagrammet - kaldes første gang når siden loader og igen senere når submit1 funktionen kaldes 
+
+let total_weekly_consumption;    // Ny variabel for det samlede ugentlige forbrug 
+let moms = 1.25; 
+
 function render() {
 
     d3.json("/api/diagram2", {
         method: "POST",
     }).then(function (response) {
 
-        const responseData = response.data // definerer et nyt datasæt til  responsen
+        const responseData = response.data 
 
-        let minArray = [];
-        let maxArray = [];
+        let minArray = []; // Laver tomt array til min-værdier
+        let maxArray = []; // Laver tomt array til max-værdier 
 
-        if (!total_forbrug) {                       // Hvis total forbrug variablen er tom (ingen inputs fra form), så push rå el-pris data(min/max) i to forskellige arrays(som senere lægges sammen)
+        if (!total_weekly_consumption) {                       // Hvis total forbrug variablen er tom (ingen inputs fra formularen), push rå el-pris data(min/max) til to forskellige arrays
             console.log('Uændret forbrug')
+            // For-loop som iterer over alle datapunkter i responsedata, for at skille datapunkterne ad. Pushes til hvert sit array 
             for (let dataPoint of responseData) {
-                minArray.push({ x: dataPoint.week_nr, y: parseFloat(dataPoint.min_avg_weekly) });     // pusher rådata i to nye arrays (keys x og y)
+                minArray.push({ x: dataPoint.week_nr, y: parseFloat(dataPoint.min_avg_weekly) });     // Vi tilskriver værdierne en x og y værdi - som vi skal bruge til at tegne linje
                 maxArray.push({ x: dataPoint.week_nr, y: parseFloat(dataPoint.max_avg_weekly) })
             }
-        } else {                                                                        // Ved ændring i inputdata(altså variablen er ikke tom), så løbende opsummer min + max i to arrays
+        } else {                                                                        // Hvis ændring i inputdata(altså variablen er ikke tom), så løbende opsummer min + max i to arrays
             console.log('Ændret forbrug')
-            let minAvgWeeklySum = 0; // Ny variabel for forbrug + elpris samlet 
-            let maxAvgWeeklySum = 0;
+            let minAvgWeeklySum = 0; // Ny variabel til summen af forbrug * ugentlig min pris 
+            let maxAvgWeeklySum = 0; // Ny variable til summen af forbrug * ugentlig max pris 
             for (let dataPoint of responseData) {
-                minAvgWeeklySum = minAvgWeeklySum + parseFloat((dataPoint.min_avg_weekly * total_forbrug) * 1.25) //Ny variabler får værdiern af elpris + forbrug
-                maxAvgWeeklySum = maxAvgWeeklySum + parseFloat((dataPoint.max_avg_weekly * total_forbrug) * 1.25)
+                minAvgWeeklySum = minAvgWeeklySum + parseFloat((dataPoint.min_avg_weekly * total_weekly_consumption) * moms) 
+                maxAvgWeeklySum = maxAvgWeeklySum + parseFloat((dataPoint.max_avg_weekly * total_weekly_consumption) * moms)
 
                 minArray.push({ x: dataPoint.week_nr, y: parseFloat(minAvgWeeklySum) }); // Pusher de nye værdier i nye arrays 
                 maxArray.push({ x: dataPoint.week_nr, y: parseFloat(maxAvgWeeklySum) })
             }
-            //Tager et element og tilføjer textContent og pris som vises under form
-            /* document.getElementById('besparelse').textContent = "Din årlige besparelse: " + (parseFloat(maxAvgWeeklySum) - parseFloat(minAvgWeeklySum)).toFixed(2) + " DKK" */
-            // FORSØG PÅ AT LAVE numbercounter i besparelsesfeltet (OPDATERING 08.12.22 )
+          
+           
+            // Variable til optællingsfunktion 
             let moneySaved = (parseFloat(maxAvgWeeklySum) - parseFloat(minAvgWeeklySum)).toFixed(2)
             console.log("Besparelse " + moneySaved)
 
-
-            // COUNTER funktion, som tæller op til besparelses-beløbet 
+            // Optællingsfunktion til besparelsespotentiale 
             let counts = setInterval(updated);
             let upto = 0.00;
             function updated() {
@@ -96,17 +102,17 @@ function render() {
         }
         // 
 
-        //Det nye datasæt, som afhænger af input values og som vi bruger nedenunder når vi tegner linjerne 
-        const newDataArray = [minArray, maxArray]
+        //Variabler for de to "nye" arrays (hvor dataen afhænger af hvorvidt der har været input i formularen
+        const newDataArray = [maxArray,minArray]
 
-        yScale = d3.scaleLinear().domain([0, d3.max(newDataArray[1], (d) => d.y) + 0.5]).range([height, 30]);
+        yScale = d3.scaleLinear().domain([0, d3.max(newDataArray[0], (d) => d.y) + 0.5]).range([height, 50]);
 
-        // create axis scale
+        // Lav akser 
         const xAxis = d3.axisBottom().scale(xScale).ticks(52)
         const yAxis = d3.axisLeft().scale(yScale)
 
 
-        // Hvis der ikke findes en y akse så laver vi en, ellers opdaterer vi den allerede eksisterende
+        // Hvis der ikke findes en y akse så laves en, eller opdaterer vi den allerede eksisterende (anvender CSS klasser)
         if (svg.selectAll(".y.axis").empty()) {
             svg.append("g")
                 .attr("class", "y axis")
@@ -119,10 +125,10 @@ function render() {
         
         }
 
-        // Hvis der ikke findes en x akse (if empty) så laver vi en, ELLER opdaterer den allerede eksisterende  
+        // Hvis der ikke findes en x akse laves en ellers opdaterer vi den allerede eksisterende (anvender CSS klasser)
         if (svg.selectAll(".x.axis").empty()) {
             svg.append("g")
-                .attr("class", "xAxis")
+                .attr("class", "x axis")
                 .attr("transform", "translate(0," + (height) + ")")
                 .call(xAxis);
         } else {
@@ -131,41 +137,37 @@ function render() {
                 .call(xAxis);
         }
 
-        // Hvis total_forbrug er i spil tilføj tekst til y label (Skifter ved skift af diagram)
-        if (total_forbrug) {
-            svg.selectAll("#y-label")
-                .transition().duration(1500)
-                .text('Kroner (DKK)');
-        }
-        // Hvis total_forbrug er i spil tilføj tekst til x label (skifter ved skift af diagram)
-        if (total_forbrug) {
+    
+        // Hvis total_weekly_consumption- variablen eksisterer og har en værdi, ændrer vi x-akse tekst 
+        if (total_weekly_consumption) {
             svg.selectAll("#x-label")
                 .transition().duration(1500)
                 .text('Estimeret årlig forbrug(DKK) ved lavest og højest gennemsnits el-pris');
         }
 
-        // Function der skaber gradierende og glødende  farver 
+        // Gradient funktion 
         const createGradient = select => {
             const gradient = select
                 .select('defs')
                 .append('linearGradient')
                 .attr('id', 'gradient')
-                .attr('x1', '60%')
+                .attr('x1', '25%')
                 .attr('y1', '100%')
-                .attr('x2', '50%')
-                .attr('y2', '0%');
+                .attr('x2', '60%')
+                .attr('y2', '0');
 
             gradient
                 .append('stop')
                 .attr('offset', '0%')
-                .attr('style', 'stop-color:#3FF4EB;stop-opacity:0.1');
+                .attr('style', 'stop-color:#3FF4EB;stop-opacity:0.3');
 
             gradient
                 .append('stop')
                 .attr('offset', '100%')
-                .attr('style', 'stop-color:#FF00DD;stop-opacity:.9');
+                .attr('style', 'stop-color:#FF00DD;stop-opacity:0.9');
         }
 
+        // Glow funktion 
         const createGlowFilter = select => {
             const filter = select
                 .select('defs')
@@ -188,15 +190,13 @@ function render() {
                 .attr('in', 'SourceGraphic');
         }
 
-
+        // Kald gradient og glow funktion 
         svg.append('defs');
         svg.call(createGradient);
         svg.call(createGlowFilter);
 
 
-
-
-        // Funktion som laver "growing" linjer til diagrammet. Der tegnes en linje i form af en rect (ref. koordinater)
+        // Funktion som laver "growing" linjer til diagrammet. 
         function tweenDash() {
             var that = this;
             return function (t) {
@@ -212,11 +212,11 @@ function render() {
             .attr("class", "line")
 
 
-        // Fjerner bare eksisterende datapunkter 
-        lines.exit()
+        // Fjerner eksisterende datapunkter hvis nye kommer til
+       /*  lines.exit()
             .remove();
-
-        // Tilfører data igen og evt. nye data 
+ */
+        // Tilfører data igen og opdaterer 
         lines.enter()
             .append("path")
             .attr("class", "line")
@@ -233,17 +233,14 @@ function render() {
             .style('fill', 'url(#gradient)')
             .style('filter', 'url(#glow)')
 
+
             // Update new data
             .merge(lines)
             .transition()
-           /*  .attr("d", line) */
             .attr('d', d => {
-
                 
                 const lineValues = line(d).slice(1);
                 const splitedValues = lineValues.split(',');
-
-                console.log(splitedValues[splitedValues.length-2])
 
                 return `M0,${height},${lineValues},l0,${height - splitedValues[splitedValues.length-1]}`
             })
@@ -253,28 +250,29 @@ function render() {
                 '#ffffff'
             ).attr("stroke-dashoffset", 2)
 
+            // Labels med max og min sum til hver linje 
             if (svg.selectAll("#minLabel").empty()) {
                 svg.append("text")
                 .attr("id", "minLabel")
-                .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[0][newDataArray[0].length-1].y)+")")
+                .attr("transform", "translate("+(0)+","+height+")")
                 .attr("text-anchor", "start")
                 .style("fill", "white")
-          
+          console.log(newDataArray)
                 svg.append("text")
                 .attr("id", "maxLabel")
-                .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[1][newDataArray[0].length-1].y)+")")
+                .attr("transform", "translate("+(0)+","+height+")")
                 .attr("text-anchor", "start")
                 .style("fill", "white")
             } else {
                     let minToolTip = svg.selectAll("#minLabel")
-                    .transition().duration(7000)
-                    .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[0][newDataArray[0].length-1].y)+")")
-                    .text(newDataArray[0][newDataArray[1].length-1].y.toFixed(1) + ' DKK');
+                    .transition().duration(6000)
+                    .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[1][newDataArray[1].length-1].y)+")")
+                    .text(newDataArray[1][newDataArray[0].length-1].y.toFixed(1) + ' DKK');
               
                     let maxToolTip = svg.selectAll("#maxLabel")
-                    .transition().duration(7000)
-                    .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[1][newDataArray[0].length-1].y)+")")
-                    .text(newDataArray[1][newDataArray[1].length-1].y.toFixed(1) + ' DKK');
+                    .transition().duration(6000)
+                    .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[0][newDataArray[1].length-1].y)+")")
+                    .text(newDataArray[0][newDataArray[0].length-1].y.toFixed(1) + ' DKK');
                     
             }
     })
@@ -287,10 +285,10 @@ function render() {
 render();
 
 
-// Nedenunder beregninger for det samlede forbrug (total_forbrug) baseret på input-værdierne vi får fra "brugeren" via formularet 
+// Nedenunder beregninger for det samlede forbrug (total_weekly_consumption) baseret på input-værdierne vi får fra "brugeren" via formularet 
 
 /*  tørretumbler beregning*/
-let total_forbrug;
+
 let tør_alder_value = "ny"
 let tør_gange_value = 0
 let data_linjediagram;
@@ -381,16 +379,16 @@ function opvask_brug() {
 
 }
 
-// Funktion der tager inputværdierne vedr. og opsummerer dem til et det samlede forbrug(total_forbrug).Denne eksekveres ved tryk på "beregn" knappen
+// Funktion der tager inputværdierne vedr. og opsummerer dem til et det samlede forbrug(total_weekly_consumption).Denne eksekveres ved tryk på "beregn" knappen
 function submit1() {
     // Henter inputværdierne for de tre apparater (assigner nye variabler)
     var tør_strømforbrug = parseFloat(document.getElementById("tør_brug").value)
     var vask_strømforbrug = parseFloat(document.getElementById("vask_brug").value)
     var opvask_strømforbrug = parseFloat(document.getElementById("opvask_brug").value)
     // Endelig ligger vi værdierne sammen til det samlede forbrug 
-    total_forbrug = (tør_strømforbrug + vask_strømforbrug + opvask_strømforbrug)
+    total_weekly_consumption = (tør_strømforbrug + vask_strømforbrug + opvask_strømforbrug)
 
-    document.getElementById('resultat').textContent = "Dit ugentlige forbrug " + total_forbrug.toFixed(2) + " kWh"  // Tilføjer dette til vors resultat-div/p og toFixed begrænser antal decimaler 
+    document.getElementById('resultat').textContent = "Dit ugentlige forbrug " + total_weekly_consumption.toFixed(2) + " kWh"  // Tilføjer dette til vors resultat-div/p og toFixed begrænser antal decimaler 
     render(); // Her kaldes endeligt render-funktionen, hver gang der trykkes submit! 
 }
 

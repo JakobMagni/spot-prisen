@@ -1,402 +1,511 @@
 @font-face {
   font-family: 'NK57MonospaceScLt-Regular';
-  src:url('fonts-local/NK57MonospaceScLt-Regular.ttf.woff') format('woff'),
-      url('fonts-local/NK57MonospaceScLt-Regular.ttf.svg#NK57MonospaceScLt-Regular') format('svg'),
-      url('fonts-local/NK57MonospaceScLt-Regular.ttf.eot'),
-      url('fonts-local/NK57MonospaceScLt-Regular.ttf.eot?#iefix') format('embedded-opentype'); 
+  src: url('fonts-local/NK57MonospaceScLt-Regular.ttf.woff') format('woff'),
+    url('fonts-local/NK57MonospaceScLt-Regular.ttf.svg#NK57MonospaceScLt-Regular') format('svg'),
+    url('fonts-local/NK57MonospaceScLt-Regular.ttf.eot'),
+    url('fonts-local/NK57MonospaceScLt-Regular.ttf.eot?#iefix') format('embedded-opentype');
   font-weight: normal;
   font-style: normal;
 }
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&family=Red+Hat+Display:wght@300;400;500;700&family=Work+Sans&display=swap');
 
 /* Removing default margin and padding added by browser */
-body,html, text {
-    margin: 0;
-    padding: 0;
-    font-family: 'Work Sans', sans-serif;
-    }
+body,
+html,
+text {
+  margin: 0;
+  padding: 0;
+  font-family: 'Work Sans', sans-serif;
+}
 
-    a {
-      color: lightblue;
-    }
-  
-  /* Should disable snapping on mobile devices, haven't tested it yet */
-  @media (min-height: 30em) {
-    main {
-      scroll-snap-type: y mandatory; /* Sets scroll to snap to full page. */
-      height: 100vh; /* vh = viewport height. Scales height to fit device screen */
-      overflow-y: scroll; /* Needed to make snap-type work */
-      scroll-behavior: smooth;
-    }
-  }
-  
-  /* Same as above, but for the individual sections. Still not tested */
-  @media (min-height: 30em) {
-    .section {
-      height: 100vh;
-    }
-  }
+a {
+  color: lightblue;
+}
 
-  .axis path,
+/* Should disable snapping on mobile devices, haven't tested it yet */
+@media (min-height: 30em) {
+  main {
+    scroll-snap-type: y mandatory;
+    /* Sets scroll to snap to full page. */
+    height: 100vh;
+    /* vh = viewport height. Scales height to fit device screen */
+    overflow-y: scroll;
+    /* Needed to make snap-type work */
+    scroll-behavior: smooth;
+  }
+}
+
+/* Same as above, but for the individual sections. Still not tested */
+@media (min-height: 30em) {
+  .section {
+    height: 100vh;
+  }
+}
+
+.axis path,
 .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
 
-.x.axis path {
+/* .x.axis path {
   display: none;
-}
+} */
 
 .line {
   fill: none;
   stroke-width: 1.5px;
 }
-  
-  /* Styling the individual sections */
-  .section {
-    color: white;
-    position: relative;
-    scroll-snap-align: center;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    min-height: 100vh;
-    padding: 1em;
-  }
-  
-    .section-1 {
-      background-color: #212845;
-    }
 
-    .section-1 > .col1 {
-      padding-top: 6%;
-    }
-  
-    .section-2 {
-      background-color: #212845;
-    }
+/* Styling the individual sections */
+.section {
+  color: white;
+  position: relative;
+  scroll-snap-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  padding: 1em;
+}
 
-    .section-2 > .col2 {
-      padding-left: 2em;
-      padding-top: 10%;
-    }
+.section-1 {
+  background-color: #212845;
+}
 
-    .section-2 > .col1 {
-      padding-top: 14%;
-    }
-  
-    .section-3 {
-      background-color: #212845;
-    }
-  
-    .col {
-      height: 80vh;
-      vertical-align: center;
-      justify-content: center;
-      text-align: center;
-    }
-  
-    .col > p {
-      font-size: 20px;
-    }
-  
-    .col > h2 {
-      font-size: 25px;
-    }
-  
-    .col1 {
-      width: 68%;
-      position: inline-block;
-      text-align: center;
-      padding-top: 8%;
-    }
-  
-    .col2 {
-      width: 30%;
-      position: inline-block;
-      text-align: center;
-      vertical-align: center;
-      padding-top: 14%;
-    }
-  
-    .container {
-      padding-top: 4rem;
-      width: 100%;
-      color: #e5e5e5;
-      font-size: 2.26rem;
-      text-transform: uppercase;
-      display: flex;
-      align-items: top;
-      justify-content: center;
-      height: 5vh;
-      overflow-y: hidden;
-    }
-  
-    .container > p {
-      margin:0;
-    }
-  
-    .animation > div > div {
-      padding: 0rem 0.75rem;
-      height:2.70rem;
-      margin-bottom: 3rem;
-      display:inline-block;
-      text-align: center;
-    }
-    
-    .animation {
-      height:50px;
-      overflow:hidden;
-    }
-  
-    .animation div:first-child {
-      animation: text-animation 25s infinite;
-    }
-  
-    .paragraph {
-      color: #e5e5e5;
-      font-size: 2.26rem;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 3rem;
-  }
-  
-    /* Removing scrollbar on Chrome, Edge, Safari and Opera. We can also style it instead if we want */
-  ::-webkit-scrollbar {
-      display: none;
-    }
-  
-    /* Scroll down nudge icon styling */
-    .scroll-down {
-      position: absolute;
-      left: 50%;
-      bottom: 2rem;
-      display: block;
-      text-align: center;
-      font-size: 20px;
-      text-decoration: none;
-      text-shadow: 0;
-      width: 20px;
-      height: 20px;
-      border-bottom: 2px solid #fff;
-      border-right: 2px solid #fff;
-      transform: translate(-50%, 0%) rotate(45deg);
-      animation: fade_move_down 5s ease-in-out infinite;
-      z-index: 2;
-    }
+.section-1>.col1 {
+  padding-top: 6%;
+}
 
-    /* Datasource styling and popover (Left) */
-    .popover-wrapper-left {
-      position: absolute;
-      right: 95%;
-      bottom: 2rem;
-      display: inline-block;
-      text-align: center;
-    }
+.section-2 {
+  background-color: #212845;
+}
 
-    .popover_title_left {
-      padding-top: 10px;
-      color: #b062e1a0;
-      font-size: 15px;
-      text-decoration: underline;
-      text-shadow: 0;
-    }
-    
-    .popover-wrapper-left > a {
-      text-decoration: none;
-      color: #6274bd;
-    }
+.section-2>.col2 {
+  padding-left: 2em;
+  padding-top: 10%;
+}
 
-    .popover_content_left {
-      opacity: 0;
-      visibility: hidden;
-      position: absolute;
-      top: -160px;
-      left: 0px;
-      transform: translate(0, 10px);
-      background-color: #212845ed;
-      padding: 1.5rem;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-      width: 20em;
-      border-bottom: 13px;
-      border-style: solid;
-      border-color: transparent;
-    }
+.section-2>.col1 {
+  padding-top: 14%;
+}
 
-    .section-2 .popover_content_left {
-      opacity: 0;
-      visibility: hidden;
-      position: absolute;
-      top: -180px;
-      left: 0px;
-      transform: translate(0, 10px);
-      background-color: #212845ed;
-      padding: 1.5rem;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-      width: 20em;
-      border-bottom: 13px;
-      border-style: solid;
-      border-color: transparent;
-    }
+.section-3 {
+  background-color: #212845;
+}
 
-    .popover_content_left:before {
-      position: absolute;
-      z-index: -1;
-      content: "";
-      transition-duration: 0.5s;
-      transition-property: transform;
-      border-bottom: 13px;
-      border-style: solid;
-      border-color: transparent;
-    }
+.col {
+  height: 80vh;
+  vertical-align: center;
+  justify-content: center;
+  text-align: center;
+}
 
-    .popover-wrapper-left:hover .popover_content_left {
-      z-index: 10;
-      opacity: 1;
-      visibility: visible;
-      transform: translate(0, -20px);
-      transition: all 1s cubic-bezier(0.75, -0.02, 0.2, 0.97);
-    }
+.col>p {
+  font-size: 20px;
+}
 
-    /* Datasource styling and popover (Right) */
-    .popover-wrapper-right {
-      position: absolute;
-      left: 90%;
-      bottom: 2rem;
-      display: inline-block;
-      text-align: center;
-    }
+.col>h2 {
+  font-size: 25px;
+}
 
-    .popover_title_right {
-      padding-top: 10px;
-      color: #b062e1a0;
-      text-decoration: underline;
-      font-size: 15px;
-      text-shadow: 0;
-    }
-    
-    .popover-wrapper-right > a {
-      text-decoration: none;
-      color: #6274bd;
-    }
+.col1 {
+  width: 68%;
+  position: inline-block;
+  text-align: center;
+  padding-top: 8%;
+}
 
-    .popover_content_right {
-      opacity: 0;
-      visibility: hidden;
-      position: absolute;
-      bottom: 25px;
-      right: 2%;
-      transform: translate(0, 10px);
-      background-color: #212845ed;
-      padding: 1.5rem;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-      width: 20em;
-      border-bottom: 13px;
-      border-style: solid;
-      border-color: transparent;
-    }
+.col2 {
+  width: 30%;
+  position: inline-block;
+  text-align: center;
+  vertical-align: center;
+  padding-top: 14%;
+}
 
-    .popover_content_right:before {
-      position: absolute;
-      z-index: -1;
-      content: "";
-      transition-duration: 0.5s;
-      transition-property: transform;
-      border-bottom: 13px;
-      border-style: solid;
-      border-color: transparent;
-    }
+.container {
+  padding-top: 4rem;
+  width: 100%;
+  color: #e5e5e5;
+  font-size: 2.26rem;
+  text-transform: uppercase;
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  height: 5vh;
+  overflow-y: hidden;
+}
 
-    .popover-wrapper-right:hover .popover_content_right {
-      z-index: 10;
-      opacity: 1;
-      visibility: visible;
-      transform: translate(0, -20px);
-      transition: all 1s cubic-bezier(0.75, -0.02, 0.2, 0.97);
-    }
-    
-    /*Scroll arrow animation timings*/
-    @keyframes fade_move_down {
-      0%   { transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
-      50%  { opacity: 1;  }
-      100% { transform:translate(0,10px) rotate(45deg); opacity: 0; }
-    }
-  
-      /* Tekst skift animation-steps (re-calculate with 5.55 interval)*/
-      @keyframes text-animation {
-        0% {margin-top: 0;}
-        5.55% {margin-top: 0;}
-        11.10% {margin-top: -5.7rem;}
-        16.65% {margin-top: -5.7rem;}
-        22.20% {margin-top: -11.4rem;}
-        27.75% {margin-top: -11.4rem;}
-        33.30% {margin-top: -17.1rem;}
-        38.85% {margin-top: -17.1rem;}
-        44.40% {margin-top: -22.8rem;}
-        49.95% {margin-top: -22.8rem;}
-        55.50% {margin-top: -17.1rem;}
-        61.05% {margin-top: -17.1rem;}
-        66.60% {margin-top: -11.4rem;}
-        72.15% {margin-top: -11.4rem;}
-        77.70% {margin-top: -5.7rem;}
-        83.25% {margin-top: -5.7rem;}
-        88.80% {margin-top: 0;}
-        94.35% {margin-top: 0;}
-        100% {margin-top: 0;}
-      }
-  
+.container>p {
+  margin: 0;
+}
 
+.animation>div>div {
+  padding: 0rem 0.75rem;
+  height: 2.70rem;
+  margin-bottom: 3rem;
+  display: inline-block;
+  text-align: center;
+}
 
+.animation {
+  height: 50px;
+  overflow: hidden;
+}
 
-      /* CHART CSS */
-    
-    #diagram1 {
-        display: flex;
-        justify-content:center;
-    }
-    
+.animation div:first-child {
+  animation: text-animation 25s infinite;
+}
 
-    /* FORM STYLING */
+.paragraph {
+  color: #e5e5e5;
+  font-size: 2.26rem;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+}
 
-  
-    label { width: 6em; float: left; text-align: center; margin: .5em 1em; clear: both;}
-    input, textarea { margin: .5em 0; width: 10em; }
+/* Removing scrollbar on Chrome, Edge, Safari and Opera. We can also style it instead if we want */
+::-webkit-scrollbar {
+  display: none;
+}
 
-    .kWh_total {
-      width: 5em;
-    }
+/* Scroll down nudge icon styling */
+.scroll-down {
+  position: absolute;
+  left: 50%;
+  bottom: 2rem;
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  text-shadow: 0;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid #fff;
+  border-right: 2px solid #fff;
+  transform: translate(-50%, 0%) rotate(45deg);
+  animation: fade_move_down 5s ease-in-out infinite;
+  z-index: 2;
+}
 
-  #resultat{
-    font-size: x-large;
+/* Datasource styling and popover (Left) */
+.popover-wrapper-left {
+  position: absolute;
+  right: 95%;
+  bottom: 2rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.popover_title_left {
+  padding-top: 10px;
+  color: #b062e1a0;
+  font-size: 15px;
+  text-decoration: underline;
+  text-shadow: 0;
+}
+
+.popover-wrapper-left>a {
+  text-decoration: none;
+  color: #6274bd;
+}
+
+.popover_content_left {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: -160px;
+  left: 0px;
+  transform: translate(0, 10px);
+  background-color: #212845ed;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  width: 20em;
+  border-bottom: 13px;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.section-2 .popover_content_left {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: -180px;
+  left: 0px;
+  transform: translate(0, 10px);
+  background-color: #212845ed;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  width: 20em;
+  border-bottom: 13px;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.popover_content_left:before {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  transition-duration: 0.5s;
+  transition-property: transform;
+  border-bottom: 13px;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.popover-wrapper-left:hover .popover_content_left {
+  z-index: 10;
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -20px);
+  transition: all 1s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+}
+
+/* Datasource styling and popover (Right) */
+.popover-wrapper-right {
+  position: absolute;
+  left: 90%;
+  bottom: 2rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.popover_title_right {
+  padding-top: 10px;
+  color: #b062e1a0;
+  text-decoration: underline;
+  font-size: 15px;
+  text-shadow: 0;
+}
+
+.popover-wrapper-right>a {
+  text-decoration: none;
+  color: #6274bd;
+}
+
+.popover_content_right {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  bottom: 25px;
+  right: 2%;
+  transform: translate(0, 10px);
+  background-color: #212845ed;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  width: 20em;
+  border-bottom: 13px;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.popover_content_right:before {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  transition-duration: 0.5s;
+  transition-property: transform;
+  border-bottom: 13px;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.popover-wrapper-right:hover .popover_content_right {
+  z-index: 10;
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -20px);
+  transition: all 1s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+}
+
+/*Scroll arrow animation timings*/
+@keyframes fade_move_down {
+  0% {
+    transform: translate(0, -10px) rotate(45deg);
+    opacity: 0;
   }
 
-  #besparelse {
-    font-size: x-large;
+  50% {
+    opacity: 1;
   }
-  
-  #counter {
-    font-size: xx-large;
-    
-  }
-  
-  /* Farver y-axis hvid*/
-  .y.axis line{
-    stroke: white;
-  }
-  
-  .y.axis path{
-    stroke: white;
-  }
-  
-  .y.axis text{
-    fill: white;
-  }  
 
-/* Side 3 knap styling */
+  100% {
+    transform: translate(0, 10px) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Tekst skift animation-steps (re-calculate with 5.55 interval)*/
+@keyframes text-animation {
+  0% {
+    margin-top: 0;
+  }
+
+  5.55% {
+    margin-top: 0;
+  }
+
+  11.10% {
+    margin-top: -5.7rem;
+  }
+
+  16.65% {
+    margin-top: -5.7rem;
+  }
+
+  22.20% {
+    margin-top: -11.4rem;
+  }
+
+  27.75% {
+    margin-top: -11.4rem;
+  }
+
+  33.30% {
+    margin-top: -17.1rem;
+  }
+
+  38.85% {
+    margin-top: -17.1rem;
+  }
+
+  44.40% {
+    margin-top: -22.8rem;
+  }
+
+  49.95% {
+    margin-top: -22.8rem;
+  }
+
+  55.50% {
+    margin-top: -17.1rem;
+  }
+
+  61.05% {
+    margin-top: -17.1rem;
+  }
+
+  66.60% {
+    margin-top: -11.4rem;
+  }
+
+  72.15% {
+    margin-top: -11.4rem;
+  }
+
+  77.70% {
+    margin-top: -5.7rem;
+  }
+
+  83.25% {
+    margin-top: -5.7rem;
+  }
+
+  88.80% {
+    margin-top: 0;
+  }
+
+  94.35% {
+    margin-top: 0;
+  }
+
+  100% {
+    margin-top: 0;
+  }
+}
+
+
+
+
+/* Diagram 1 styling  */
+
+#diagram1 {
+  display: flex;
+  justify-content: center;
+}
+
+
+/* Diagram 2*/
+
+.tick line {
+  /* visibility:hidden; */
+  text-decoration-color: white;
+}
+
+
+
+/* FORM STYLING */
+
+label {
+  width: 6em;
+  float: left;
+  text-align: center;
+  margin: .5em 1em;
+  clear: both;
+}
+
+input,
+textarea {
+  margin: .5em 0;
+  width: 10em;
+}
+
+.kWh_total {
+  width: 5em;
+}
+
+#resultat {
+  font-size: x-large;
+}
+
+#besparelse {
+  font-size: x-large;
+}
+
+#counter {
+  font-size: xx-large;
+
+}
+
+/* Farver y-axis hvid*/
+.y.axis line {
+  stroke: white;
+}
+
+.y.axis path {
+  stroke: white;
+}
+
+.y.axis text {
+  fill: white;
+}
+
+
+/* Farver -axis hvid*/
+.x.axis line {
+  stroke: white;
+
+}
+
+.x.axis path {
+  stroke: white;
+}
+
+.x.axis text {
+  fill: white;
+}
+
+
+
+
+/* Diagram 3 styling  */
 
 .page3button {
   width: 300px;
@@ -415,13 +524,16 @@ body,html, text {
   margin-bottom: 10px;
 }
 
-.page3button:before { /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
+.page3button:before {
+  /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
   content: '';
-  background: linear-gradient(45deg, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD);  /*  #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000); */
+  background: linear-gradient(45deg, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD);
+  /*  #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000); */
   position: absolute;
   top: -3px;
-  left:-3px;
-  background-size: 400%; /* Increasing background size to make sure the animation can actually move.*/
+  left: -3px;
+  background-size: 400%;
+  /* Increasing background size to make sure the animation can actually move.*/
   z-index: -1;
   filter: blur(5px);
   width: calc(100% + 5px);
@@ -431,15 +543,18 @@ body,html, text {
   transition: opacity .3s ease-in-out;
 }
 
-.page3button:hover { /* On hover, increase button size slightly*/
-    transform: scale(1.05);
+.page3button:hover {
+  /* On hover, increase button size slightly*/
+  transform: scale(1.05);
 }
 
-.page3button:hover:before { /* On hover, make above gradient animation visible for full background*/
+.page3button:hover:before {
+  /* On hover, make above gradient animation visible for full background*/
   opacity: 1;
 }
 
-.page3button:after { /* On hover, make background darkblue so only the edges of the animation is shown to create 'glow' effect*/
+.page3button:after {
+  /* On hover, make background darkblue so only the edges of the animation is shown to create 'glow' effect*/
   z-index: -1;
   content: '';
   position: absolute;
@@ -450,20 +565,33 @@ body,html, text {
   top: 0;
 }
 
-@keyframes glowing { /* Animation to move the gradient */
-    0% { background-position: 0 0; }
-    50% { background-position: 400% 0; } /* Runs the larger backreound across the button and back to start again*/
-    100% { background-position: 0 0; }
+@keyframes glowing {
+
+  /* Animation to move the gradient */
+  0% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 400% 0;
+  }
+
+  /* Runs the larger backreound across the button and back to start again*/
+  100% {
+    background-position: 0 0;
+  }
 }
 
 #minLabel {
   font-size: 14px;
   font-family: sans-serif;
+  font-weight: bolder;
 }
 
 #maxLabel {
   font-size: 14px;
   font-family: sans-serif;
+  font-weight: bolder;
 }
 
 /* Side 3 knap DK2 styling */
@@ -484,13 +612,16 @@ body,html, text {
   border-color: white;
 }
 
-.page3button2:before { /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
+.page3button2:before {
+  /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
   content: '';
-  background: linear-gradient(45deg, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD);  /*  #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000); */
+  background: linear-gradient(45deg, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD);
+  /*  #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000); */
   position: absolute;
   top: -3px;
-  left:-3px;
-  background-size: 400%; /* Increasing background size to make sure the animation can actually move.*/
+  left: -3px;
+  background-size: 400%;
+  /* Increasing background size to make sure the animation can actually move.*/
   z-index: -1;
   filter: blur(5px);
   width: calc(100% + 5px);
@@ -500,15 +631,18 @@ body,html, text {
   transition: opacity .3s ease-in-out;
 }
 
-.page3button2:hover { /* On hover, increase button size slightly*/
-    transform: scale(1.05);
+.page3button2:hover {
+  /* On hover, increase button size slightly*/
+  transform: scale(1.05);
 }
 
-.page3button2:hover:before { /* On hover, make above gradient animation visible for full background*/
+.page3button2:hover:before {
+  /* On hover, make above gradient animation visible for full background*/
   opacity: 1;
 }
 
-.page3button2:after { /* On hover, make background darkblue so only the edges of the animation is shown to create 'glow' effect*/
+.page3button2:after {
+  /* On hover, make background darkblue so only the edges of the animation is shown to create 'glow' effect*/
   z-index: -1;
   content: '';
   position: absolute;
@@ -519,10 +653,21 @@ body,html, text {
   top: 0;
 }
 
-@keyframes glowing { /* Animation to move the gradient */
-    0% { background-position: 0 0; }
-    50% { background-position: 400% 0; } /* Runs the larger backreound across the button and back to start again*/
-    100% { background-position: 0 0; }
+@keyframes glowing {
+
+  /* Animation to move the gradient */
+  0% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 400% 0;
+  }
+
+  /* Runs the larger backreound across the button and back to start again*/
+  100% {
+    background-position: 0 0;
+  }
 }
 
 #minLabel {
@@ -544,12 +689,3 @@ body,html, text {
   bottom: 1.8em;
   left: 40em;
 }
-
-
-/* Diagram 2*/
-
-.tick line{
-  /* visibility:hidden; */
-  text-decoration-color: white;
-}
-
