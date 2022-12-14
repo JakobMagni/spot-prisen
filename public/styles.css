@@ -80,7 +80,11 @@ body,html, text {
 
     .section-2 > .col2 {
       padding-left: 2em;
-      padding-top: 8%;
+      padding-top: 10%;
+    }
+
+    .section-2 > .col1 {
+      padding-top: 14%;
     }
   
     .section-3 {
@@ -88,7 +92,7 @@ body,html, text {
     }
   
     .col {
-      height: 85vh;
+      height: 80vh;
       vertical-align: center;
       justify-content: center;
       text-align: center;
@@ -200,16 +204,6 @@ body,html, text {
       font-size: 15px;
       text-decoration: underline;
       text-shadow: 0;
-    }
-
-    .contact {
-      position: absolute;
-      display: inline-block;
-      text-align: center;
-      font-size: 15px;
-      text-shadow: 0;
-      bottom: 1.8em;
-      left: 40em;
     }
     
     .popover-wrapper-left > a {
@@ -541,7 +535,15 @@ body,html, text {
   font-family: sans-serif;
 }
 
-
+.contact {
+  position: absolute;
+  display: inline-block;
+  text-align: center;
+  font-size: 15px;
+  text-shadow: 0;
+  bottom: 1.8em;
+  left: 40em;
+}
 
 
 /* Diagram 2*/
