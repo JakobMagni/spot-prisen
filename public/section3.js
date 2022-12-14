@@ -36,23 +36,23 @@ function chart3() {
       // Farver 
       var color = d3.scaleLinear()
         .domain([1600, 4000])
-        .range(["#FF00DD", "#8B43C0"]); //
+        .range(["#FF00DD", "#8B43C0"]); //bruges til farve på bars
 
 
-      var today = new Date()
-      // Laver string der passer til nuværende timetal til sammenligning i grafen 
+
+
+
+      // Laver string (dateTime) der passer til nuværende timetal til sammenligning i grafen, så vi kan finde den nuværende aktive time
       var today = new Date();
       var lol = new Date().getDate();
       var datedate = String(lol).padStart(2, '0');
       var date = today.getFullYear() + '-' + (today.getMonth() + 1);
       var time = today.getHours();
       var timeuse = String(time).padStart(2, '0') + ":" + '00' + ":" + '00';
-
-
       var dateTime = date + '-' + datedate + 'T' + timeuse;
 
 
-      // Funktion som lager barer med afrundede kanter 
+      // Funktion som lager barer med afrundede kanter (Bruges fordi vi har valgt "paths")
       function bar(x, y, w, h, r, f) {
         // Flag for sweep:
         if (f == undefined) f = 1;
@@ -69,7 +69,7 @@ function chart3() {
         return parts.join(" ");
       }
 
-      // create tooltip element  til mouseover funktion 
+      // lav tooltip element til mouseover funktion 
       const tooltip = d3.select("body")
         .data(data_avg_hour3)
         .enter()
@@ -133,17 +133,17 @@ function chart3() {
             return "0.8"
           }
         })
-        .attr("filter", "url(#glow)")
+        .attr("filter", "url(#glow)")     // tilføjer den glow vi har lavet længere oppe
         .transition()
-        .duration(4000)
+        .duration(4000) //varigheden af animationen (paths/bars der kommer op)
         .attr("d", function (d, i) {
-          return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(((d.SpotPriceDKK / 1000) + 1.01229) * 1.25), 10)  // Tilføjet regnestykket oppefra fra længere oppe 
+          return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(((d.SpotPriceDKK / 1000) + 1.01229) * 1.25), 10) 
         })
 
 
       const xAxis = d3.axisBottom().scale(d3.scaleLinear()
         .domain([0, data_avg_hour3.length])
-        .range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length).tickFormat((d, i) => tickLabels[i]);
+        .range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length).tickFormat((d, i) => tickLabels[i]); //xAkse baseret på datasætlængde, med tickLabels som vi definere nedenunder, for at få tidspunkterne
 
 
       //Labels til xAkse (48 tidspunkter)
@@ -154,7 +154,7 @@ function chart3() {
         `20:00`, `21:00`, `22:00`, `23:00`]
 
 
-      svg.append("g")
+      svg.append("g")     //Her kalder vi xAksen for at placere og rotere vores text(labels)
         .attr("transform", "translate(51, " + (height - 20) + ")")
         .call(xAxis)
         .selectAll("text")
@@ -162,9 +162,9 @@ function chart3() {
         .attr("y", "1.5em")
         .attr("x", "-2em");
 
-      const yAxis = d3.axisLeft().scale(yScale).ticks();
+      const yAxis = d3.axisLeft().scale(yScale).ticks();    
 
-      svg.append("g")
+      svg.append("g") 
         .attr("transform", "translate(51)")
         .attr("y", function (d) {
           console.log(data_avg_hour3, yScale(data_avg_hour3));
@@ -215,8 +215,7 @@ function chart3() {
 }
 
 
-
-// NYT BARCHART TIL DK2 HERUNDER //////////////////////////////////////////////////////////////////////////////////////////////////
+// NYT BARCHART TIL DK2 HERUNDER, knappen er udkommenteret så nedenstående kode bruges ikke til noget i øjeblikket///////////////////////////////////////////////////////////////////////
 
 function chart4() {
   //Get specified amount of data from specified dataset
@@ -312,10 +311,10 @@ function chart4() {
         return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
       })
       .on("mouseover", function (event, d) {
-        /* 
-        * Her havde i lavet en ekstra funktion inde i tooltip.text som returnede d.SpotPriceDKK med parameteret 'd', som overskrev mouseover funktionens 'd' parameter.
-        * Dette gjorde at i stedet for at få det _ene_ datapunkt, som musen hoverede over, så blev tooltip blev kaldt data_avg_hour3.length gange. . 
-        */
+        
+      //  * Her havde i lavet en ekstra funktion inde i tooltip.text som returnede d.SpotPriceDKK med parameteret 'd', som overskrev mouseover funktionens 'd' parameter.
+      //  * Dette gjorde at i stedet for at få det _ene_ datapunkt, som musen hoverede over, så blev tooltip blev kaldt data_avg_hour3.length gange. . 
+        
         console.log(d);
         tooltip.text((((d.SpotPriceDKK / 1000) + 1.01229) * 1.25).toFixed(2) + " DKK kl. " + new Date(d.HourDK).getHours() + ':00').style("top", (event.y - 10) + "px")
           .style("left", (event.x + 10) + "px")
@@ -409,7 +408,8 @@ function chart4() {
         .style("fill", "#3FF4EB")
         .style("opacity", "0.8")
         .style("stroke-width", 2)
-      /* .attr("transform", "translate(40, 50)"); //align texts with boxes */
+      /* .attr("transform", "translate(40, 50)"); //align texts with boxes */ 
 
-    })
+       })
+    
 }
