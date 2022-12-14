@@ -18,7 +18,7 @@ text {
   padding: 0;
   font-family: 'Work Sans', sans-serif;
 }
-
+/* Making sure links stand out on our dark background */
 a {
   color: lightblue;
 }
@@ -50,16 +50,12 @@ a {
   shape-rendering: crispEdges;
 }
 
-/* .x.axis path {
-  display: none;
-} */
-
 .line {
   fill: none;
   stroke-width: 1.5px;
 }
 
-/* Styling the individual sections */
+/* Styling the individual sections & columns */
 .section {
   color: white;
   position: relative;
@@ -140,6 +136,7 @@ a {
   overflow-y: hidden;
 }
 
+/* Page one headline animation styling*/
 .container>p {
   margin: 0;
 }
@@ -234,30 +231,8 @@ a {
 }
 
 .section-2 .popover_content_left {
-  opacity: 0;
-  visibility: hidden;
-  position: absolute;
   top: -180px;
-  left: 0px;
-  transform: translate(0, 10px);
-  background-color: #212845ed;
-  padding: 1.5rem;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  width: 20em;
-  border-bottom: 13px;
-  border-style: solid;
-  border-color: transparent;
-}
-
-.popover_content_left:before {
-  position: absolute;
-  z-index: -1;
-  content: "";
-  transition-duration: 0.5s;
-  transition-property: transform;
-  border-bottom: 13px;
-  border-style: solid;
-  border-color: transparent;
+  padding: 1rem;
 }
 
 .popover-wrapper-left:hover .popover_content_left {
@@ -301,17 +276,6 @@ a {
   padding: 1.5rem;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   width: 20em;
-  border-bottom: 13px;
-  border-style: solid;
-  border-color: transparent;
-}
-
-.popover_content_right:before {
-  position: absolute;
-  z-index: -1;
-  content: "";
-  transition-duration: 0.5s;
-  transition-property: transform;
   border-bottom: 13px;
   border-style: solid;
   border-color: transparent;
@@ -502,45 +466,37 @@ textarea {
   fill: white;
 }
 
-
-
-
 /* Diagram 3 styling  */
 
 .page3button {
   width: 300px;
   height: 50px;
   color: #ffffff;
-  background: #212845;
   text-transform: uppercase;
   font-weight: 600;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   cursor: pointer;
   position: relative;
   z-index: 0;
   transition: 0.5s ease-in-out;
   border-width: 1px;
   border-color: white;
-  margin-bottom: 10px;
-}
+} 
 
-.page3button:before {
-  /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
-  content: '';
-  background: linear-gradient(45deg, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD);
-  /*  #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000); */
-  position: absolute;
-  top: -3px;
-  left: -3px;
-  background-size: 400%;
-  /* Increasing background size to make sure the animation can actually move.*/
-  z-index: -1;
-  filter: blur(5px);
-  width: calc(100% + 5px);
-  height: calc(100% + 5px);
-  animation: glowing 20s linear infinite;
-  opacity: 0;
-  transition: opacity .3s ease-in-out;
+.page3button::before { /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
+  content: ''; /* Needed to make content visible. Defaults to 'none' if not added. */
+  background: linear-gradient(45deg, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD); /* Defining gradient colors*/ /*  Old values: #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000); */
+  position: absolute; /* Making the positioning static */
+  top: -3px; /* Moving element to be directly behind the button itself*/
+  left: -3px; /* Moving element to be directly behind the button itself*/
+  background-size: 400%; /* Increasing background size to make sure the animation can actually move.*/
+  z-index: -1; /* putting pseudo-element behind the button itself so that only the edges of the gradient can be seen around the button*/
+  filter: blur(5px); /* Adds a blur to the new background to immitate a glowing effect*/
+  width: calc(100% + 5px); /* Adds a slightly larger width to make sure the element will be seen around the edges of the button*/
+  height: calc(100% + 5px); /* Adds a slightly larger height to make sure the element will be seen around the edges of the button*/
+  animation: glowing 20s linear infinite; /* Adds the animation that moves the gradient back and forth*/
+  opacity: 0; /* Element invisible until putton is hovered over with mouse*/
+  transition: opacity .3s ease-in-out; /* Adding a subtle fade in/out animation for the glow*/
 }
 
 .page3button:hover {
@@ -548,13 +504,13 @@ textarea {
   transform: scale(1.05);
 }
 
-.page3button:hover:before {
+.page3button:hover::before {
   /* On hover, make above gradient animation visible for full background*/
   opacity: 1;
 }
 
-.page3button:after {
-  /* On hover, make background darkblue so only the edges of the animation is shown to create 'glow' effect*/
+.page3button::after {
+  /* Make another background darkblue that only fills the inner part of the button. Without this ::after element, the entire button would have the gradient background on hover*/
   z-index: -1;
   content: '';
   position: absolute;
@@ -576,7 +532,7 @@ textarea {
     background-position: 400% 0;
   }
 
-  /* Runs the larger backreound across the button and back to start again*/
+  /* Runs the larger background across the button and back to start again*/
   100% {
     background-position: 0 0;
   }
@@ -594,8 +550,19 @@ textarea {
   font-weight: bolder;
 }
 
-/* Side 3 knap DK2 styling */
+.contact {
+  position: absolute;
+  display: inline-block;
+  text-align: center;
+  font-size: 15px;
+  text-shadow: 0;
+  bottom: 1.8em;
+  left: 40em;
+}
 
+/* This styling is for a button that has been cut as its functionality could not be completed in time. Left in for future development
+
+// Side 3 knap DK2 styling 
 .page3button2 {
   width: 300px;
   height: 50px;
@@ -612,16 +579,14 @@ textarea {
   border-color: white;
 }
 
-.page3button2:before {
-  /* Defining psuedo-element with gradient colors and animation. Is see-through here*/
+
+.page3button2:before { // Se lines 500-536 for in-depth comments on the use of ::before
   content: '';
   background: linear-gradient(45deg, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD);
-  /*  #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000); */
   position: absolute;
   top: -3px;
   left: -3px;
   background-size: 400%;
-  /* Increasing background size to make sure the animation can actually move.*/
   z-index: -1;
   filter: blur(5px);
   width: calc(100% + 5px);
@@ -632,17 +597,17 @@ textarea {
 }
 
 .page3button2:hover {
-  /* On hover, increase button size slightly*/
+  // On hover, increase button size slightly
   transform: scale(1.05);
 }
 
 .page3button2:hover:before {
-  /* On hover, make above gradient animation visible for full background*/
+  // On hover, make above gradient animation visible for full background
   opacity: 1;
 }
 
 .page3button2:after {
-  /* On hover, make background darkblue so only the edges of the animation is shown to create 'glow' effect*/
+  // On hover, make background darkblue so only the edges of the animation is shown to create 'glow' effect
   z-index: -1;
   content: '';
   position: absolute;
@@ -651,41 +616,5 @@ textarea {
   background: #212845;
   left: 0;
   top: 0;
-}
+} */
 
-@keyframes glowing {
-
-  /* Animation to move the gradient */
-  0% {
-    background-position: 0 0;
-  }
-
-  50% {
-    background-position: 400% 0;
-  }
-
-  /* Runs the larger backreound across the button and back to start again*/
-  100% {
-    background-position: 0 0;
-  }
-}
-
-#minLabel {
-  font-size: 14px;
-  font-family: sans-serif;
-}
-
-#maxLabel {
-  font-size: 14px;
-  font-family: sans-serif;
-}
-
-.contact {
-  position: absolute;
-  display: inline-block;
-  text-align: center;
-  font-size: 15px;
-  text-shadow: 0;
-  bottom: 1.8em;
-  left: 40em;
-}
