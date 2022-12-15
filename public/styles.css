@@ -134,6 +134,7 @@ a {
   justify-content: center;
   height: 5vh;
   overflow-y: hidden;
+  font-weight: bold;
 }
 
 /* Page one headline animation styling*/
