@@ -170,7 +170,7 @@ function chart3() {
       svg.append('text')
         .attr('id', 'y-label')
         .attr('text-anchor', 'middle')
-        .attr('transform', 'translate(110,' + ((height / 4.8) + 30) + ')')
+        .attr('transform', 'translate(110,' + ((height / 4.8) + 17) + ')')
         .style('font-family', 'Work Sans, Sans-serif')
         .style('font-size', 14)
         .text('Pris (DKK)')
@@ -186,14 +186,14 @@ function chart3() {
 
       lineLegend.append("text").text("Nuværende time")
         .attr("x", 210)
-        .attr('y', 135)
+        .attr('y', 120)
         .style("fill", "#FFFFFF") // obs skifte farve 
         .style("font-family", "Work Sans, sans-serif")
         .style("font-size", "14px")
 
       lineLegend.append("circle")
         .attr("cx", 200)
-        .attr('cy', 130)
+        .attr('cy', 115)
         .attr("r", 6)
         .style("fill", "#3FF4EB")
         .style("opacity", "0.8")

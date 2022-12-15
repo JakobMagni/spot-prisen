@@ -127,7 +127,7 @@ d3.json("/api/avg_timepris", {
       return height - (d.avg * 185) - 43;
     })
     .attr("class", "label") // Husk class på nye labels
-    .attr("font-family", "sans-serif")
+    .attr("font-family", "Work Sans, sans-serif")
     .attr("font-weight", 800)
     .attr("text-anchor", "middle")
     .attr("font-size", "11px")
@@ -158,8 +158,8 @@ d3.json("/api/avg_timepris", {
     svg.append('text')
     .attr('id', 'y-label')
     .attr('text-anchor', 'middle')
-    .attr('transform', 'translate(140,' + ((height / 4) - 5) + ')')
-    .style('font-family', 'Sans-serif')
+    .attr('transform', 'translate(155,' + ((height / 4) - 10) + ')')
+    .style('font-family', 'Work Sans, Sans-serif')
     .style('font-size', 14)
     .text('Gennemsnitlig el-pris pr.time (DKK)')
     .style('fill', 'white')
