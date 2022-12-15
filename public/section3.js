@@ -40,14 +40,15 @@ function chart3() {
 
       // Laver string (dateTime) der passer til JS  nuværende timetal til sammenligning i grafen, så vi kan finde den nuværende aktive time
       var today = new Date();
-      var lol = new Date().getDate();
-      var datedate = String(lol).padStart(2, '0');
-      var date = today.getFullYear() + '-' + (today.getMonth() + 1);
-      var time = today.getHours();
-      var timeuse = String(time).padStart(2, '0') + ":" + '00' + ":" + '00';
-      var dateTime = date + '-' + datedate + 'T' + timeuse;
-      console.log("Data live api: " + data_avg_hour3)
-      console.log("Nuværende dataformat" + dateTime)
+      var date = new Date().getDate();
+      var dateuse = String(date).padStart(2, '0');  //tager datoen og tilføjer 0 foran hvis der ikke er 2 cifre f.eks. (7.12 = 07.12) så det passer med formaten de bruger hos energinets live API
+      var yearMonth = today.getFullYear() + '-' + (today.getMonth() + 1);         // getMonth er 0-11 (januar starter i 0) så derfor tilføjes + 1
+      var time = today.getHours();                                                // Henter den nuværende time
+      var timeuse = String(time).padStart(2, '0') + ":" + '00' + ":" + '00';      // Det samme som i ovenstående "dateuse", laver til string og tilføjer tal så det passer med API
+      var dateTime = yearMonth + '-' + dateuse + 'T' + timeuse;                        // Her lægger vi vores værdier sammen i den passende format, så vi kan sammenligne den med EnergiNets
+
+      console.log("cc", yearMonth)
+      console.log("Nuværende tidspunkt i egen variabel" + dateTime)
 
       // Funktion som laver paths for barchart, som gør at vi får barer med afrundede kanter 
       function bar(x, y, w, h, r, f) {
@@ -160,7 +161,7 @@ function chart3() {
       svg.append("g") 
         .attr("transform", "translate(51)")
         .attr("y", function (d) {
-          console.log(data_avg_hour3, yScale(data_avg_hour3));
+          console.log("live API datasæt", data_avg_hour3, yScale(data_avg_hour3));
           return yScale(data_avg_hour3);
         })
         .call(d3.axisLeft(yScale));
