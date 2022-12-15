@@ -14,13 +14,12 @@ function chart3() {
       const data_avg_hour3 = data.records
 
 
-
       // Tilføjer ID i array til animationsbrug
       data.records.forEach((item, i) => {
         item.id = i;
       });
 
-      //Definere højde, bredde og svg elements attributter 
+      //Definere højde, bredde og svg elements størrelse 
       var width = (window.innerWidth * .6);
       var height = 500;
       var bottomPadding = 20;
@@ -33,16 +32,13 @@ function chart3() {
       var yScale = d3.scaleLinear().domain([0, d3.max(data_avg_hour3, (d) => ((d.SpotPriceDKK / 1000) + 1.01229) * 1.25) + 1]).range([height - bottomPadding, 125]);
 
 
-      // Farver 
+      // Farver på bars 
       var color = d3.scaleLinear()
         .domain([1600, 4000])
-        .range(["#FF00DD", "#8B43C0"]); //bruges til farve på bars
+        .range(["#FF00DD", "#8B43C0"]); 
 
 
-
-
-
-      // Laver string (dateTime) der passer til nuværende timetal til sammenligning i grafen, så vi kan finde den nuværende aktive time
+      // Laver string (dateTime) der passer til JS  nuværende timetal til sammenligning i grafen, så vi kan finde den nuværende aktive time
       var today = new Date();
       var lol = new Date().getDate();
       var datedate = String(lol).padStart(2, '0');
@@ -50,26 +46,27 @@ function chart3() {
       var time = today.getHours();
       var timeuse = String(time).padStart(2, '0') + ":" + '00' + ":" + '00';
       var dateTime = date + '-' + datedate + 'T' + timeuse;
+      console.log("Data live api: " + data_avg_hour3)
+      console.log("Nuværende dataformat" + dateTime)
 
-
-      // Funktion som lager barer med afrundede kanter (Bruges fordi vi har valgt "paths")
+      // Funktion som laver paths for barchart, som gør at vi får barer med afrundede kanter 
       function bar(x, y, w, h, r, f) {
         // Flag for sweep:
         if (f == undefined) f = 1;
 
-        // x coordinates of top of arcs
+        // x koordinater for top arc 
         var x0 = x + r;
         var x1 = x + w - r;
-        // y coordinates of bottom of arcs
+        // y koordinater for bund arc 
         var y0 = y - h + r;
-        // just for convenience (slightly different than above):
+        
         var l = "L", a = "A";
 
         var parts = ["M", x, y, l, x, y0, a, r, r, 0, 0, f, x0, y - h, l, x1, y - h, a, r, r, 0, 0, f, x + w, y0, l, x + w, y, "Z"];
         return parts.join(" ");
       }
 
-      // lav tooltip element til mouseover funktion 
+      // Toooltip element til mouseover funktion 
       const tooltip = d3.select("body")
         .data(data_avg_hour3)
         .enter()
@@ -85,10 +82,10 @@ function chart3() {
         .text("a simple tooltip");
 
 
-      //Container for the gradients
+      //"container" for gradienter
       var defs = svg.append("defs");
 
-      //Filter for the outside glow
+      //Filter for glow-effekt 
       var filter = defs.append("filter")
         .attr("id", "glow");
       filter.append("feGaussianBlur")
@@ -100,8 +97,8 @@ function chart3() {
       feMerge.append("feMergeNode")
         .attr("in", "SourceGraphic");
 
-      // Definere svg elementet som en variabel = bars og koble data og function for barer på 
-      var bars = svg.selectAll("body")
+      // Appender path til body og laver barer til barchart 
+       svg.selectAll("body")
         .data(data_avg_hour3)
         .enter()
         .append("path")
@@ -109,21 +106,16 @@ function chart3() {
           return bar(xScale(d.id), yScale(0), xScale.bandwidth(), yScale(0) - yScale(0), 10);
         })
         .on("mouseover", function (event, d) {
-          /* 
-          * Her havde i lavet en ekstra funktion inde i tooltip.text som returnede d.SpotPriceDKK med parameteret 'd', som overskrev mouseover funktionens 'd' parameter.
-          * Dette gjorde at i stedet for at få det _ene_ datapunkt, som musen hoverede over, så blev tooltip blev kaldt data_avg_hour3.length gange. . 
-          */
           console.log(d);
           tooltip.text((((d.SpotPriceDKK / 1000) + 1.01229) * 1.25).toFixed(2) + " DKK kl. " + new Date(d.HourDK).getHours() + ':00').style("top", (event.y - 10) + "px")
             .style("left", (event.x + 10) + "px")
             .style("visibility", "visible")
         })
         .on("mouseout", function () {
-          tooltip.html(``).style("visibility", "hidden");
-          // d3.select(this).attr("fill", '#FFFFFF'); //Gør bars hvide når man mouser over dem
+          tooltip.html(``).style("visibility", "hidden")
         })
         .attr("fill", function (d) { return color(d.SpotPriceDKK) })
-        .style("fill", function (d) {                     //Funktion som skifter farven på den bar der repræsentere den nuværende timepris
+        .style("fill", function (d) {                     //Funktion som skifter farven på den bar der repræsentere den nuværende timepris 
           if (d.HourDK == dateTime) {
             return "#3FF4EB"
           }
@@ -133,28 +125,28 @@ function chart3() {
             return "0.8"
           }
         })
-        .attr("filter", "url(#glow)")     // tilføjer den glow vi har lavet længere oppe
+        .attr("filter", "url(#glow)")     // Tilføjer glow effekt 
         .transition()
         .duration(4000) //varigheden af animationen (paths/bars der kommer op)
         .attr("d", function (d, i) {
           return bar(xScale(i), yScale(0), xScale.bandwidth(), yScale(0) - yScale(((d.SpotPriceDKK / 1000) + 1.01229) * 1.25), 10) 
         })
 
-
+      // Laver akser 
       const xAxis = d3.axisBottom().scale(d3.scaleLinear()
         .domain([0, data_avg_hour3.length])
         .range([0, width - data_avg_hour3.length - 3.4])).ticks(data_avg_hour3.length).tickFormat((d, i) => tickLabels[i]); //xAkse baseret på datasætlængde, med tickLabels som vi definere nedenunder, for at få tidspunkterne
 
 
-      //Labels til xAkse (48 tidspunkter)
+      //Definere labels til xAkse (48 tidspunkter)
       const tickLabels = [`0:00`, `1:00`, `2:00`, `3:00`, `4:00`, `5:00`, `6:00`, `7:00`, `8:00`, `9:00`,
         `10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`, `18:00`, `19:00`, `20:00`,
         `21:00`, `22:00`, `23:00`, `0:00`, `1:00`, `2:00`, `3:00`, `4:00`, `5:00`, `6:00`, `7:00`, `8:00`,
         `9:00`, `10:00`, `11:00`, `12:00`, `13:00`, `14:00`, `15:00`, `16:00`, `17:00`, `18:00`, `19:00`,
         `20:00`, `21:00`, `22:00`, `23:00`]
 
-
-      svg.append("g")     //Her kalder vi xAksen for at placere og rotere vores text(labels)
+    //Append og kalde xAksen for at placere og rotere vores text(labels)
+      svg.append("g")     
         .attr("transform", "translate(51, " + (height - 20) + ")")
         .call(xAxis)
         .selectAll("text")
@@ -164,6 +156,7 @@ function chart3() {
 
       const yAxis = d3.axisLeft().scale(yScale).ticks();    
 
+      // Append og kalde yAkse
       svg.append("g") 
         .attr("transform", "translate(51)")
         .attr("y", function (d) {
@@ -173,22 +166,18 @@ function chart3() {
         .call(d3.axisLeft(yScale));
 
 
-      // Y-aksen labels
+      // Y-akse labels
       svg.append('text')
         .attr('id', 'y-label')
         .attr('text-anchor', 'middle')
         .attr('transform', 'translate(110,' + ((height / 4.8) + 30) + ')')
-        .style('font-family', 'Sans-serif')
+        .style('font-family', 'Work Sans, Sans-serif')
         .style('font-size', 14)
         .text('Pris (DKK)')
         .style('fill', 'white')
 
 
-      console.log("Loading complete");
-      console.log(timeuse);
-
-
-      // laver legend til diagrammet (Tekst og cirkel)
+      // Laver legend  med tekst og cirkel 
       var legend_keys = [""]
 
       var lineLegend = svg.selectAll(".lineLegend").data(legend_keys)
@@ -199,7 +188,7 @@ function chart3() {
         .attr("x", 210)
         .attr('y', 135)
         .style("fill", "#FFFFFF") // obs skifte farve 
-        .style("font-family", "sans-serif")
+        .style("font-family", "Work Sans, sans-serif")
         .style("font-size", "14px")
 
       lineLegend.append("circle")
