@@ -558,7 +558,7 @@ textarea {
   font-size: 15px;
   text-shadow: 0;
   bottom: 1.8em;
-  z-index: 5;
+  z-index: 3;
 }
 
 /* Warning for too small screens*/
