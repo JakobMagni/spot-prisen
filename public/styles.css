@@ -559,5 +559,20 @@ textarea {
   left: 40em;
 }
 
+/* Warning for too small screens*/
+.screen_warning {
+  visibility: hidden;
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+  top:25%;
+  background-color: #b062e1a0;
+  text-align: center;
+}
 
+@media (max-width: 1680px) {
+.screen_warning{
+  visibility: visible;
+}
+}
 
