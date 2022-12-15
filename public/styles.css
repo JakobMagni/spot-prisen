@@ -570,7 +570,7 @@ textarea {
   text-align: center;
 }
 
-@media (max-width: 1680px) {
+@media (max-width: 1675px) {
 .screen_warning{
   visibility: visible;
 }
