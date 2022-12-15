@@ -1,16 +1,16 @@
 //section 2 linjediagram
 
-// Definere variable
+// Definere variabler
 var width = (window.innerWidth * .6);
 var height = 500
 const margin = { top: 20, right: 20, bottom: 50, left: 50 };
 var tooltip = { width: 100, height: 100, x: 10, y: -30 };
 
 
-// Domene og range for akserne 
+// Skalering af akser 
 var xScale = d3.scaleLinear().domain([1, 53])
     .range([1, width - margin.left - margin.right - 10]);
-var yScale = d3.scaleLinear().domain([0, 100]).range([height - margin.top  - margin.bottom, 10]);
+var yScale = d3.scaleLinear().domain([0, 100]).range([height - margin.top - margin.bottom, 10]);
 
 //Definerer parametre for linje-funktion
 const line = d3.line()
@@ -22,16 +22,16 @@ const line = d3.line()
 const svg = d3.select("#diagram2")
     .append("svg")
     .attr("width", width + 10)
-    .attr("height", height + margin.top ).append("g")
-    .attr("transform", `translate(${margin.left -5},-15)`)
+    .attr("height", height + margin.top).append("g")
+    .attr("transform", `translate(${margin.left - 5},-15)`)
 
-    // Appender text (overskrift) til linjediagram
+// Appender text (overskrift) til linjediagram
 svg.append('text')
     .attr('id', 'x-label')
     .attr('x', width / 2)
     .attr('y', 30)
     .attr('text-anchor', 'middle')
-    .style('font-family', 'Sans-serif')
+    .style('font-family', 'Work Sans, Sans-serif')
     .style('font-size', 20)
     .text('Gennemsnitlig lavest og højest elpris pr. uge (2021) (DKK)')
     .style('fill', 'white');
@@ -41,17 +41,17 @@ svg.append('text')
     .attr('id', 'y-label')
     .attr('text-anchor', 'middle')
     .attr('transform', 'translate(60,' + ((height / 6.5) - 30) + ')')
-    .style('font-family', 'Sans-serif')
+    .style('font-family', 'Work Sans, Sans-serif')
     .style('font-size', 14)
     .text('Kroner (DKK)')
     .style('fill', 'white');
 
 
 
-// Render funktion som indeholder parametere for linjediagrammet - kaldes første gang når siden loader og igen senere når submit1 funktionen kaldes 
+// Render funktion som indeholder parametere for linjediagrammet - kaldes første gang når siden loader og igen senere når submit1 funktionen kaldes (Ved tryk på "Beregn" knap)
 
 let total_weekly_consumption;    // Ny variabel for det samlede ugentlige forbrug 
-let moms = 1.25; 
+let moms = 1.25;
 
 function render() {
 
@@ -59,31 +59,32 @@ function render() {
         method: "POST",
     }).then(function (response) {
 
-        const responseData = response.data 
+        const responseData = response.data
 
         let minArray = []; // Laver tomt array til min-værdier
         let maxArray = []; // Laver tomt array til max-værdier 
 
         if (!total_weekly_consumption) {                       // Hvis total forbrug variablen er tom (ingen inputs fra formularen), push rå el-pris data(min/max) til to forskellige arrays
             console.log('Uændret forbrug')
+
             // For-loop som iterer over alle datapunkter i responsedata, for at skille datapunkterne ad. Pushes til hvert sit array 
             for (let dataPoint of responseData) {
                 minArray.push({ x: dataPoint.week_nr, y: parseFloat(dataPoint.min_avg_weekly) });     // Vi tilskriver værdierne en x og y værdi - som vi skal bruge til at tegne linje
                 maxArray.push({ x: dataPoint.week_nr, y: parseFloat(dataPoint.max_avg_weekly) })
             }
-        } else {                                                                        // Hvis ændring i inputdata(altså variablen er ikke tom), så løbende opsummer min + max i to arrays
-            console.log('Ændret forbrug')
-            let minAvgWeeklySum = 0; // Ny variabel til summen af forbrug * ugentlig min pris 
-            let maxAvgWeeklySum = 0; // Ny variable til summen af forbrug * ugentlig max pris 
+        } else {
+            // Hvis ændring i inputdata(altså variablen er ikke tom), så løbende opsummer min + max i to arrays
+            let minAvgWeeklySum = 0; // Ny variabel til summen af forbrug * ugentlig min pris (årlig forbrug i DKK)
+            let maxAvgWeeklySum = 0; // Ny variable til summen af forbrug * ugentlig max pris (årlig forbrug i DKK)
             for (let dataPoint of responseData) {
-                minAvgWeeklySum = minAvgWeeklySum + parseFloat((dataPoint.min_avg_weekly * total_weekly_consumption) * moms) 
+                minAvgWeeklySum = minAvgWeeklySum + parseFloat((dataPoint.min_avg_weekly * total_weekly_consumption) * moms) //Gennemsnitspris * ugentlig forbrug + moms 
                 maxAvgWeeklySum = maxAvgWeeklySum + parseFloat((dataPoint.max_avg_weekly * total_weekly_consumption) * moms)
 
-                minArray.push({ x: dataPoint.week_nr, y: parseFloat(minAvgWeeklySum) }); // Pusher de nye værdier i nye arrays 
+                minArray.push({ x: dataPoint.week_nr, y: parseFloat(minAvgWeeklySum) }) // Pusher de nye værdier i nye arrays 
                 maxArray.push({ x: dataPoint.week_nr, y: parseFloat(maxAvgWeeklySum) })
             }
-          
-           
+
+
             // Variable til optællingsfunktion 
             let moneySaved = (parseFloat(maxAvgWeeklySum) - parseFloat(minAvgWeeklySum)).toFixed(2)
             console.log("Besparelse " + moneySaved)
@@ -103,7 +104,7 @@ function render() {
         // 
 
         //Variabler for de to "nye" arrays (hvor dataen afhænger af hvorvidt der har været input i formularen
-        const newDataArray = [maxArray,minArray]
+        const newDataArray = [maxArray, minArray]
 
         yScale = d3.scaleLinear().domain([0, d3.max(newDataArray[0], (d) => d.y) + 0.5]).range([height, 50]);
 
@@ -116,13 +117,13 @@ function render() {
         if (svg.selectAll(".y.axis").empty()) {
             svg.append("g")
                 .attr("class", "y axis")
-             /*    .attr("transform", "translate(1," + (-10) + ")") */
+                /*    .attr("transform", "translate(1," + (-10) + ")") */
                 .call(yAxis);
         } else {
             svg.selectAll(".y.axis")
                 .transition().duration(1500)
                 .call(yAxis);
-        
+
         }
 
         // Hvis der ikke findes en x akse laves en ellers opdaterer vi den allerede eksisterende (anvender CSS klasser)
@@ -137,7 +138,7 @@ function render() {
                 .call(xAxis);
         }
 
-    
+
         // Hvis total_weekly_consumption- variablen eksisterer og har en værdi, ændrer vi x-akse tekst 
         if (total_weekly_consumption) {
             svg.selectAll("#x-label")
@@ -201,7 +202,7 @@ function render() {
             var that = this;
             return function (t) {
                 var l = that.getTotalLength();
-                interpolate = d3.interpolateString("0," + l , l + "," + l);
+                interpolate = d3.interpolateString("0," + l, l + "," + l);
                 return interpolate(t);
             }
         }
@@ -213,9 +214,9 @@ function render() {
 
 
         // Fjerner eksisterende datapunkter hvis nye kommer til
-       /*  lines.exit()
-            .remove();
- */
+        /*  lines.exit()
+             .remove();
+  */
         // Tilfører data igen og opdaterer 
         lines.enter()
             .append("path")
@@ -225,7 +226,7 @@ function render() {
                 const lineValues = line(d).slice(1);
                 const splitedValues = lineValues.split(',');
 
-                return `M0,${height},${lineValues},l1,${height - splitedValues[splitedValues.length-1]}`
+                return `M0,${height},${lineValues},l1,${height - splitedValues[splitedValues.length - 1]}`
             })
             .style("stroke", () =>
                 '#ffffff'
@@ -238,11 +239,11 @@ function render() {
             .merge(lines)
             .transition()
             .attr('d', d => {
-                
+
                 const lineValues = line(d).slice(1);
                 const splitedValues = lineValues.split(',');
 
-                return `M0,${height},${lineValues},l0,${height - splitedValues[splitedValues.length-1]}`
+                return `M0,${height},${lineValues},l0,${height - splitedValues[splitedValues.length - 1]}`
             })
             .duration(7000)
             .attrTween("stroke-dasharray", tweenDash) // Her bruger vi growing line funktionen som er defineret længere oppe 
@@ -250,43 +251,38 @@ function render() {
                 '#ffffff'
             ).attr("stroke-dashoffset", 2)
 
-            // Labels med max og min sum til hver linje 
-            if (svg.selectAll("#minLabel").empty()) {
-                svg.append("text")
+        // Labels med max og min sum til hver linje 
+        if (svg.selectAll("#minLabel").empty()) {
+            svg.append("text")
                 .attr("id", "minLabel")
-                .attr("transform", "translate("+(0)+","+height+")")
+                .attr("transform", "translate(" + (0) + "," + height + ")")
                 .attr("text-anchor", "start")
                 .style("fill", "white")
-          console.log(newDataArray)
-                svg.append("text")
+            console.log(newDataArray)
+            svg.append("text")
                 .attr("id", "maxLabel")
-                .attr("transform", "translate("+(0)+","+height+")")
+                .attr("transform", "translate(" + (0) + "," + height + ")")
                 .attr("text-anchor", "start")
                 .style("fill", "white")
-            } else {
-                    let minToolTip = svg.selectAll("#minLabel")
-                    .transition().duration(6000)
-                    .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[1][newDataArray[1].length-1].y)+")")
-                    .text(newDataArray[1][newDataArray[0].length-1].y.toFixed(1) + ' DKK');
-              
-                    let maxToolTip = svg.selectAll("#maxLabel")
-                    .transition().duration(6000)
-                    .attr("transform", "translate("+(width-150)+","+yScale(newDataArray[0][newDataArray[1].length-1].y)+")")
-                    .text(newDataArray[0][newDataArray[0].length-1].y.toFixed(1) + ' DKK');
-                    
-            }
+        } else {
+            let minToolTip = svg.selectAll("#minLabel")
+                .transition().duration(6000)
+                .attr("transform", "translate(" + (width - 150) + "," + yScale(newDataArray[1][newDataArray[1].length - 1].y) + ")")
+                .text(newDataArray[1][newDataArray[0].length - 1].y.toFixed(1) + ' DKK');
+
+            let maxToolTip = svg.selectAll("#maxLabel")
+                .transition().duration(6000)
+                .attr("transform", "translate(" + (width - 150) + "," + yScale(newDataArray[0][newDataArray[1].length - 1].y) + ")")
+                .text(newDataArray[0][newDataArray[0].length - 1].y.toFixed(1) + ' DKK');
+        }
     })
+}
 
-
-
-} // Her slutter render-funktionen 
-// Nu kalder vi render funktionen ved page-load (Bliver også kaldt igen ved tryk på "beregn" knappen. )
-
+// kalder render-funktion 
 render();
 
 
-// Nedenunder beregninger for det samlede forbrug (total_weekly_consumption) baseret på input-værdierne vi får fra "brugeren" via formularet 
-
+// Nedenunder beregninger for det samlede forbrug (total_weekly_consumption) baseret på input-værdierne vi får fra "brugeren" via formularet vedr. apparater 
 /*  tørretumbler beregning*/
 
 let tør_alder_value = "ny"
@@ -308,6 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tør_brug()
     });
 });
+
 //  Funktion beregner kwh per gang afhængig af alder på apparat 
 function tør_brug() {
     if (tør_alder_value == "ny") {
@@ -317,6 +314,7 @@ function tør_brug() {
         document.getElementById('tør_brug').value = (2.65 * tør_gange_value).toFixed(2)
     }
 }
+
 
 /* vaskemaskine beregning */
 let vask_alder_value = "ny"
