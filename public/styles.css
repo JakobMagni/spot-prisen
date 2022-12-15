@@ -195,10 +195,11 @@ a {
 /* Datasource styling and popover (Left) */
 .popover-wrapper-left {
   position: absolute;
-  right: 95%;
+  left: 2%;
   bottom: 2rem;
   display: inline-block;
   text-align: center;
+  z-index: 5;
 }
 
 .popover_title_left {
@@ -246,10 +247,11 @@ a {
 /* Datasource styling and popover (Right) */
 .popover-wrapper-right {
   position: absolute;
-  left: 90%;
+  right: 2%;
   bottom: 2rem;
   display: inline-block;
   text-align: center;
+  z-index: 5;
 }
 
 .popover_title_right {
@@ -551,12 +553,12 @@ textarea {
 
 .contact {
   position: absolute;
-  display: inline-block;
+  width: 100%;
   text-align: center;
   font-size: 15px;
   text-shadow: 0;
   bottom: 1.8em;
-  left: 40em;
+  z-index: 3;
 }
 
 /* Warning for too small screens*/
