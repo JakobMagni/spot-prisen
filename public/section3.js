@@ -40,15 +40,16 @@ function chart3() {
 
       // Laver string (dateTime) der passer til JS  nuværende timetal til sammenligning i grafen, så vi kan finde den nuværende aktive time
       var today = new Date();
+      var year = today.getFullYear();         // getMonth er 0-11 (januar starter i 0) så derfor tilføjes + 1
       var date = new Date().getDate();
       var dateuse = String(date).padStart(2, '0');  //tager datoen og tilføjer 0 foran hvis der ikke er 2 cifre f.eks. (7.12 = 07.12) så det passer med formaten de bruger hos energinets live API
-      var yearMonth = today.getFullYear() + '-' + (today.getMonth() + 1);         // getMonth er 0-11 (januar starter i 0) så derfor tilføjes + 1
+      var month = today.getMonth() + 1;
+      var monthuse = String(month).padStart(2, '0') + '-';
       var time = today.getHours();                                                // Henter den nuværende time
       var timeuse = String(time).padStart(2, '0') + ":" + '00' + ":" + '00';      // Det samme som i ovenstående "dateuse", laver til string og tilføjer tal så det passer med API
-      var dateTime = yearMonth + '-' + dateuse + 'T' + timeuse;                        // Her lægger vi vores værdier sammen i den passende format, så vi kan sammenligne den med EnergiNets
+      var dateTime = year + '-' + monthuse + dateuse + 'T' + timeuse;                        // Her lægger vi vores værdier sammen i den passende format, så vi kan sammenligne den med EnergiNets
 
-      console.log("cc", yearMonth)
-      console.log("Nuværende tidspunkt i egen variabel" + dateTime)
+      console.log("Nuværende tidspunkt i egen variabel " + dateTime)
 
       // Funktion som laver paths for barchart, som gør at vi får barer med afrundede kanter 
       function bar(x, y, w, h, r, f) {
